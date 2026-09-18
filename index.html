@@ -505,6 +505,33 @@
                 padding: 24px 20px 20px;
             }
         }
+        .tbc-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #fbd000; /* Classic yellow/gold background */
+    color: #000000;
+    padding: 10px 20px;
+    font-family: "Impact", "Arial Black", sans-serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border: 3px solid #000000;
+    box-shadow: 4px 4px 0px #000000;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .tbc-tag:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000000;
+  }
+
+  .tbc-arrow {
+    font-style: normal;
+    font-size: 1.3rem;
+    line-height: 1;
+  }
     </style>
 </head>
 <body>
@@ -830,6 +857,10 @@
     </div>
 
     <footer>
+        <a href="#next-section" class="tbc-tag">
+    <span class="tbc-text">TO BE CONTINUED</span>
+    <span class="tbc-arrow">➔</span>
+  </a>
         <p>&copy; 2026 The Untold Story of HM. All Rights Reserved.</p>
     </footer>
 
