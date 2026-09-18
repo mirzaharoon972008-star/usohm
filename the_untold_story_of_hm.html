@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Untold Story of HM</title>
+    <!-- Google Fonts for dual-language typography and modern UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0f141d;
+            --card-bg: #18202c;
+            --card-border: #2a3546;
+            --accent-gold: #d4af37;
+            --accent-gold-glow: rgba(212, 175, 55, 0.25);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #2a3546;
+            --modal-overlay: rgba(7, 10, 15, 0.85);
+            --transition-speed: 0.35s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Merriweather', serif;
+            line-height: 1.8;
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        header {
+            width: 100%;
+            padding: 50px 20px 35px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, rgba(15, 20, 29, 0) 100%);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .header-tag {
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 12px;
+            display: inline-block;
+            font-weight: 600;
+            background: rgba(212, 175, 55, 0.1);
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            max-width: 620px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .identity-note {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            font-style: normal;
+            font-family: 'Inter', sans-serif;
+            color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.08);
+            padding: 6px 16px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .controls-wrapper {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            margin: 30px auto 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .language-selector {
+            display: flex;
+            background: rgba(24, 32, 44, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 6px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px var(--accent-gold-glow);
+            gap: 6px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            outline: none;
+            user-select: none;
+        }
+
+        .lang-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .lang-btn.active {
+            background: var(--accent-gold);
+            color: #0f141d;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+            font-weight: 700;
+        }
+
+        .lang-btn .flag-icon {
+            font-size: 1rem;
+        }
+
+        main {
+            max-width: 820px;
+            width: 92%;
+            margin: 20px auto 60px;
+            flex-grow: 1;
+        }
+
+        .story-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 45px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            margin-top: 15px;
+            position: relative;
+            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--accent-gold);
+            padding: 6px 14px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+        }
+
+        .story-content {
+            transition: opacity 0.4s ease, max-height 0.5s ease;
+            opacity: 1;
+        }
+
+        .story-content.hidden-section {
+            display: none !important;
+            opacity: 0;
+        }
+
+        .english-section p {
+            font-size: 1.08rem;
+            color: var(--text-primary);
+            margin-bottom: 1.6rem;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .english-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 45px 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .divider.hidden-section {
+            display: none !important;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .divider span {
+            padding: 0 18px;
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+            letter-spacing: 6px;
+        }
+
+        .urdu-section {
+            direction: rtl;
+            text-align: right;
+            font-family: 'Noto Nastaliq Urdu', serif;
+        }
+
+        .urdu-section p {
+            font-size: 1.28rem;
+            line-height: 2.6;
+            color: #f8fafc;
+            margin-bottom: 2.2rem;
+            word-spacing: 1px;
+        }
+
+        .urdu-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--modal-overlay);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: #151c27;
+            border: 1px solid var(--accent-gold);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 480px;
+            padding: 32px 28px 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.15);
+            transform: scale(0.9) translateY(15px);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            text-align: center;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-icon-badge {
+            width: 54px;
+            height: 54px;
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+        }
+
+        .modal-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-body {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.98rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+            background: rgba(15, 20, 29, 0.6);
+            padding: 16px;
+            border-radius: 10px;
+            border-left: 3px solid var(--accent-gold);
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        .modal-close-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #aa8522 100%);
+            color: #0f141d;
+            border: none;
+            padding: 12px 32px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            outline: none;
+            width: 100%;
+        }
+
+        .modal-close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.45);
+            background: linear-gradient(135deg, #e5be48 0%, #be962d 100%);
+        }
+
+        .modal-close-btn:active {
+            transform: translateY(0);
+        }
+
+        .modal-corner-x {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            line-height: 1;
+        }
+
+        .modal-corner-x:hover {
+            color: #ffffff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+            margin-top: auto;
+            background: rgba(15, 20, 29, 0.8);
+        }
+
+        @media (max-width: 640px) {
+            header {
+                padding: 35px 15px 25px;
+            }
+
+            h1 {
+                font-size: 2.1rem;
+            }
+
+            .story-card {
+                padding: 24px 20px;
+                border-radius: 12px;
+            }
+
+            .lang-btn {
+                padding: 7px 14px;
+                font-size: 0.82rem;
+            }
+
+            .urdu-section p {
+                font-size: 1.15rem;
+                line-height: 2.4;
+            }
+
+            .english-section p {
+                font-size: 1rem;
+            }
+
+            .modal-card {
+                padding: 24px 20px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="header-tag">Writer: M.Haroon</span>
+        <h1>The Untold Story of HM</h1>
+        <p class="subtitle">
+            A bittersweet tale of love, sacrifice, and unspoken goodbyes.<br>
+            <span class="identity-note">NOTE: Maya is just a made up name, to hide her real identity.</span>
+        </p>
+    </header>
+
+    <!-- Interactive Segmented Language Control Bar -->
+    <div class="controls-wrapper">
+        <div class="language-selector" role="radiogroup" aria-label="Language Mode Selector">
+            <button type="button" class="lang-btn active" data-lang="both" role="radio" aria-checked="true" id="btn-both">
+                <span class="flag-icon">🌐</span> Both
+            </button>
+            <button type="button" class="lang-btn" data-lang="english" role="radio" aria-checked="false" id="btn-english">
+                <span class="flag-icon">🇬🇧</span> English
+            </button>
+            <button type="button" class="lang-btn" data-lang="urdu" role="radio" aria-checked="false" id="btn-urdu">
+                <span class="flag-icon">🇵🇰</span> اردو (Urdu)
+            </button>
+        </div>
+    </div>
+
+    <main>
+        <article class="story-card">
+            
+            <!-- English Story Section -->
+            <section id="english-content" class="story-content english-section" lang="en">
+                <span class="section-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    English Version
+                </span>
+                
+                <p>The rain tapped a heavy, persistent rhythm against the window of the quiet diner, matching the dull ache in Haroon’s chest. Across the small laminate table sat Maya, her eyes bright with tears she refused to let fall. On her left ring finger sat a silver band—a ring that didn't belong to him, placed there three days ago by a man her parents had chosen.</p>
+
+                <p>"We can figure this out, Haroon," Maya whispered, her voice trembling as she reached across the table to touch his hand. "I don't love him. I love you. We can wait, or we can leave—"</p>
+
+                <p>Haroon gently pulled his hand back, resting his hands in his lap where she couldn't reach them. The distance felt like physical pain, but he forced his face to remain cold.</p>
+
+                <p>"There's nothing to figure out, Maya," he said, keeping his tone flat, devoid of the warmth he usually reserved just for her. "It’s over."</p>
+
+                <p>"Don't do this," she pleaded, a tear finally slipping down her cheek. "I know you're only saying this because of my family. My father talked to you, didn't he?"</p>
+
+                <p>He didn't answer, but the silence was loud enough. Her father hadn't yelled; he had simply laid out the reality of the world. A family honor, a long-standing promise, and a life of comfort Haroon knew he couldn't yet provide. He had seen the quiet desperation in her mother's eyes and the weight of tradition crushing Maya's shoulders. If she fought them for him, she would lose her family forever. Haroon loved her too much to let her make that trade.</p>
+
+                <p>"I'm saying this because it's the truth," Haroon lied, looking straight into the eyes he had adored for three years. "We had our time, but reality is different. He's a good man, Maya. He can give you the life your parents want for you. The life you deserve."</p>
+
+                <p>"I don't want his life! I want <em>our</em> life!"</p>
+
+                <p>"Well, I don't," Haroon snapped, forcing the harsh words past the lump in his throat. "I'm tired of fighting a losing battle. I'm moving on, and you need to do the same."</p>
+
+                <p>The lie hung heavy in the air between them. Maya stared at him, searching his eyes for the boy who used to trace stars on her palm and promise her the world. For a fraction of a second, Haroon almost cracked—almost reached out to wipe her tear and tell her he would fight the entire world for her. But he stayed still.</p>
+
+                <p>Maya stood up slowly, grabbing her coat. "You're a terrible liar, Haroon," she whispered, her voice hollow. "But if you're going to give up on us, I can't fight for both of us."</p>
+
+                <p>She turned and walked out into the rain. Haroon watched her through the glass until her silhouette vanished into the mist. Only then did he drop his head into his hands, letting the silence swallow the broken pieces of his heart.</p>
+            </section>
+
+            <div id="section-divider" class="divider">
+                <span>✦ ✦ ✦</span>
+            </div>
+
+            <!-- Urdu Story Section -->
+            <section id="urdu-content" class="story-content urdu-section" lang="ur">
+                <span class="section-label" style="float: right;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    اردو ترجمہ
+                </span>
+                <div style="clear: both;"></div>
+                
+                <p>خاموش ڈائنر کی کھڑکی پر بارش کی تیز اور مسلسل بوندیں برسرِ پیکار تھیں، جو ہارون کے سینے میں اٹھتے ہوئے ہولے ہولے درد سے ہم آہنگ تھیں۔ میز کے دوسری طرف مایا بیٹھی تھی، جس کی آنکھیں ان آنسوؤں سے چمک رہی تھیں جنہیں وہ بہنے نہیں دے رہی تھی۔ اس کی بائیں ہاتھ کی انگلی میں چاندی کی ایک انگوٹھی چمک رہی تھی—ایک ایسی انگوٹھی جو ہارون کی نہیں تھی، بلکہ تین دن پہلے اس شخص نے پہنائی تھی جسے اس کے والدین نے منتخب کیا تھا-</p>
+
+                <p>"ہم اس کا کوئی حل نکال سکتے ہیں، ہارون،" مایا نے کانپتی ہوئی آواز میں سرگوشی کی اور اس کا ہاتھ تھامنے کے لیے میز پر ہاتھ آگے بڑھایا۔ "میں اس سے محبت نہیں کرتی۔ میں تم سے محبت کرتی ہوں۔ ہم انتظار کر سکتے ہیں، یا پھر کہیں دور جا سکتے ہیں—"</p>
+
+                <p>ہارون نے آہستہ سے اپنا ہاتھ پیچھے کھینچ لیا اور اسے گود میں رکھ لیا تاکہ وہ اس تک نہ پہنچ سکے۔ یہ فاصلہ جسمانی تکلیف کی طرح محسوس ہوا، لیکن اس نے اپنے چہرے پر سرد مہری برقرار رکھنے کی پوری کوشش کی۔</p>
+
+                <p>"تلاش کرنے کے لیے کچھ باقی نہیں بچا، مایا،" اس نے بالکل سپاٹ انداز میں کہا، جس میں وہ گرمجوشی غائب تھی جو وہ ہمیشہ صرف اس کے لیے رکھتا تھا۔ "سب کچھ ختم ہو چکا ہے۔"</p>
+
+                <p>"ایسا مت کرو،" اس نے التجا کی، بالآخر ایک آنسو اس کی گال پر ڈھلک گیا۔ "میں جانتی ہوں تم یہ سب صرف میرے گھر والوں کی وجہ سے کہہ رہے ہو۔ میرے والد نے تم سے بات کی تھی نا؟"</p>
+
+                <p>اس نے کوئی جواب نہیں دیا، لیکن اس کی خاموشی خود ایک مکمل جواب تھی۔ اس کے والد نے کوئی غصہ نہیں دکھایا تھا؛ انہوں نے بس تلخ حقائق سامنے رکھ دیے تھے۔ خاندانی عزت، ایک پرانا وعدہ، اور ایک پرآسائش زندگی جو ہارون فی الحال اسے نہیں دے سکتا تھا۔ اس نے مایا کی ماں کی آنکھوں میں چھپی بے بسی اور مایا کے کندھوں پر خاندانی روایات کا بوجھ دیکھا تھا۔ اگر وہ ہارون کے لیے اپنے گھر والوں سے لڑتی، تو وہ انہیں ہمیشہ کے لیے کھو دیتی۔ ہارون اس سے اتنی محبت کرتا تھا کہ اسے اتنی بڑی قربانی دینے کی اجازت نہیں دے سکتا تھا۔</p>
+
+                <p>"میں یہ سب اس لیے کہہ رہا ہوں کیونکہ یہی سچ ہے،" ہارون نے جھوٹ بولا، ان آنکھوں میں دیکھتے ہوئے جن سے وہ تین سال سے محبت کرتا تھا۔ "ہمارا وقت ختم ہو چکا ہے، اب حقیقت مختلف ہے۔ وہ ایک اچھا انسان ہے، مایا۔ وہ تمہیں وہ زندگی دے سکتا ہے جو تمہارے والدین تمہارے لیے چاہتے ہیں۔ وہ زندگی جس کی تم حقدار ہو۔"</p>
+
+                <p>"مجھے اس کی زندگی نہیں چاہیے! مجھے ہماری زندگی چاہیے!"</p>
+
+                <p>"لیکن مجھے نہیں چاہیے،" ہارون نے اپنے حلق میں اٹکے ہوئے درد کو چھپاتے ہوئے سخت لہجے میں کہا۔ "میں ایک ہاری ہوئی جنگ لڑتے لڑتے تھک چکا ہوں۔ میں آگے بڑھ رہا ہوں، اور تمہیں بھی یہی کرنا چاہیے۔"</p>
+
+                <p>یہ جھوٹ ان دونوں کے درمیان ہوا میں معلق ہو گیا۔ مایا اسے تکتی رہی، اس کی آنکھوں میں اس لڑکے کو تلاش کرتی رہی جو اس کی ہتھیلی پر ستارے بنایا کرتا تھا اور دنیا فتح کرنے کے وعدے کرتا تھا۔ ایک لمحے کے لیے ہارون کا ضبط ٹوٹنے ہی والا تھا—وہ بس اس کا آنسو پونچھ کر یہ کہنے ہی والا تھا کہ وہ پوری دنیا سے اس کے لیے لڑے گا۔ لیکن وہ ساکت رہا۔</p>
+
+                <p>مایا آہستہ سے اٹھی اور اپنا کوٹ اٹھایا۔ "تم بہت برے جھوٹے ہو، ہارون،" اس نے بے جان آواز میں سرگوشی کی۔ "لیکن اگر تم ہی ہم دونوں سے دستبردار ہو رہے ہو، تو میں اکیلے ہم دونوں کے لیے نہیں لڑ سکتی۔"</p>
+
+                <p>وہ مڑی اور باہر بارش میں نکل گئی۔ ہارون شیشے کے پار سے اسے دیکھتا رہا یہاں تک کہ اس کا سایہ دھند میں غائب ہو گیا۔ تب جا کر اس نے اپنا سر ہاتھوں میں گرا لیا، اور خاموشی کو اپنے ٹوٹے ہوئے دل کی صداؤں کو نگلنے دیا۔</p>
+            </section>
+
+        </article>
+    </main>
+
+    <!-- Translation Disclaimer Modal Popup -->
+    <div id="disclaimer-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+        <div class="modal-card">
+            <button class="modal-corner-x" id="modal-x-btn" aria-label="Close modal">&times;</button>
+            <div class="modal-icon-badge">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            </div>
+            <h3 class="modal-title" id="modal-title-text">Translation Notice</h3>
+            <div class="modal-body">
+                <p style="margin-bottom: 12px; font-family: 'Inter', sans-serif;">
+                    <strong>Note:</strong> Story was written in english and translated to urdu by translater, so errors are expected.
+                </p>
+                <div style="border-top: 1px dashed var(--border-color); margin: 12px 0;"></div>
+                <p style="direction: rtl; text-align: right; font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.15rem; line-height: 2.2; color: #f8fafc;">
+                    <strong>نوٹ:</strong> یہ کہانی اصل میں انگریزی میں لکھی گئی تھی اور مترجم کے ذریعے اردو میں ترجمہ کی گئی ہے، اس لیے غلطیوں کا امکان ہے۔
+                </p>
+            </div>
+            <button id="modal-ok-btn" class="modal-close-btn">I Understand / ٹھیک ہے</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 The Untold Story of HM. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const englishContent = document.getElementById('english-content');
+            const urduContent = document.getElementById('urdu-content');
+            const sectionDivider = document.getElementById('section-divider');
+            
+            const btnBoth = document.getElementById('btn-both');
+            const btnEnglish = document.getElementById('btn-english');
+            const btnUrdu = document.getElementById('btn-urdu');
+            const langButtons = [btnBoth, btnEnglish, btnUrdu];
+
+            const modal = document.getElementById('disclaimer-modal');
+            const modalOkBtn = document.getElementById('modal-ok-btn');
+            const modalXBtn = document.getElementById('modal-x-btn');
+
+            let currentLanguage = 'both';
+
+            const showModal = () => {
+                modal.classList.add('active');
+                modalOkBtn.focus();
+            };
+
+            const hideModal = () => {
+                modal.classList.remove('active');
+            };
+
+            // Event listeners for closing modal
+            modalOkBtn.addEventListener('click', hideModal);
+            modalXBtn.addEventListener('click', hideModal);
+            
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    hideModal();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    hideModal();
+                }
+            });
+
+            const setLanguage = (lang, triggerModal = false) => {
+                // Update active state in UI pills
+                langButtons.forEach(btn => {
+                    const isTarget = btn.getAttribute('data-lang') === lang;
+                    btn.classList.toggle('active', isTarget);
+                    btn.setAttribute('aria-checked', isTarget ? 'true' : 'false');
+                });
+
+                // Toggle visibility based on selected language
+                if (lang === 'english') {
+                    englishContent.classList.remove('hidden-section');
+                    urduContent.classList.add('hidden-section');
+                    sectionDivider.classList.add('hidden-section');
+                } else if (lang === 'urdu') {
+                    englishContent.classList.add('hidden-section');
+                    urduContent.classList.remove('hidden-section');
+                    sectionDivider.classList.add('hidden-section');
+                } else {
+                    // 'both'
+                    englishContent.classList.remove('hidden-section');
+                    urduContent.classList.remove('hidden-section');
+                    sectionDivider.classList.remove('hidden-section');
+                }
+
+                currentLanguage = lang;
+
+                // Trigger disclaimer modal whenever viewer selects Urdu or switches to Urdu mode
+                if ((lang === 'urdu' || lang === 'both') && triggerModal) {
+                    showModal();
+                }
+            };
+
+            btnBoth.addEventListener('click', () => {
+                const wasNotUrduActive = currentLanguage === 'english';
+                setLanguage('both', wasNotUrduActive);
+            });
+
+            btnEnglish.addEventListener('click', () => {
+                setLanguage('english', false);
+            });
+
+            btnUrdu.addEventListener('click', () => {
+                setLanguage('urdu', true);
+            });
+        });
+    </script>
+</body>
+</html>
