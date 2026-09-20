@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Untold Story</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f141d;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        /* CHAPTER NAVIGATION BUTTONS */
+        .chapter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .chapter-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .chapter-btn.active, .chapter-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* GLASSMORPHISM CONTENT CARDS */
+        .story-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        /* TIMER CARD */
+        .timer-container {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+        }
+
+        .timer-container h3 {
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 65px;
+        }
+
+        .time-unit span {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .time-unit label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- CHAPTER NAVIGATION SELECTOR -->
+        <div class="chapter-nav">
+            <button class="chapter-btn active" onclick="switchChapter(1)">Chapter 1</button>
+            <button class="chapter-btn" onclick="switchChapter(2)">Chapter 2</button>
+        </div>
+
+        <!-- CHAPTER 1 VIEW -->
+        <div id="chapter-1" class="chapter-view">
+            <div class="story-card">
+                <h2>Chapter 1</h2>
+                <p>Paste your Chapter 1 content here...</p>
+            </div>
+        </div>
+
+        <!-- CHAPTER 2 VIEW -->
+        <div id="chapter-2" class="chapter-view" style="display: none;">
+            
+            <!-- TIMER BOX (Shown until Sept 21, 2026 12:00 AM PST) -->
+            <div id="timer-box" class="timer-container">
+                <h3>Chapter 2 Unlocks In</h3>
+                <div class="countdown">
+                    <div class="time-unit">
+                        <span id="days">00</span>
+                        <label>Days</label>
+                    </div>
+                    <div class="time-unit">
+                        <span id="hours">00</span>
+                        <label>Hours</label>
+                    </div>
+                    <div class="time-unit">
+                        <span id="minutes">00</span>
+                        <label>Mins</label>
+                    </div>
+                    <div class="time-unit">
+                        <span id="seconds">00</span>
+                        <label>Secs</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHAPTER 2 CONTENT (Hidden automatically until unlocked) -->
+            <div id="chapter-2-content" class="story-card" style="display: none;">
+                <h2>Chapter 2</h2>
+                <p>Paste your Chapter 2 content here...</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Target Date: 12:00 AM on September 21, 2026 PST (-07:00 Daylight Savings)
+        // If you mean Pakistan Standard Time (PKT), change '-07:00' to '+05:00'
+        const targetDate = new Date('2026-09-21T00:00:00-07:00').getTime();
+
+        // Switch Chapter View
+        function switchChapter(num) {
+            const btns = document.querySelectorAll('.chapter-btn');
+            btns.forEach((btn, idx) => {
+                btn.classList.toggle('active', idx === (num - 1));
+            });
+
+            document.getElementById('chapter-1').style.display = (num === 1) ? 'block' : 'none';
+            document.getElementById('chapter-2').style.display = (num === 2) ? 'block' : 'none';
+        }
+
+        // Countdown Timer Logic
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const timerBox = document.getElementById('timer-box');
+            const ch2Content = document.getElementById('chapter-2-content');
+
+            if (distance <= 0) {
+                if (timerBox) timerBox.style.display = 'none';
+                if (ch2Content) ch2Content.style.display = 'block';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
