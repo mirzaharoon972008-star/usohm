@@ -3,8 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Untold Story</title>
+    <title>The Untold Story of HM</title>
+    <!-- Google Fonts for dual-language typography and modern UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Vercel Web Analytics -->
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    
     <style>
+        :root {
+            --bg-color: #0f141d;
+            --card-bg: #18202c;
+            --card-border: #2a3546;
+            --accent-gold: #d4af37;
+            --accent-gold-glow: rgba(212, 175, 55, 0.25);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #2a3546;
+            --modal-overlay: rgba(7, 10, 15, 0.85);
+            --transition-speed: 0.35s;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -12,204 +37,667 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f141d;
-            color: #ffffff;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Merriweather', serif;
+            line-height: 1.8;
+            padding: 0;
+            margin: 0;
             min-height: 100vh;
-            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 800px;
+        header {
             width: 100%;
-            margin-top: 30px;
+            padding: 50px 20px 35px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, rgba(15, 20, 29, 0) 100%);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
         }
 
-        /* CHAPTER NAVIGATION BUTTONS */
-        .chapter-nav {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .chapter-btn {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            padding: 12px 28px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1rem;
+        .header-tag {
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 12px;
+            display: inline-block;
             font-weight: 600;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            background: rgba(212, 175, 55, 0.1);
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
-        .chapter-btn.active, .chapter-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            transform: translateY(-2px);
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
-        /* GLASSMORPHISM CONTENT CARDS */
-        .story-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
-            padding: 30px;
+        .subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            max-width: 620px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .identity-note {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            font-style: normal;
+            font-family: 'Inter', sans-serif;
+            color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.08);
+            padding: 6px 16px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .controls-wrapper {
+            position: sticky;
+            top: 15px;
+            z-index: 100;
+            margin: 25px auto 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            width: 92%;
+            max-width: 880px;
+        }
+
+        .control-group {
+            display: flex;
+            background: rgba(24, 32, 44, 0.92);
             backdrop-filter: blur(12px);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 6px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px var(--accent-gold-glow);
+            gap: 6px;
+        }
+
+        .lang-btn, .chap-btn, .action-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            outline: none;
+            user-select: none;
+        }
+
+        .lang-btn:hover, .chap-btn:hover, .action-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .lang-btn.active, .chap-btn.active {
+            background: var(--accent-gold);
+            color: #0f141d;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+            font-weight: 700;
+        }
+
+        .action-btn.highlight {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--accent-gold);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .action-btn.highlight:hover {
+            background: var(--accent-gold);
+            color: #0f141d;
+        }
+
+        main {
+            max-width: 820px;
+            width: 92%;
+            margin: 20px auto 60px;
+            flex-grow: 1;
+        }
+
+        .story-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 45px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            margin-top: 15px;
+            position: relative;
+            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+        }
+
+        /* Paragraph Hover & Bookmarked Styles */
+        .story-content p {
+            position: relative;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .story-content p:hover {
+            background-color: rgba(212, 175, 55, 0.04);
+        }
+
+        .story-content p.bookmarked-para {
+            background-color: rgba(212, 175, 55, 0.12) !important;
+            border-left: 4px solid var(--accent-gold) !important;
+            box-shadow: 0 2px 10px rgba(212, 175, 55, 0.1);
+        }
+
+        .urdu-section p.bookmarked-para {
+            border-left: none !important;
+            border-right: 4px solid var(--accent-gold) !important;
+        }
+
+        .bookmarked-para::after {
+            content: "🔖 Bookmark";
+            position: absolute;
+            top: 6px;
+            right: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            background: rgba(15, 20, 29, 0.85);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            pointer-events: none;
+        }
+
+        .urdu-section .bookmarked-para::after {
+            right: auto;
+            left: 12px;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--accent-gold);
+            padding: 6px 14px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+        }
+
+        .chapter-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--accent-gold);
             margin-bottom: 20px;
+            border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .urdu-section .chapter-title {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 2.2rem;
             line-height: 1.8;
         }
 
-        /* TIMER CARD */
-        .timer-container {
-            text-align: center;
-            padding: 40px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
-            backdrop-filter: blur(12px);
+        .chapter-block {
+            transition: opacity 0.3s ease;
         }
 
-        .timer-container h3 {
-            margin-bottom: 25px;
-            font-size: 1.3rem;
-            letter-spacing: 1px;
-            opacity: 0.9;
+        .chapter-block.hidden-chapter {
+            display: none !important;
         }
 
-        .countdown {
+        .story-content {
+            transition: opacity 0.4s ease, max-height 0.5s ease;
+            opacity: 1;
+        }
+
+        .story-content.hidden-section {
+            display: none !important;
+            opacity: 0;
+        }
+
+        .english-section p {
+            font-size: 1.08rem;
+            color: var(--text-primary);
+            margin-bottom: 1.6rem;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .english-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .divider {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .time-unit {
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            min-width: 65px;
+            text-align: center;
+            margin: 45px 0;
+            transition: opacity 0.3s ease;
         }
 
-        .time-unit span {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #ffffff;
+        .divider.hidden-section {
+            display: none !important;
         }
 
-        .time-unit label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.7;
-            margin-top: 5px;
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .divider span {
+            padding: 0 18px;
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+            letter-spacing: 6px;
+        }
+
+        .urdu-section {
+            direction: rtl;
+            text-align: right;
+            font-family: 'Noto Nastaliq Urdu', serif;
+        }
+
+        .urdu-section p {
+            font-size: 1.68rem;
+            line-height: 2.6;
+            color: #f8fafc;
+            margin-bottom: 2.2rem;
+            word-spacing: 1px;
+        }
+
+        .urdu-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(24, 32, 44, 0.95);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .toast-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+            margin-top: auto;
+            background: rgba(15, 20, 29, 0.8);
+        }
+
+        @media (max-width: 640px) {
+            header {
+                padding: 35px 15px 25px;
+            }
+
+            h1 {
+                font-size: 2.1rem;
+            }
+
+            .story-card {
+                padding: 24px 20px;
+                border-radius: 12px;
+            }
+
+            .lang-btn, .chap-btn, .action-btn {
+                padding: 7px 12px;
+                font-size: 0.8rem;
+            }
+
+            .urdu-section p {
+                font-size: 1.15rem;
+                line-height: 2.4;
+            }
+
+            .english-section p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <header>
+        <span class="header-tag">Writer: M.Haroon</span>
+        <h1>The Untold Story of HM</h1>
+        <p class="subtitle">
+            A bittersweet tale of love, sacrifice, and unspoken goodbyes.<br>
+            <span class="identity-note">NOTE: Maya is just a made up name, to hide her real identity.</span>
+        </p>
+    </header>
 
-        <!-- CHAPTER NAVIGATION SELECTOR -->
-        <div class="chapter-nav">
-            <button class="chapter-btn active" onclick="switchChapter(1)">Chapter 1</button>
-            <button class="chapter-btn" onclick="switchChapter(2)">Chapter 2</button>
+    <!-- Interactive Controls Bar -->
+    <div class="controls-wrapper">
+        <!-- Chapter Selector -->
+        <div class="control-group" role="radiogroup" aria-label="Chapter Selector">
+            <button type="button" class="chap-btn active" data-chapter="1" id="btn-chap-1">
+                <span>📖</span> Chp 1
+            </button>
+            <button type="button" class="chap-btn" data-chapter="2" id="btn-chap-2">
+                <span>📖</span> Chp 2
+            </button>
         </div>
 
-        <!-- CHAPTER 1 VIEW -->
-        <div id="chapter-1" class="chapter-view">
-            <div class="story-card">
-                <h2>Chapter 1</h2>
-                <p>Paste your Chapter 1 content here...</p>
-            </div>
+        <!-- Language Selector -->
+        <div class="control-group" role="radiogroup" aria-label="Language Mode Selector">
+            <button type="button" class="lang-btn active" data-lang="both" role="radio" aria-checked="true" id="btn-both">
+                <span>🌐</span> Both
+            </button>
+            <button type="button" class="lang-btn" data-lang="english" role="radio" aria-checked="false" id="btn-english">
+                <span>🇬🇧</span> English
+            </button>
+            <button type="button" class="lang-btn" data-lang="urdu" role="radio" aria-checked="false" id="btn-urdu">
+                <span>🇵🇰</span> اردو
+            </button>
         </div>
 
-        <!-- CHAPTER 2 VIEW -->
-        <div id="chapter-2" class="chapter-view" style="display: none;">
-            
-            <!-- TIMER BOX (Shown until Sept 21, 2026 12:00 AM PST) -->
-            <div id="timer-box" class="timer-container">
-                <h3>Chapter 2 Unlocks In</h3>
-                <div class="countdown">
-                    <div class="time-unit">
-                        <span id="days">00</span>
-                        <label>Days</label>
-                    </div>
-                    <div class="time-unit">
-                        <span id="hours">00</span>
-                        <label>Hours</label>
-                    </div>
-                    <div class="time-unit">
-                        <span id="minutes">00</span>
-                        <label>Mins</label>
-                    </div>
-                    <div class="time-unit">
-                        <span id="seconds">00</span>
-                        <label>Secs</label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CHAPTER 2 CONTENT (Hidden automatically until unlocked) -->
-            <div id="chapter-2-content" class="story-card" style="display: none;">
-                <h2>Chapter 2</h2>
-                <p>Paste your Chapter 2 content here...</p>
-            </div>
-
+        <!-- Bookmark Controls -->
+        <div class="control-group">
+            <button type="button" class="action-btn" id="btn-save-bookmark" title="Bookmark clicked paragraph">
+                <span>📌</span> Bookmark
+            </button>
+            <button type="button" class="action-btn highlight" id="btn-resume-bookmark" style="display: none;" title="Resume reading from last saved bookmark">
+                <span>📖</span> Resume
+            </button>
         </div>
-
     </div>
 
+    <main>
+        <article class="story-card">
+            
+            <!-- English Story Section -->
+            <section id="english-content" class="story-content english-section" lang="en">
+                <span class="section-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    English Version
+                </span>
+
+                <!-- CHAPTER 1 ENGLISH -->
+                <div class="chapter-block" data-chapter="1">
+                    <h2 class="chapter-title">Chapter 1: The Echo of Silence</h2>
+                    <p>Before the world became complex, before heartbreaks had names, life was simple. It was measured strictly in percentages, blue ink on crisp white answer sheets, and the quiet satisfaction of a teacher’s handwriting at the top of a page: <em>1st Position.</em></p>
+                    <p>At nine years old, Haroon did not understand love, nor did he have any desire to. Girls were background noise in the school corridors—distant, irrelevant chatter that existed outside the boundary of his world. His world was built on logic, discipline, and order. While other children spent their breaks running wildly across the dusty courtyard or gossiping under the shade of the tall neem trees, Haroon was busy calculating marks, anticipating exam questions, and reinforcing the walls of his own little kingdom.</p>
+                    <p>From 2nd class all the way through 5th class, Haroon's dominance was undisputed. Every academic year ended the exact same way. On result day, while parents shifted nervously in their seats and classmates chewed on the ends of their wooden pencils, Haroon stood near the front with complete calm. When the principal called out the top rank, it was always Haroon's name that echoed through the hall.</p>
+                    <p>Being first wasn't just a habit; it was Haroon's identity. It was proof that if a person controlled their focus, they controlled their fate. Haroon believed that life was an equation: <em>Effort in, victory out.</em> Nothing could slip past his defense.</p>
+                    <p>Then came 6th class, and with it, the quiet arrival of a newcomer.</p>
+                    <p>He moved into the section around mid-term—a quiet boy with a neat uniform and an unbothered expression. Classmates whispered about him, speculating on how smart he might be, but Haroon barely looked up from his notebook. Overconfidence is a silent thief; it steals vigilance long before it takes a crown. Haroon assumed the hierarchy was set in stone. He assumed no one could walk into his domain and disrupt years of unbroken victory.</p>
+                    <p>Haroon didn't take him seriously. He didn't study with the usual manic intensity before the final examinations. He relied on memory, on routine, on the dangerous belief that being number one was simply his natural right.</p>
+                    <p>The day the results were posted remained etched in Haroon's mind with frightening clarity.</p>
+                    <p>The sheet was pinned to the main notice board, surrounded by a crowd of shouting boys. Haroon pushed through them casually, expecting to see his name at the very top as it had been for four straight years.</p>
+                    <p>His eyes scanned the header. Haroon's name wasn't there.</p>
+                    <p>It was printed on the second line. Right above it, sitting proudly in the 1st position, was the name of the new student.</p>
+                    <p>A strange, cold stillness washed over Haroon. The noise of the hallway faded into a low hum. For the first time in his life, Haroon tasted failure—not a catastrophic ruin, but a sharp, stinging humiliation that felt far worse. He had lost ground in the only arena that mattered to him. He had allowed someone else to take what was rightfully his.</p>
+                    <p>That summer, while the rest of the neighborhood played in the streets until dusk, Haroon stayed inside. The defeat didn't break him; it ignited something fierce and relentless. He didn't cry about the lost position; he plotted its return.</p>
+                    <p>When 7th class began, Haroon was a different student. The easygoing pride was gone, replaced by an iron resolve. He tracked every test, calculated every margin, and spent late nights under the warm glow of his desk lamp, committing entire textbooks to memory. Haroon didn't just want to win back 1st position; he wanted to make sure it could never be taken from him again.</p>
+                    <p>By the end of 7th class, when the final results were announced, Haroon's name was restored to the top of the board. The gap between first and second place was undeniable. Haroon had reclaimed his fortress.</p>
+                    <p>Standing there on the stage, holding the certificate of achievement, Haroon felt completely invincible. He had proven to himself that hard work could conquer any threat, fix any mistake, and bend reality back to my will. In Haroon's mind, life was predictable and controllable. Love was a foolish distraction, emotion was a weakness, and heartbreaks were things that only happened to people who lacked discipline.</p>
+                    <p>Haroon had no idea that the hardest lesson of his life wouldn't come from a textbook or an academic rival—and that no amount of studying could prepare him for what was waiting just around the corner.</p>
+                    <p>Victories have a strange way of granting peace, only for life to rewrite the rules entirely. Haroon had barely settled into the comfort of his reclaimed first position when the world he knew was quietly dismantled. Following his 7th class results, the decision was made: Haroon would be changing schools.</p>
+                    <p>Leaving meant walking away from the familiar routines that had defined his childhood. The familiar brick walls, the worn wooden desks where he had calculated his marks, and the teachers who knew his name before he even entered the classroom were all left behind. Most notably, the friends he had grown up alongside—the boys who shared the courtyard during break times—were suddenly gone from his daily life. The small social network that had existed passively in the background of his academic focus vanished overnight.</p>
+                    <p>On his first day at the new school, Haroon stood before a landscape that felt entirely foreign. The campus was larger, the corridors echoed with louder voices, and the atmosphere carried a different energy altogether. Groups of students moved together in tight-knit circles, bonded by years of shared history that Haroon had no part in. For the first time in a long while, he was not the top student holding a crown; he was simply a new face sitting in the back row, completely unknown.</p>
+                    <p>The transition brought a distinct sense of isolation, but Haroon did not allow it to disorient him. Where others might have felt overwhelmed by the sudden shift in environment, Haroon treated the change like a fresh slate. He observed the new classroom dynamics quietly, noting who the vocal students were, how the teachers conducted their lessons, and where the academic standards lay.</p>
+                    <p>Without his old friends around to break the silence, Haroon turned inward once more. His discipline became his sanctuary. While the new environment felt chaotic and unfamiliar, the rules of his studies remained unchanged. The textbooks were different, the faces were new, but the equations, logic, and determination required to succeed were the exact same tools he had masterfully honed over the years.</p>
+                    <p>Haroon adapted silently, rebuilding his focus step by step within these unfamiliar walls, entirely unaware of how this new environment would eventually shape his future.</p>
+                    <p>Time moved onward not in days or months, but in the quiet, predictable measures Haroon built for himself: school terms completed, exam schedules calculated, and the rigid order of a self-imposed routine. Having adapted to his new school, Haroon had successfully reconstructed his safe haven. He walked through the crowded hallways wrapped in an invisible armor of detachment, observing the social noise around him without ever letting it touch him. For Haroon, safety lived entirely in predictability. If a situation could be analyzed, measured, and controlled, it could not harm him. But life has a way of dismantling logic when a person least expects it.</p>
+                    <p>The shift arrived on an evening completely severed from his daily routine. It was the night of a cousin's wedding—an grand event held in a sprawling, brightly lit banquet hall filled with overlapping voices, warm laughter, the heavy scent of fresh marigolds, rosewater, and rich spices lingering in the air. For most people, such gatherings were a celebration of togetherness. For Haroon, an introvert by nature and habit, it was a sensory overload. The clinking of heavy glass dinnerware, the sudden bursts of music, and the constant shuffling of extended family members felt like an environment completely foreign to his quiet, interior world.</p>
+                    <p>As usual, Haroon sought the safety of the perimeter. He maneuvered through the bustling crowd with quiet efficiency, slipping past groups of elderly relatives engaged in animated discussions and children darting between the decorated pillars. Finding a quiet corner near the edge of the hall, he leaned back against a shaded pillar, adjusting his coat and folding his hands. From this vantage point, he could play the role he knew best: the silent, unseen observer. He watched the world move past him, completely satisfied to stay tucked inside the fortress of his own mind.</p>
+                    <p>Then, without warning, the entire room seemed to lose its focus.</p>
+                    <p>It happened in a single, unscripted second as the central doors opened further and a new group stepped into the hall. Haroon’s eyes, casually scanning the moving crowd, brushed past dozens of faces before coming to a sudden, absolute halt on one person.</p>
+                    <p>It was Maya.</p>
+                    <p>Haroon’s breath caught in his throat, trapped behind a sudden wall of total disbelief. The world around him—the shouting waiters, the ringing laughter, the vibrant glare of the chandeliers—instantly receded into a dim, meaningless blur. Everything shrank down to a single point of absolute clarity.</p>
+                    <p>She carried herself with an effortless, breathtaking elegance that immediately set her apart from the overwhelming chaos of the room. It was not merely how striking she looked in her traditional attire, draped gracefully with subtle detailing that caught the warm light; it was the quiet stillness she held within herself. While everyone else moved with frantic energy, Maya seemed to move through the hall like a soft, unexpected breeze on a humid summer night.</p>
+                    <p>In that exact fragment of a second, something fundamental inside Haroon shattered and reshaped itself. A strange, terrifying, and profoundly beautiful sensation surged through his chest—a feeling no textbook had ever described, no academic theory had ever warned him about, and no mathematical formula could quantify. His heart, which had spent years beating to the steady, calculated rhythm of discipline, skipped a beat, then began to race uncontrollably.</p>
+                    <p>Without a single word spoken across the crowded floor, Haroon knew his heart was no longer entirely his own. It had been stolen right then and there, quietly and completely.</p>
+                    <p>The iron armor of academic pride, self-reliance, and emotional control he had painstakingly constructed since childhood felt entirely weightless. All the rules he had relied upon to keep the world at bay vanished in an instant. He stood completely paralyzed, his eyes locked onto her, overwhelmed by a sudden, desperate urge to bridge the distance between them.</p>
+                    <p>He wanted to step away from the shadows of his pillar. He wanted to walk across the polished floor, cut through the crowd of strangers, stand in front of her, and say something—anything—to hear her voice and acknowledge this unspoken storm inside him. The thought burned with intense clarity in his mind.</p>
+                    <p>Yet, the very nature that guarded Haroon pulled him backward. The deep-seated introversion that made him an observant student also built an invisible, insurmountable wall around him. The words rose to his throat only to freeze there, heavy and unspoken. What could he possibly say? How could someone who spent his entire life hiding behind books and logic step out into the light so recklessly?</p>
+                    <p>So, Haroon stayed where he was. He stood anchored to the floor in silent agony, watching her from across the hall as she conversed softly with relatives, occasionally smiling—a smile that felt to Haroon like a light shining directly into the dark, quiet corners of his soul. Every minute that passed felt like an eternity laced with both exquisite wonder and sharp regret. He was closer to her than he had ever been, yet separated by a canyon built of his own silence.</p>
+                    <p>When the celebrations eventually began to wind down, the music faded into hushed chatter, and families began gathering their belongings to depart, the hall slowly emptied out. Maya disappeared into the crowd with her family, leaving behind an empty space that felt colder and larger than the hall itself.</p>
+                    <p>The journey home was long and quiet. Haroon sat by the car window, staring out at the passing streetlights as they cut yellow streaks through the dark glass. The physical world was restoring its mundane rhythm, but inside the silence of his thoughts, Haroon was completely changed. The quiet boy who believed that hard work and logic could control any outcome had finally met a variable he could neither solve nor defend against. He carried her memory into the night, knowing that his world had officially split in two: the life he had planned, and the girl who had unknowingly rewritten it all.</p>
+                </div>
+
+                <!-- CHAPTER 2 ENGLISH -->
+                <div class="chapter-block hidden-chapter" data-chapter="2">
+                    <h2 class="chapter-title">Chapter 2: The Unspoken Bond</h2>
+                    <p>By the time Haroon reached fifteen years of age, the quiet simplicity of his childhood had completely dissolved. Fifteen was a strange, transitional threshold—an age where a boy begins to look at the world not through the innocent lens of play and academic competition, but through the heavy, introspective awareness of growing up. Maya had not faded into the background of his memory; she had anchored herself at the very center of his soul.</p>
+                    <p>Being a naturally quiet and deeply introverted teenager, Haroon possessed no outlet for the storm brewing inside him. On many evenings, after the household had fallen asleep and the street outside grew silent, Haroon would retreat to his desk. Under the soft glow of his desk lamp, he would study his reflection in the small mirror, wondering how someone like him could ever cross paths with someone as radiant as Maya.</p>
+
+                    <!-- ADD YOUR ADDITIONAL CHAPTER 2 ENGLISH PARAGRAPHS HERE -->
+                    <p><em>[Insert Chapter 2 English text continuation here...]</em></p>
+                </div>
+
+            </section>
+
+            <div id="section-divider" class="divider">
+                <span>✦ ✦ ✦</span>
+            </div>
+
+            <!-- Urdu Story Section -->
+            <section id="urdu-content" class="story-content urdu-section" lang="ur">
+                <span class="section-label" style="float: right;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    اردو ترجمہ
+                </span>
+                <div style="clear: both;"></div>
+
+                <!-- CHAPTER 1 URDU -->
+                <div class="chapter-block" data-chapter="1">
+                    <h2 class="chapter-title">باب 1: خاموشی کی گونج</h2>
+                    <p>اس سے پہلے کہ دنیا پیچیدہ ہوتی، اس سے پہلے کہ دل ٹوٹنے کے غم کا کوئی نام ہوتا، زندگی سادہ تھی۔ یہ محض فیصد، صاف شفاف سفید جوابی کاپیوں پر نیلی روشنائی، اور صفحے کے سب سے اوپر استاد کی تحریر سے ملنے والے پرسکون اطمینان تک محدود تھی: <strong>پہلی پوزیشن</strong>۔</p>
+                    <p>نو سال کی عمر میں، ہارون نہ تو محبت کو سمجھتا تھا اور نہ ہی اسے ایسا کرنے کی کوئی تمنا تھی۔ اسکول کی راہداریوں میں لڑکیاں اس کے لیے محض ایک پس منظر کا شور تھیں—ایک دور اور غیر متعلقہ چہ مگوئیاں جو اس کی دنیا کی حدود سے باہر تھیں۔ اس کی دنیا منطق، نظم و ضبط اور ترتیب پر قائم تھی۔ جبکہ دوسرے بچے اپنے وقتاً فوقتاً وقفے کا وقت دھول بھرے صحن میں بے تحاشا بھاگتے ہوئے یا اونچے نیم کے درختوں کی چھاؤں تلے باتیں کرتے ہوئے گزارتے، ہارون اپنے نمبروں کا حساب لگانے، امتحانی سوالات کا اندازہ لگانے، اور اپنی چھوٹی سی سلطنت کی دیواروں کو مضبوط کرنے میں مصروف رہتا تھا۔</p>
+                    <p>دوسری جماعت سے لے کر پانچویں جماعت تک، ہارون کا تسلط بے مثال اور ناقابلِ تردید رہا۔ ہر تعلیمی سال کا اختتام بالکل ایک ہی طرح ہوتا تھا۔ نتائج والے دن، جب والدین اپنی نشستوں پر بے چینی سے کروٹیں بدلتے اور جماعت کے ساتھی اپنی لکڑی کی پنسلوں کے کونے چباتے، ہارون مکمل پرسکون انداز میں سب سے آگے کھڑا ہوتا۔ جب پرنسپل پہلی پوزیشن کا اعلان کرتے، تو ہمیشہ ہارون ہی کا نام ہال میں گونجتا تھا۔</p>
+                    <p>پہلے نمبر پر آنا صرف ایک عادت نہیں تھی؛ یہ ہارون کی شناخت بن چکی تھی۔ یہ اس بات کا ثبوت تھا کہ اگر انسان اپنی توجہ پر قابو پا لے، تو وہ اپنی تقدیر پر بھی قابو پا سکتا ہے۔ ہارون کا ماننا تھا کہ زندگی ایک مساوات کی طرح ہے: <strong>محنت ان پٹ، اور فتح آؤٹ پٹ</strong>۔ اس کی دفاعی دیوار سے گزر کر کوئی چیز اس سے جیت نہیں چھین سکتی تھی۔</p>
+                    <p>پھر چھٹی جماعت آئی، اور اس کے ساتھ ہی ایک نئے طالب علم کی خاموش آمد ہوئی۔</p>
+                    <p>وہ مڈ ٹرم کے قریب ان کے سیکشن میں منتقل ہوا—ایک خاموش طبع لڑکا، جس کا یونیفارم صاف ستھرا اور چہرے پر ایک بے نیازی کا تاثر تھا۔ جماعت کے بچے اس کے بارے میں سرگوشیاں کرتے، اندازے لگاتے کہ وہ کتنا ذہین ہو سکتا ہے، لیکن ہارون نے مشکل سے ہی اپنی کاپی سے نظریں اٹھائیں۔ بے جا اعتماد ایک خاموش چور ہے؛ یہ تاج چھیننے سے بہت پہلے انسان کی بیداری اور ہوشیاری چھین لیتا ہے۔ ہارون نے فرض کر لیا تھا کہ یہ ترتیب پتھر پر لکیر ہے۔ اس کا خیال تھا کہ کوئی بھی اس کی قلمرو میں داخل ہو کر اس کی سالہا سال کی مسلسل کامیابیوں کو برباد نہیں کر سکتا۔</p>
+                    <p>ہارون نے اسے سنجیدگی سے نہیں لیا۔ سالانہ امتحانات سے پہلے اس نے اپنی معمول کی دیوانہ وار شدت سے پڑھائی نہیں کی۔ اس نے اپنی یادداشت، اپنے معمول، اور اس خطرناک غلط فہمی پر بھروسہ کیا کہ پہلے نمبر پر آنا صرف اس کا فطری حق ہے۔</p>
+                    <p>جس دن نتیجہ کا اعلان ہوا، وہ دن ہارون کے ذہن میں ایک خوفناک شفافیت کے ساتھ نقش ہو کر رہ گیا۔</p>
+                    <p>نتیجے کی شیٹ مرکزی نوٹس بورڈ پر لگی ہوئی تھی، جس کے گرد شور مچاتے لڑکوں کا ہجوم تھا۔ ہارون بے نیازی سے انہیں ہٹاتا ہوا آگے بڑھا، اسے توقع تھی کہ مسلسل چار سالوں کی طرح اس کا نام سب سے اوپر ہوگا۔</p>
+                    <p>اس کی نگاہوں نے فہرست کی پہلی سطر کو دیکھا۔ ہارون کا نام وہاں نہیں تھا۔</p>
+                    <p>یہ دوسری سطر پر چھپا ہوا تھا۔ اس کے بالکل اوپر، پہلی پوزیشن پر، اس نئے طالب علم کا نام فخر سے چمک رہا تھا۔</p>
+                    <p>ایک عجیب، سرد خاموشی ہارون پر طاری ہو گئی۔ راہداری کا شور مدہم سی سرگوشی میں بدل گیا۔ اپنی زندگی میں پہلی بار، ہارون نے ناکامی کا ذائقہ چکھا—یہ کوئی تباہ کن بربادی نہیں تھی، لیکن ایک تیز، چبھتی ہوئی ندامت تھی جو اس سے کہیں زیادہ تکلیف دہ تھی۔ اس نے اس واحد میدان میں اپنی زمین کھو دی تھی جو اس کے لیے اہمیت رکھتا تھا۔ اس نے کسی اور کو وہ چیز لے جانے دی تھی جو اس کا حق تھی۔</p>
+                    <p>اس گرمیوں کی تعطیلات میں، جب محلے کے باقی بچے شام ڈھلنے تک گلیوں میں کھیلتے، ہارون گھر کے اندر ہی رہا۔ اس شکست نے اسے توڑا نہیں؛ بلکہ اس کے اندر ایک بے رحم اور شدید آگ بھڑکا دی۔ وہ کھوئی ہوئی پوزیشن پر رویا نہیں؛ بلکہ اس نے اس کی واپسی کا منصوبہ بنایا۔</p>
+                    <p>جب ساتویں جماعت شروع ہوئی، تو ہارون ایک بدلا ہوا طالب علم تھا۔ وہ غرور اب جا چکا تھا، اور اس کی جگہ ایک فولادی عزم نے لے لی تھی۔ اس نے ہر ٹیسٹ پر نظر رکھی، ہر نمبر کا حساب لگایا، اور اپنے ڈیسک لیمپ کی زرد روشنی میں دیر رات تک جاگ کر پوری کتابیں حفظ کر لیں۔ ہارون صرف پہلی پوزیشن واپس حاصل نہیں کرنا چاہتا تھا؛ وہ یہ یقینی بنانا چاہتا تھا کہ اسے دوبارہ کبھی اس سے نہ چھینا جا سکے۔</p>
+                    <p>ساتویں جماعت کے اختتام پر، جب حتمی نتائج کا اعلان ہوا، تو ہارون کا نام نوٹس بورڈ پر دوبارہ سب سے اوپر بحال ہو چکا تھا۔ پہلی اور دوسری پوزیشن کے درمیان کا فرق واضح اور ناقابلِ تردید تھا۔ ہارون نے اپنا قلعہ دوبارہ فتح کر لیا تھا۔</p>
+                    <p>اسٹیج پر کھڑے ہو کر، کامیابی کی سند تھامے ہوئے، ہارون نے خود کو مکمل طور پر ناقابلِ تسخیر محسوس کیا۔ اس نے خود پر ثابت کر دیا تھا کہ سخت محنت کسی بھی خطرے کو شکست دے سکتی ہے، کسی بھی غلطی کو سدھار سکتی ہے، اور حقیقت کو اپنی مرضی کے مطابق موڑ سکتی ہے۔ ہارون کے ذہن میں، زندگی قابلِ پیشگوئی اور قابلِ کنٹرول تھی۔ محبت ایک بے وقوفانہ بھٹکاوٹ تھی، جذبات ایک کمزوری تھے، اور دل ٹوٹنا ان لوگوں کا مقدر تھا جن میں نظم و ضبط کی کمی ہوتی تھی۔</p>
+                    <p>ہارون کو اس بات کا اندازہ تک نہیں تھا کہ اس کی زندگی کا سب سے مشکل سبق کسی درسی کتاب یا تعلیمی حریف سے نہیں ملے گا—اور یہ کہ پڑھائی کی کوئی بھی مقدار اسے اس چیز کے لیے تیار نہیں کر سکتی تھی جو موڑ کے بالکل پار اس کا انتظار کر رہی تھی۔</p>
+                </div>
+
+                <!-- CHAPTER 2 URDU -->
+                <div class="chapter-block hidden-chapter" data-chapter="2">
+                    <h2 class="chapter-title">باب 2: ان کہا بندھن</h2>
+                    <p>جب ہارون پندرہ سال کی عمر کو پہنچا، تو اس کے بچپن کی خاموش سادگی مکمل طور پر ختم ہو چکی تھی۔ پندرہ سال ایک عجیب، عبوری دہلیز تھی—ایک ایسی عمر جہاں ایک لڑکا دنیا کو کھیل اور تعلیمی مقابلے کے معصوم نظریے سے نہیں، بلکہ بڑے ہونے کے ایک بوجھل اور خود آگاہانہ شعور کے ساتھ دیکھنا شروع کرتا ہے۔ مایا اس کی یادوں کے پس منظر میں دھندلی نہیں ہوئی تھی؛ بلکہ اس نے اس کی روح کے بالکل مرکز میں اپنا ڈیرہ جما لیا تھا۔</p>
+                    <p>ایک قدرتی طور پر خاموش اور گہرے کم گو نوجوان ہونے کے ناطے، ہارون کے پاس اپنے اندر اٹھنے والے طوفان کو باہر نکالنے کا کوئی ذریعہ نہ تھا۔ کئی شاموں کو، جب گھر کے تمام لوگ سو جاتے اور باہر گلی میں سناٹا چھا جاتا، ہارون اپنی پڑھائی کی میز کا رخ کرتا اور شیشے کے سامنے کھڑے ہو کر اپنے ہی وجود سے سوالات کرتا۔</p>
+
+                    <!-- ADD YOUR ADDITIONAL CHAPTER 2 URDU PARAGRAPHS HERE -->
+                    <p><em>[باب 2 کا بقایا اردو متن یہاں شامل کریں...]</em></p>
+                </div>
+            </section>
+
+        </article>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-notification">Bookmark Saved!</div>
+
+    <footer>
+        &copy; 2026 The Untold Story of HM. Written by M.Haroon.
+    </footer>
+
+    <!-- Interactive Script -->
     <script>
-        // Target Date: 12:00 AM on September 21, 2026 PST (-07:00 Daylight Savings)
-        // If you mean Pakistan Standard Time (PKT), change '-07:00' to '+05:00'
-        const targetDate = new Date('2026-09-21T00:00:00-07:00').getTime();
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnBoth = document.getElementById('btn-both');
+            const btnEnglish = document.getElementById('btn-english');
+            const btnUrdu = document.getElementById('btn-urdu');
+            
+            const btnChap1 = document.getElementById('btn-chap-1');
+            const btnChap2 = document.getElementById('btn-chap-2');
 
-        // Switch Chapter View
-        function switchChapter(num) {
-            const btns = document.querySelectorAll('.chapter-btn');
-            btns.forEach((btn, idx) => {
-                btn.classList.toggle('active', idx === (num - 1));
-            });
+            const englishSection = document.getElementById('english-content');
+            const urduSection = document.getElementById('urdu-content');
+            const sectionDivider = document.getElementById('section-divider');
 
-            document.getElementById('chapter-1').style.display = (num === 1) ? 'block' : 'none';
-            document.getElementById('chapter-2').style.display = (num === 2) ? 'block' : 'none';
-        }
+            const btnSaveBookmark = document.getElementById('btn-save-bookmark');
+            const btnResumeBookmark = document.getElementById('btn-resume-bookmark');
+            const toast = document.getElementById('toast');
 
-        // Countdown Timer Logic
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+            let activeParagraph = null;
 
-            const timerBox = document.getElementById('timer-box');
-            const ch2Content = document.getElementById('chapter-2-content');
-
-            if (distance <= 0) {
-                if (timerBox) timerBox.style.display = 'none';
-                if (ch2Content) ch2Content.style.display = 'block';
-                return;
+            // 1. Language Switcher Logic
+            function setLanguage(mode) {
+                document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+                
+                if (mode === 'both') {
+                    btnBoth.classList.add('active');
+                    englishSection.classList.remove('hidden-section');
+                    urduSection.classList.remove('hidden-section');
+                    sectionDivider.classList.remove('hidden-section');
+                } else if (mode === 'english') {
+                    btnEnglish.classList.add('active');
+                    englishSection.classList.remove('hidden-section');
+                    urduSection.classList.add('hidden-section');
+                    sectionDivider.classList.add('hidden-section');
+                } else if (mode === 'urdu') {
+                    btnUrdu.classList.add('active');
+                    englishSection.classList.add('hidden-section');
+                    urduSection.classList.remove('hidden-section');
+                    sectionDivider.classList.add('hidden-section');
+                }
             }
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            btnBoth.addEventListener('click', () => setLanguage('both'));
+            btnEnglish.addEventListener('click', () => setLanguage('english'));
+            btnUrdu.addEventListener('click', () => setLanguage('urdu'));
 
-            document.getElementById('days').innerText = String(days).padStart(2, '0');
-            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
-        }
+            // 2. Chapter Switcher Logic
+            function setChapter(chapNum) {
+                document.querySelectorAll('.chap-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.chapter-block').forEach(block => block.classList.add('hidden-chapter'));
 
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+                const targetBtn = document.querySelector(`.chap-btn[data-chapter="${chapNum}"]`);
+                if (targetBtn) targetBtn.classList.add('active');
+
+                const targetBlocks = document.querySelectorAll(`.chapter-block[data-chapter="${chapNum}"]`);
+                targetBlocks.forEach(block => block.classList.remove('hidden-chapter'));
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            btnChap1.addEventListener('click', () => setChapter('1'));
+            btnChap2.addEventListener('click', () => setChapter('2'));
+
+            // 3. Paragraph Selection & Bookmark Logic
+            document.querySelectorAll('.story-content p').forEach((p, index) => {
+                p.dataset.paraIndex = index;
+                p.addEventListener('click', () => {
+                    document.querySelectorAll('.story-content p').forEach(el => el.classList.remove('bookmarked-para'));
+                    p.classList.add('bookmarked-para');
+                    activeParagraph = p;
+                    showToast('Paragraph selected! Click Bookmark to save.');
+                });
+            });
+
+            btnSaveBookmark.addEventListener('click', () => {
+                if (!activeParagraph) {
+                    showToast('Please click on a paragraph first!');
+                    return;
+                }
+                const pIndex = activeParagraph.dataset.paraIndex;
+                const activeChap = document.querySelector('.chap-btn.active')?.dataset.chapter || '1';
+                
+                localStorage.setItem('hm_story_bookmark_index', pIndex);
+                localStorage.setItem('hm_story_bookmark_chap', activeChap);
+                
+                checkSavedBookmark();
+                showToast(`Bookmark saved for Chapter ${activeChap}!`);
+            });
+
+            btnResumeBookmark.addEventListener('click', () => {
+                const savedIndex = localStorage.getItem('hm_story_bookmark_index');
+                const savedChap = localStorage.getItem('hm_story_bookmark_chap');
+
+                if (savedIndex !== null) {
+                    if (savedChap) setChapter(savedChap);
+                    
+                    const targetPara = document.querySelector(`[data-para-index="${savedIndex}"]`);
+                    if (targetPara) {
+                        document.querySelectorAll('.story-content p').forEach(el => el.classList.remove('bookmarked-para'));
+                        targetPara.classList.add('bookmarked-para');
+                        targetPara.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        showToast('Resumed to your saved bookmark!');
+                    }
+                }
+            });
+
+            function checkSavedBookmark() {
+                if (localStorage.getItem('hm_story_bookmark_index') !== null) {
+                    btnResumeBookmark.style.display = 'inline-flex';
+                }
+            }
+
+            function showToast(msg) {
+                toast.textContent = msg;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            }
+
+            checkSavedBookmark();
+        });
     </script>
 </body>
 </html>
