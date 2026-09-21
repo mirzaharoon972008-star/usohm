@@ -116,7 +116,7 @@
             justify-content: center;
             gap: 10px;
             width: 92%;
-            max-width: 820px;
+            max-width: 880px;
         }
 
         .control-group {
@@ -131,7 +131,7 @@
             gap: 6px;
         }
 
-        .lang-btn, .action-btn {
+        .lang-btn, .chap-btn, .action-btn {
             background: transparent;
             border: none;
             color: var(--text-secondary);
@@ -149,12 +149,12 @@
             user-select: none;
         }
 
-        .lang-btn:hover, .action-btn:hover {
+        .lang-btn:hover, .chap-btn:hover, .action-btn:hover {
             color: #ffffff;
             background: rgba(255, 255, 255, 0.08);
         }
 
-        .lang-btn.active {
+        .lang-btn.active, .chap-btn.active {
             background: var(--accent-gold);
             color: #0f141d;
             box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
@@ -252,6 +252,29 @@
             border: 1px solid rgba(212, 175, 55, 0.25);
         }
 
+        .chapter-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .urdu-section .chapter-title {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 2.2rem;
+            line-height: 1.8;
+        }
+
+        .chapter-block {
+            transition: opacity 0.3s ease;
+        }
+
+        .chapter-block.hidden-chapter {
+            display: none !important;
+        }
+
         .story-content {
             transition: opacity 0.4s ease, max-height 0.5s ease;
             opacity: 1;
@@ -345,128 +368,6 @@
             opacity: 1;
         }
 
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: var(--modal-overlay);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-card {
-            background: #151c27;
-            border: 1px solid var(--accent-gold);
-            border-radius: 16px;
-            width: 100%;
-            max-width: 480px;
-            padding: 32px 28px 28px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.15);
-            transform: scale(0.9) translateY(15px);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            text-align: center;
-        }
-
-        .modal-overlay.active .modal-card {
-            transform: scale(1) translateY(0);
-        }
-
-        .modal-icon-badge {
-            width: 54px;
-            height: 54px;
-            background: rgba(212, 175, 55, 0.12);
-            border: 1px solid var(--accent-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            color: var(--accent-gold);
-            font-size: 1.5rem;
-        }
-
-        .modal-title {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .modal-body {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.98rem;
-            color: var(--text-primary);
-            line-height: 1.6;
-            background: rgba(15, 20, 29, 0.6);
-            padding: 16px;
-            border-radius: 10px;
-            border-left: 3px solid var(--accent-gold);
-            text-align: left;
-            margin-bottom: 24px;
-        }
-
-        .modal-close-btn {
-            background: linear-gradient(135deg, #d4af37 0%, #aa8522 100%);
-            color: #0f141d;
-            border: none;
-            padding: 12px 32px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 700;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-            outline: none;
-            width: 100%;
-        }
-
-        .modal-close-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.45);
-            background: linear-gradient(135deg, #e5be48 0%, #be962d 100%);
-        }
-
-        .modal-close-btn:active {
-            transform: translateY(0);
-        }
-
-        .modal-corner-x {
-            position: absolute;
-            top: 16px;
-            right: 18px;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.4rem;
-            cursor: pointer;
-            transition: color 0.2s ease;
-            line-height: 1;
-        }
-
-        .modal-corner-x:hover {
-            color: #ffffff;
-        }
-
         footer {
             text-align: center;
             padding: 30px 20px;
@@ -493,9 +394,9 @@
                 border-radius: 12px;
             }
 
-            .lang-btn, .action-btn {
-                padding: 7px 14px;
-                font-size: 0.82rem;
+            .lang-btn, .chap-btn, .action-btn {
+                padding: 7px 12px;
+                font-size: 0.8rem;
             }
 
             .urdu-section p {
@@ -506,38 +407,7 @@
             .english-section p {
                 font-size: 1rem;
             }
-
-            .modal-card {
-                padding: 24px 20px 20px;
-            }
         }
-        .tbc-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    background-color: #fbd000; /* Classic yellow/gold background */
-    color: #000000;
-    padding: 10px 20px;
-    font-family: "Impact", "Arial Black", sans-serif;
-    font-size: 1.1rem;
-    font-style: italic;
-    letter-spacing: 1px;
-    text-decoration: none;
-    border: 3px solid #000000;
-    box-shadow: 4px 4px 0px #000000;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .tbc-tag:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px #000000;
-  }
-
-  .tbc-arrow {
-    font-style: normal;
-    font-size: 1.3rem;
-    line-height: 1;
-  }
     </style>
 </head>
 <body>
@@ -553,6 +423,17 @@
 
     <!-- Interactive Controls Bar -->
     <div class="controls-wrapper">
+        <!-- Chapter Selector -->
+        <div class="control-group" role="radiogroup" aria-label="Chapter Selector">
+            <button type="button" class="chap-btn active" data-chapter="1" id="btn-chap-1">
+                <span>📖</span> Chp 1
+            </button>
+            <button type="button" class="chap-btn" data-chapter="2" id="btn-chap-2">
+                <span>📖</span> Chp 2
+            </button>
+        </div>
+
+        <!-- Language Selector -->
         <div class="control-group" role="radiogroup" aria-label="Language Mode Selector">
             <button type="button" class="lang-btn active" data-lang="both" role="radio" aria-checked="true" id="btn-both">
                 <span>🌐</span> Both
@@ -561,13 +442,13 @@
                 <span>🇬🇧</span> English
             </button>
             <button type="button" class="lang-btn" data-lang="urdu" role="radio" aria-checked="false" id="btn-urdu">
-                <span>🇵🇰</span> اردو (Urdu)
+                <span>🇵🇰</span> اردو
             </button>
         </div>
 
         <!-- Bookmark Controls -->
         <div class="control-group">
-            <button type="button" class="action-btn" id="btn-save-bookmark" title="Bookmark current reading view">
+            <button type="button" class="action-btn" id="btn-save-bookmark" title="Bookmark clicked paragraph">
                 <span>📌</span> Bookmark
             </button>
             <button type="button" class="action-btn highlight" id="btn-resume-bookmark" style="display: none;" title="Resume reading from last saved bookmark">
@@ -585,8 +466,8 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                     English Version
                 </span>
-                
-                <p>Before the world became complex, before heartbreaks had names, life was simple. It was measured strictly in percentages, blue ink on crisp white answer sheets, and the quiet satisfaction of a teacher’s handwriting at the top of a page: <em>1st Position.</em></p>
+<div class="chapter-block" data-chapter="1">
+                  <p>Before the world became complex, before heartbreaks had names, life was simple. It was measured strictly in percentages, blue ink on crisp white answer sheets, and the quiet satisfaction of a teacher’s handwriting at the top of a page: <em>1st Position.</em></p>
                 <p>At nine years old, Haroon did not understand love, nor did he have any desire to. Girls were background noise in the school corridors—distant, irrelevant chatter that existed outside the boundary of his world. His world was built on logic, discipline, and order. While other children spent their breaks running wildly across the dusty courtyard or gossiping under the shade of the tall neem trees, Haroon was busy calculating marks, anticipating exam questions, and reinforcing the walls of his own little kingdom.</p>
                 <p>From 2nd class all the way through 5th class, Haroon's dominance was undisputed. Every academic year ended the exact same way. On result day, while parents shifted nervously in their seats and classmates chewed on the ends of their wooden pencils, Haroon stood near the front with complete calm. When the principal called out the top rank, it was always Haroon's name that echoed through the hall.</p>
                 <p>Being first wasn't just a habit; it was Haroon's identity. It was proof that if a person controlled their focus, they controlled their fate. Haroon believed that life was an equation: <em>Effort in, victory out.</em> Nothing could slip past his defense.</p>
@@ -696,6 +577,15 @@
                 <p class="no-indent">Reconnecting, however, was far from simple. The easy, carefree late-night conversations of their past were gone, replaced by a tense, high-stakes reality where a single mistake could bring total ruin. Every word had to be measured, every message sent with extreme caution, and every connection made under the constant shadow of discovery.</p>
                 <p>They spoke in brief, urgent bursts, piecing their bond back together thread by thread. It was exhausting, terrifying, and fraught with difficulty, but neither of them cared. Standing on broken ground, surrounded by strict boundaries, Haroon and Maya realized that their love was no longer just a sweet dream—it was a battle fought through patience and quiet resistance.</p>
                 <p class="no-indent">As Haroon lay back on his bed late that night, listening to the quiet night air, he knew the road ahead would be treacherous. The three-month silence had proven that distance and authority could not sever what had been written in his prayers. They were reconnected, fragile yet unbroken, ready to face whatever storm the world decided to throw at them next.</p>
+</div>
+                <!-- CHAPTER 2 ENGLISH -->
+                <div class="chapter-block hidden-chapter" data-chapter="2">
+                    <h2 class="chapter-title">Chapter 2 is being written and will be uploaded at 9:00PM 21/92026</h2>
+                   <p>I appreciate your patience.</p>
+                    <!-- ADD YOUR ADDITIONAL CHAPTER 2 ENGLISH PARAGRAPHS HERE -->
+                    <p><em>Chapter 2 will be longer than chapter 1 because It will be the mixture of Chapter 2 and 3.</em></p>
+                </div>
+
             </section>
 
             <div id="section-divider" class="divider">
@@ -709,8 +599,10 @@
                     اردو ترجمہ
                 </span>
                 <div style="clear: both;"></div>
-                <article class="urdu-text">
-                    <p>اس سے پہلے کہ دنیا پیچیدہ ہوتی، اس سے پہلے کہ دل ٹوٹنے کے غم کا کوئی نام ہوتا، زندگی سادہ تھی۔ یہ محض فیصد، صاف شفاف سفید جوابی کاپیوں پر نیلی روشنائی، اور صفحے کے سب سے اوپر استاد کی تحریر سے ملنے والے پرسکون اطمینان تک محدود تھی: <strong>پہلی پوزیشن</strong>۔</p>
+
+                <!-- CHAPTER 1 URDU -->
+                <div class="chapter-block" data-chapter="1">
+                      <p>اس سے پہلے کہ دنیا پیچیدہ ہوتی، اس سے پہلے کہ دل ٹوٹنے کے غم کا کوئی نام ہوتا، زندگی سادہ تھی۔ یہ محض فیصد، صاف شفاف سفید جوابی کاپیوں پر نیلی روشنائی، اور صفحے کے سب سے اوپر استاد کی تحریر سے ملنے والے پرسکون اطمینان تک محدود تھی: <strong>پہلی پوزیشن</strong>۔</p>
                     <p>نو سال کی عمر میں، ہارون نہ تو محبت کو سمجھتا تھا اور نہ ہی اسے ایسا کرنے کی کوئی تمنا تھی۔ اسکول کی راہداریوں میں لڑکیاں اس کے لیے محض ایک پس منظر کا شور تھیں—ایک دور اور غیر متعلقہ چہ مگوئیاں جو اس کی دنیا کی حدود سے باہر تھیں۔ اس کی دنیا منطق، نظم و ضبط اور ترتیب پر قائم تھی۔ جبکہ دوسرے بچے اپنے وقتاً فوقتاً وقفے کا وقت دھول بھرے صحن میں بے تحاشا بھاگتے ہوئے یا اونچے نیم کے درختوں کی چھاؤں تلے باتیں کرتے ہوئے گزارتے، ہارون اپنے نمبروں کا حساب لگانے، امتحانی سوالات کا اندازہ لگانے، اور اپنی چھوٹی سی سلطنت کی دیواروں کو مضبوط کرنے میں مصروف رہتا تھا۔</p>
                     <p>دوسری جماعت سے لے کر پانچویں جماعت تک، ہارون کا تسلط بے مثال اور ناقابلِ تردید رہا۔ ہر تعلیمی سال کا اختتام بالکل ایک ہی طرح ہوتا تھا۔ نتائج والے دن، جب والدین اپنی نشستوں پر بے چینی سے کروٹیں بدلتے اور جماعت کے ساتھی اپنی لکڑی کی پنسلوں کے کونے چباتے، ہارون مکمل پرسکون انداز میں سب سے آگے کھڑا ہوتا۔ جب پرنسپل پہلی پوزیشن کا اعلان کرتے، تو ہمیشہ ہارون ہی کا نام ہال میں گونجتا تھا۔</p>
                     <p>پہلے نمبر پر آنا صرف ایک عادت نہیں تھی؛ یہ ہارون کی شناخت بن چکی تھی۔ یہ اس بات کا ثبوت تھا کہ اگر انسان اپنی توجہ پر قابو پا لے، تو وہ اپنی تقدیر پر بھی قابو پا سکتا ہے۔ ہارون کا ماننا تھا کہ زندگی ایک مساوات کی طرح ہے: <strong>محنت ان پٹ، اور فتح آؤٹ پٹ</strong>۔ اس کی دفاعی دیوار سے گزر کر کوئی چیز اس سے جیت نہیں چھین سکتی تھی۔</p>
@@ -830,233 +722,146 @@
                     <p class="no-indent">تاہم، دوبارہ رابطہ قائم کرنا اتنا آسان نہیں تھا۔ ماضی کی وہ بے فکر اور آرام دہ دیر رات کی گفتگو ختم ہو چکی تھی، اور اس کی جگہ ایک ایسی کشیدہ اور حساس حقیقت نے لے لی تھی جہاں ایک چھوٹی سی غلطی بھی مکمل تباہی لا سکتی تھی۔ ہر لفظ تول کر بولنا پڑتا تھا، ہر پیغام انتہائی احتیاط کے ساتھ بھیجا جاتا تھا، اور ہر رابطہ افشا ہونے کے مسلسل خوف کے سائے میں ہوتا تھا۔</p>
                     <p>وہ مختصر اور ہنگامی پیغامات کے ذریعے بات کرتے، اپنے رشتے کو دھاگے در دھاگے دوبارہ جوڑتے ہوئے۔ یہ تھکا دینے والا، خوفناک اور مشکلات سے بھرا تھا، لیکن ان میں سے کسی کو اس کی پروا نہ تھی۔ بکھری ہوئی زمین پر کھڑے، سخت حد بندیوں میں گھِرے، ہارون اور مایا کو یہ اندازہ ہو گیا کہ ان کی محبت اب صرف ایک خوبصورت خواب نہیں رہی—بلکہ یہ صبر اور خاموش مزاحمت کے ذریعے لڑی جانے والی ایک جنگ بن چکی ہے۔</p>
                     <p>اس رات گئے جب ہارون اپنے بستر پر لیٹا رات کی خاموش ہوا کو سن رہا تھا، تو وہ جانتا تھا کہ آگے کا راستہ خطرات سے بھرا ہو گا۔ تین مہینوں کی اس خاموشی نے یہ ثابت کر دیا تھا کہ فاصلے اور بڑوں کی پابندیاں اس رشتے کو نہیں توڑ سکتیں جو ان کی دعاؤں میں لکھا جا چکا تھا۔ وہ دوبارہ جڑ چکے تھے—نازک لیکن غیر متزلزل—دنیا کی طرف سے آنے والے کسی بھی نئے طوفان کا سامنا کرنے کے لیے تیار۔</p>
-                </article>
+                </div>
+
+                <!-- CHAPTER 2 URDU -->
+                <div class="chapter-block hidden-chapter" data-chapter="2">
+                    <h2 class="chapter-title">دوسرا باب لکھا جا رہا ہے اور اسے 21 ستمبر 2026 کو رات 9 بجے اپ لوڈ کیا جائے گا۔</h2>
+                  <p><p>
+                    <!-- ADD YOUR ADDITIONAL CHAPTER 2 URDU PARAGRAPHS HERE -->
+                    <p><em>دوسرا باب پہلے باب کی نسبت طویل ہوگا کیونکہ یہ دوسرے اور تیسرے باب کا مجموعہ ہوگا۔</em></p>
+                </div>
             </section>
- <a class="tbc-tag">
-    <span class="tbc-text">TO BE CONTINUED - Chp: 2 will be added soon.</span><br>
-    <span class="tbc-arrow">➔</span>
-  </a>
+
         </article>
     </main>
 
     <!-- Toast Notification -->
-    <div id="toast-notification" class="toast-notification">
-        📌 Bookmark saved!
-    </div>
-
-    <!-- Translation Disclaimer Modal Popup -->
-    <div id="disclaimer-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
-        <div class="modal-card">
-            <button class="modal-corner-x" id="modal-x-btn" aria-label="Close modal">&times;</button>
-            <div class="modal-icon-badge">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            </div>
-            <h3 class="modal-title" id="modal-title-text">Translation Notice</h3>
-            <div class="modal-body">
-                <p style="margin-bottom: 12px; font-family: 'Inter', sans-serif;">
-                    <strong>Note:</strong> Story was written in english and translated to urdu by translater, so errors are expected.
-                </p>
-                <div style="border-top: 1px dashed var(--border-color); margin: 12px 0;"></div>
-                <p style="direction: rtl; text-align: right; font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.15rem; line-height: 2.2; color: #f8fafc;">
-                    <strong>نوٹ:</strong> یہ کہانی اصل میں انگریزی میں لکھی گئی تھی اور مترجم کے ذریعے اردو میں ترجمہ کی گئی ہے، اس لیے غلطیوں کا امکان ہے۔
-                </p>
-            </div>
-            <button id="modal-ok-btn" class="modal-close-btn">I Understand / ٹھیک ہے</button>
-        </div>
-    </div>
+    <div id="toast" class="toast-notification">Bookmark Saved!</div>
 
     <footer>
-        <p>&copy; 2026 The Untold Story of HM. All Rights Reserved.</p>
+        &copy; 2026 The Untold Story of HM. Written by M.Haroon.
     </footer>
 
+    <!-- Interactive Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // DOM Elements
-            const englishContent = document.getElementById('english-content');
-            const urduContent = document.getElementById('urdu-content');
-            const sectionDivider = document.getElementById('section-divider');
-            
             const btnBoth = document.getElementById('btn-both');
             const btnEnglish = document.getElementById('btn-english');
             const btnUrdu = document.getElementById('btn-urdu');
-            const langButtons = [btnBoth, btnEnglish, btnUrdu];
+            
+            const btnChap1 = document.getElementById('btn-chap-1');
+            const btnChap2 = document.getElementById('btn-chap-2');
+
+            const englishSection = document.getElementById('english-content');
+            const urduSection = document.getElementById('urdu-content');
+            const sectionDivider = document.getElementById('section-divider');
 
             const btnSaveBookmark = document.getElementById('btn-save-bookmark');
             const btnResumeBookmark = document.getElementById('btn-resume-bookmark');
-            const toastNotification = document.getElementById('toast-notification');
+            const toast = document.getElementById('toast');
 
-            const modal = document.getElementById('disclaimer-modal');
-            const modalOkBtn = document.getElementById('modal-ok-btn');
-            const modalXBtn = document.getElementById('modal-x-btn');
+            let activeParagraph = null;
 
-            let currentLanguage = 'both';
-            const BOOKMARK_STORAGE_KEY = 'hm_story_bookmark_data';
-
-            // Index all paragraphs with unique IDs
-            const allParagraphs = document.querySelectorAll('.story-content p');
-            allParagraphs.forEach((p, idx) => {
-                p.id = `story-p-${idx}`;
-            });
-
-            const showToast = (message) => {
-                toastNotification.textContent = message;
-                toastNotification.classList.add('show');
-                setTimeout(() => {
-                    toastNotification.classList.remove('show');
-                }, 3000);
-            };
-
-            const showModal = () => {
-                modal.classList.add('active');
-                modalOkBtn.focus();
-            };
-
-            const hideModal = () => {
-                modal.classList.remove('active');
-            };
-
-            // Event listeners for closing modal
-            modalOkBtn.addEventListener('click', hideModal);
-            modalXBtn.addEventListener('click', hideModal);
-            
-            modal.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    hideModal();
-                }
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modal.classList.contains('active')) {
-                    hideModal();
-                }
-            });
-
-            const setLanguage = (lang, triggerModal = false) => {
-                langButtons.forEach(btn => {
-                    const isTarget = btn.getAttribute('data-lang') === lang;
-                    btn.classList.toggle('active', isTarget);
-                    btn.setAttribute('aria-checked', isTarget ? 'true' : 'false');
-                });
-
-                if (lang === 'english') {
-                    englishContent.classList.remove('hidden-section');
-                    urduContent.classList.add('hidden-section');
-                    sectionDivider.classList.add('hidden-section');
-                } else if (lang === 'urdu') {
-                    englishContent.classList.add('hidden-section');
-                    urduContent.classList.remove('hidden-section');
-                    sectionDivider.classList.add('hidden-section');
-                } else {
-                    englishContent.classList.remove('hidden-section');
-                    urduContent.classList.remove('hidden-section');
-                    sectionDivider.classList.remove('hidden-section');
-                }
-
-                currentLanguage = lang;
-
-                if ((lang === 'urdu' || lang === 'both') && triggerModal) {
-                    showModal();
-                }
-            };
-
-            btnBoth.addEventListener('click', () => {
-                const wasNotUrduActive = currentLanguage === 'english';
-                setLanguage('both', wasNotUrduActive);
-            });
-
-            btnEnglish.addEventListener('click', () => {
-                setLanguage('english', false);
-            });
-
-            btnUrdu.addEventListener('click', () => {
-                setLanguage('urdu', true);
-            });
-
-            // Highlight paragraph visually
-            const highlightBookmark = (paraId) => {
-                allParagraphs.forEach(p => p.classList.remove('bookmarked-para'));
-                const targetPara = document.getElementById(paraId);
-                if (targetPara) {
-                    targetPara.classList.add('bookmarked-para');
-                }
-            };
-
-            // Save Bookmark Logic
-            const saveBookmark = (targetElement = null) => {
-                let chosenPara = targetElement;
-
-                // If no direct click, find visible paragraph closest to top of screen
-                if (!chosenPara) {
-                    const visibleParas = Array.from(document.querySelectorAll('.story-content:not(.hidden-section) p'));
-                    let closestDist = Infinity;
-
-                    visibleParas.forEach(p => {
-                        const rect = p.getBoundingClientRect();
-                        const dist = Math.abs(rect.top - 150); // distance relative to top reading zone
-                        if (dist < closestDist) {
-                            closestDist = dist;
-                            chosenPara = p;
-                        }
-                    });
-                }
-
-                if (chosenPara && chosenPara.id) {
-                    const bookmarkPayload = {
-                        paraId: chosenPara.id,
-                        lang: currentLanguage,
-                        timestamp: new Date().toISOString()
-                    };
-                    localStorage.setItem(BOOKMARK_STORAGE_KEY, JSON.stringify(bookmarkPayload));
-                    highlightBookmark(chosenPara.id);
-                    btnResumeBookmark.style.display = 'flex';
-                    showToast('📌 Reading position bookmarked!');
-                }
-            };
-
-            // Resume Reading Logic
-            const resumeBookmark = () => {
-                const savedData = localStorage.getItem(BOOKMARK_STORAGE_KEY);
-                if (!savedData) return;
-
-                const { paraId, lang } = JSON.parse(savedData);
+            // 1. Language Switcher Logic
+            function setLanguage(mode) {
+                document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
                 
-                // Ensure language section is visible
-                if (lang && lang !== currentLanguage) {
-                    setLanguage(lang, false);
+                if (mode === 'both') {
+                    btnBoth.classList.add('active');
+                    englishSection.classList.remove('hidden-section');
+                    urduSection.classList.remove('hidden-section');
+                    sectionDivider.classList.remove('hidden-section');
+                } else if (mode === 'english') {
+                    btnEnglish.classList.add('active');
+                    englishSection.classList.remove('hidden-section');
+                    urduSection.classList.add('hidden-section');
+                    sectionDivider.classList.add('hidden-section');
+                } else if (mode === 'urdu') {
+                    btnUrdu.classList.add('active');
+                    englishSection.classList.add('hidden-section');
+                    urduSection.classList.remove('hidden-section');
+                    sectionDivider.classList.add('hidden-section');
                 }
+            }
 
-                setTimeout(() => {
-                    const targetPara = document.getElementById(paraId);
-                    if (targetPara) {
-                        highlightBookmark(paraId);
-                        targetPara.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        showToast('📖 Resumed reading!');
-                    }
-                }, 100);
-            };
+            btnBoth.addEventListener('click', () => setLanguage('both'));
+            btnEnglish.addEventListener('click', () => setLanguage('english'));
+            btnUrdu.addEventListener('click', () => setLanguage('urdu'));
 
-            // Check if bookmark exists on load
-            const initBookmarkState = () => {
-                const savedData = localStorage.getItem(BOOKMARK_STORAGE_KEY);
-                if (savedData) {
-                    const { paraId } = JSON.parse(savedData);
-                    btnResumeBookmark.style.display = 'flex';
-                    highlightBookmark(paraId);
-                }
-            };
+            // 2. Chapter Switcher Logic
+            function setChapter(chapNum) {
+                document.querySelectorAll('.chap-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.chapter-block').forEach(block => block.classList.add('hidden-chapter'));
 
-            // Event Listeners for Bookmark Controls
-            btnSaveBookmark.addEventListener('click', () => saveBookmark());
-            btnResumeBookmark.addEventListener('click', resumeBookmark);
+                const targetBtn = document.querySelector(`.chap-btn[data-chapter="${chapNum}"]`);
+                if (targetBtn) targetBtn.classList.add('active');
 
-            // Allow clicking any paragraph directly to bookmark it
-            allParagraphs.forEach(p => {
-                p.addEventListener('click', (e) => {
-                    saveBookmark(e.currentTarget);
+                const targetBlocks = document.querySelectorAll(`.chapter-block[data-chapter="${chapNum}"]`);
+                targetBlocks.forEach(block => block.classList.remove('hidden-chapter'));
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            btnChap1.addEventListener('click', () => setChapter('1'));
+            btnChap2.addEventListener('click', () => setChapter('2'));
+
+            // 3. Paragraph Selection & Bookmark Logic
+            document.querySelectorAll('.story-content p').forEach((p, index) => {
+                p.dataset.paraIndex = index;
+                p.addEventListener('click', () => {
+                    document.querySelectorAll('.story-content p').forEach(el => el.classList.remove('bookmarked-para'));
+                    p.classList.add('bookmarked-para');
+                    activeParagraph = p;
+                    showToast('Paragraph selected! Click Bookmark to save.');
                 });
             });
 
-            initBookmarkState();
+            btnSaveBookmark.addEventListener('click', () => {
+                if (!activeParagraph) {
+                    showToast('Please click on a paragraph first!');
+                    return;
+                }
+                const pIndex = activeParagraph.dataset.paraIndex;
+                const activeChap = document.querySelector('.chap-btn.active')?.dataset.chapter || '1';
+                
+                localStorage.setItem('hm_story_bookmark_index', pIndex);
+                localStorage.setItem('hm_story_bookmark_chap', activeChap);
+                
+                checkSavedBookmark();
+                showToast(`Bookmark saved for Chapter ${activeChap}!`);
+            });
+
+            btnResumeBookmark.addEventListener('click', () => {
+                const savedIndex = localStorage.getItem('hm_story_bookmark_index');
+                const savedChap = localStorage.getItem('hm_story_bookmark_chap');
+
+                if (savedIndex !== null) {
+                    if (savedChap) setChapter(savedChap);
+                    
+                    const targetPara = document.querySelector(`[data-para-index="${savedIndex}"]`);
+                    if (targetPara) {
+                        document.querySelectorAll('.story-content p').forEach(el => el.classList.remove('bookmarked-para'));
+                        targetPara.classList.add('bookmarked-para');
+                        targetPara.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        showToast('Resumed to your saved bookmark!');
+                    }
+                }
+            });
+
+            function checkSavedBookmark() {
+                if (localStorage.getItem('hm_story_bookmark_index') !== null) {
+                    btnResumeBookmark.style.display = 'inline-flex';
+                }
+            }
+
+            function showToast(msg) {
+                toast.textContent = msg;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            }
+
+            checkSavedBookmark();
         });
     </script>
 </body>
