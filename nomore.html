@@ -408,6 +408,53 @@
                 font-size: 1rem;
             }
         }
+        .popup-overlay {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+  }
+  .popup-box {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 420px;
+    width: 85%;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    font-family: sans-serif;
+  }
+  .popup-en {
+    font-size: 18px;
+    font-weight: bold;
+    color: #111111;
+    margin: 0 0 12px 0;
+  }
+  .popup-ur {
+    font-size: 20px;
+    font-weight: bold;
+    color: #111111;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+  }
+  .popup-btn {
+    background: #d9534f;
+    color: #ffffff;
+    border: none;
+    padding: 10px 24px;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .popup-btn:hover {
+    background: #c9302c;
+  }
     </style>
 </head>
 <body>
@@ -1227,7 +1274,13 @@
 
         </article>
     </main>
-
+<div id="storyDisclaimer" class="popup-overlay">
+  <div class="popup-box">
+    <p class="popup-en">This story is completely fabricated.</p>
+    <p class="popup-ur" dir="rtl" lang="ur">یہ کہانی مکمل طور پر من گھڑت ہے۔</p>
+    <button class="popup-btn" onclick="document.getElementById('storyDisclaimer').style.display='none'">OK / ٹھیک ہے</button>
+  </div>
+</div>
     <!-- Toast Notification -->
     <div id="toast" class="toast-notification">Bookmark Saved!</div>
 
