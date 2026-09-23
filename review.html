@@ -357,25 +357,18 @@
 
     // Firebase fallback mock config for testing in sandbox environments
    const firebaseConfig = {
-    apiKey: "AIzaSyC5-ibHpHYvBVt9PL6hKRqK6eznbWITgrA",
-    authDomain: "novel-7535a.firebaseapp.com",
-    projectId: "novel-7535a",
-    storageBucket: "novel-7535a.firebasestorage.app",
-    messagingSenderId: "731929347594",
-    appId: "1:731929347594:web:afbe42ebc9faff852b01f3",
-    measurementId: "G-T2WSPTZWS0"
-  };
+  apiKey: "AIzaSyC5-ibHpHYvBVt9PL6hKRqK6eznbWITgrA",
+  authDomain: "novel-7535a.firebaseapp.com",
+  projectId: "novel-7535a",
+  storageBucket: "novel-7535a.firebasestorage.app",
+  messagingSenderId: "731929347594",
+  appId: "1:731929347594:web:afbe42ebc9faff852b01f3",
+  measurementId: "G-T2WSPTZWS0"
+};
 
-    async function init() {
-      try {
-        const firebaseConfig = typeof __firebase_config !== 'undefined'
-          ? JSON.parse(__firebase_config)
-          : demoConfig;
-
-        const app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        auth = getAuth(app);
-
+  // Initialize Firebase and Firestore
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
         // Authenticate as required by Rule 3
         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
           try {
