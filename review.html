@@ -356,14 +356,15 @@
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'story-reviews-app';
 
     // Firebase fallback mock config for testing in sandbox environments
-    const demoConfig = {
-      apiKey: "AIzaSyDemoKeyForTestingOnly12345678",
-      authDomain: "demo-app.firebaseapp.com",
-      projectId: "demo-app",
-      storageBucket: "demo-app.appspot.com",
-      messagingSenderId: "123456789",
-      appId: "1:123456789:web:demo"
-    };
+   const firebaseConfig = {
+    apiKey: "AIzaSyC5-ibHpHYvBVt9PL6hKRqK6eznbWITgrA",
+    authDomain: "novel-7535a.firebaseapp.com",
+    projectId: "novel-7535a",
+    storageBucket: "novel-7535a.firebasestorage.app",
+    messagingSenderId: "731929347594",
+    appId: "1:731929347594:web:afbe42ebc9faff852b01f3",
+    measurementId: "G-T2WSPTZWS0"
+  };
 
     async function init() {
       try {
