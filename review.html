@@ -1,834 +1,369 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Story Reviews & Questions | کہانی کے جائزے اور سوالات</title>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts for English and Urdu (Noto Nastaliq Urdu & Inter) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            urdu: ['"Noto Nastaliq Urdu"', '"Noto Sans Arabic"', 'serif'],
-          },
-          colors: {
-            brand: {
-              50: '#f0f7ff',
-              100: '#e0effe',
-              500: '#2563eb',
-              600: '#1d4ed8',
-              700: '#1e40af',
-            }
-          }
-        }
-      }
-    }
-  </script>
-
+  <title>Story Reviews & Questions</title>
   <style>
-    /* Custom Urdu typography support */
-    .urdu-text {
-      font-family: 'Noto Nastaliq Urdu', 'Noto Sans Arabic', serif;
-      line-height: 2.2;
-      direction: rtl;
-    }
-    
-    .urdu-inline {
-      font-family: 'Noto Sans Arabic', 'Noto Nastaliq Urdu', serif;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* Star rating widget hover styles */
-    .star-btn {
-      transition: transform 0.15s ease, color 0.15s ease;
-    }
-    .star-btn:hover {
-      transform: scale(1.2);
+    body {
+      background-color: #f4f6f9;
+      color: #333;
+      padding: 20px;
     }
 
-    /* Smooth custom scrollbars */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
     }
 
-    /* Pulse highlight effect */
-    @keyframes highlightFade {
-      0% { background-color: rgba(254, 240, 138, 0.6); }
-      100% { background-color: transparent; }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
     }
-    .card-new {
-      animation: highlightFade 2.5s ease-out;
+
+    .header h1 {
+      font-size: 2rem;
+      color: #2c3e50;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #666;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #007bff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .submit-btn:disabled {
+      background-color: #94d3a2;
+      cursor: not-allowed;
+    }
+
+    .reviews-section-header {
+      font-size: 1.5rem;
+      color: #2c3e50;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 8px;
+    }
+
+    .review-card {
+      background: #ffffff;
+      padding: 18px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      margin-bottom: 15px;
+      border-left: 4px solid #007bff;
+    }
+
+    .review-card.question {
+      border-left-color: #ff9800;
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .user-name {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    .type-badge {
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .type-badge.review {
+      background-color: #e3f2fd;
+      color: #0d47a1;
+    }
+
+    .type-badge.question {
+      background-color: #fff3e0;
+      color: #e65100;
+    }
+
+    .rating-stars {
+      color: #ffc107;
+      margin-bottom: 8px;
+    }
+
+    .review-body {
+      color: #555;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .review-date {
+      font-size: 12px;
+      color: #888;
+      margin-top: 10px;
+      text-align: right;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: #888;
+      padding: 30px;
+    }
+
+    #statusMessage {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      display: none;
+      text-align: center;
+    }
+
+    .status-success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .status-error {
+      background-color: #f8d7da;
+      color: #721c24;
     }
   </style>
 </head>
-<body class="min-h-full flex flex-col text-slate-800 antialiased selection:bg-amber-200 selection:text-amber-900">
+<body>
 
-  <!-- Top Disclaimer Warning Banner -->
-  <div class="bg-amber-500 text-slate-950 font-medium px-4 py-3 shadow-md border-b border-amber-600/30">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 text-center md:text-left">
-      <div class="flex items-center gap-2">
-        <span class="inline-flex items-center justify-center bg-slate-950 text-amber-400 rounded-full w-6 h-6 text-xs font-bold shrink-0">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-        </span>
-        <span class="text-sm md:text-base font-semibold tracking-tight">
-          Disclaimer / تنبیہ: <span class="font-normal">This story is completely fabricated.</span>
-        </span>
-      </div>
-      <div class="urdu-inline text-base md:text-lg font-bold tracking-wide border-t md:border-t-0 border-amber-600/40 pt-1 md:pt-0" dir="rtl">
-        یہ کہانی مکمل طور پر من گھڑت ہے۔
-      </div>
+  <div class="container">
+    <div class="header">
+      <h1>Story Reviews & Questions</h1>
+      <p>Share your feedback or ask a question about the story</p>
+    </div>
+
+    <!-- Submission Form -->
+    <div class="card">
+      <form id="reviewForm">
+        <div class="form-group">
+          <label for="userName">Your Name</label>
+          <input type="text" id="userName" placeholder="Enter your name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="postType">Submission Type</label>
+          <select id="postType" onchange="toggleRatingField()">
+            <option value="review">Review</option>
+            <option value="question">Question</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="ratingGroup">
+          <label for="userRating">Rating</label>
+          <select id="userRating">
+            <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+            <option value="4">⭐⭐⭐⭐ (4/5)</option>
+            <option value="3">⭐⭐⭐ (3/5)</option>
+            <option value="2">⭐⭐ (2/5)</option>
+            <option value="1">⭐ (1/5)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="userMessage">Message</label>
+          <textarea id="userMessage" placeholder="Write your review or question here..." required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Submit</button>
+        <div id="statusMessage"></div>
+      </form>
+    </div>
+
+    <!-- Given Reviews Section -->
+    <h2 class="reviews-section-header">Given Reviews & Questions</h2>
+    <div id="reviewsList">
+      <div class="empty-state">Loading reviews...</div>
     </div>
   </div>
 
-  <!-- Header Navigation & Title Bar -->
-  <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-30 border-b border-slate-800">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div>
-        <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-          <i class="fa-solid fa-comments text-amber-400"></i>
-          <span>Story Reviews & Questions</span>
-        </h1>
-        <p class="urdu-inline text-slate-300 text-sm sm:text-base mt-0.5" dir="rtl">
-          کہانی کے جائزے اور سوالات
-        </p>
-      </div>
+  <!-- Firebase Compatibility SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-      <a href="index.html" class="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-sm font-medium transition border border-slate-700 shadow-sm active:scale-95">
-        <i class="fa-solid fa-arrow-left"></i>
-        <span>Back to Story / کہانی پر واپس جائیں</span>
-      </a>
-    </div>
-  </header>
+  <script>
+    // Your Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC5-ibHpHYvBVt9PL6hKRqK6eznbWITgrA",
+      authDomain: "novel-7535a.firebaseapp.com",
+      projectId: "novel-7535a",
+      storageBucket: "novel-7535a.firebasestorage.app",
+      messagingSenderId: "731929347594",
+      appId: "1:731929347594:web:afbe42ebc9faff852b01f3",
+      measurementId: "G-T2WSPTZWS0"
+    };
 
-  <!-- Main Content Container -->
-  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-8">
+    // Initialize Firebase & Firestore
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-    <!-- Summary Stats Bar -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-      <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Average Rating / اوسط ریٹنگ</p>
-          <div class="flex items-baseline gap-2 mt-1">
-            <span id="stat-avg-rating" class="text-3xl font-extrabold text-slate-900">0.0</span>
-            <div id="stat-stars" class="flex text-amber-400 text-sm">
-              <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
-            </div>
-          </div>
-        </div>
-        <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center text-amber-500 text-xl font-bold">
-          <i class="fa-solid fa-star"></i>
-        </div>
-      </div>
+    // Toggle rating field display based on selected type
+    function toggleRatingField() {
+      const type = document.getElementById('postType').value;
+      const ratingGroup = document.getElementById('ratingGroup');
+      ratingGroup.style.display = (type === 'question') ? 'none' : 'block';
+    }
 
-      <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Reviews / کل جائزے</p>
-          <p id="stat-total-reviews" class="text-3xl font-extrabold text-slate-900 mt-1">0</p>
-        </div>
-        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 text-xl font-bold">
-          <i class="fa-solid fa-rate-review"></i>
-        </div>
-      </div>
+    // Handle Form Submission
+    const reviewForm = document.getElementById('reviewForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusMessage = document.getElementById('statusMessage');
 
-      <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Questions Asked / سوالات</p>
-          <p id="stat-total-questions" class="text-3xl font-extrabold text-slate-900 mt-1">0</p>
-        </div>
-        <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 text-xl font-bold">
-          <i class="fa-solid fa-circle-question"></i>
-        </div>
-      </div>
-    </div>
+    reviewForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    <!-- Layout Grid: Left Form, Right List -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      const name = document.getElementById('userName').value.trim();
+      const type = document.getElementById('postType').value;
+      const rating = document.getElementById('userRating').value;
+      const message = document.getElementById('userMessage').value.trim();
 
-      <!-- LEFT COLUMN: Submission Form -->
-      <section class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200/90 shadow-md sticky top-24">
-        <div class="border-b border-slate-100 pb-4 mb-5">
-          <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <i class="fa-solid fa-pen-to-square text-blue-600"></i>
-            <span>Leave a Review or Question</span>
-          </h2>
-          <p class="urdu-inline text-slate-600 text-sm mt-1" dir="rtl">
-            اپنا جائزہ یا سوال ارسال کریں۔
-          </p>
-        </div>
+      if (!name || !message) return;
 
-        <form id="submission-form" class="space-y-5">
-          <!-- Submission Category Selector -->
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-              Select Type / قسم منتخب کریں <span class="text-rose-500">*</span>
-            </label>
-            <div class="grid grid-cols-2 gap-3">
-              <label class="cursor-pointer border-2 border-blue-600 bg-blue-50/50 rounded-xl p-3 flex flex-col items-center justify-center text-center transition hover:bg-blue-50 group" id="label-type-review">
-                <input type="radio" name="entryType" value="review" checked class="sr-only" id="radio-review">
-                <i class="fa-solid fa-star text-amber-500 text-lg mb-1 group-hover:scale-110 transition"></i>
-                <span class="text-sm font-semibold text-slate-900">Review / جائزہ</span>
-              </label>
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Submitting...';
 
-              <label class="cursor-pointer border-2 border-slate-200 rounded-xl p-3 flex flex-col items-center justify-center text-center transition hover:bg-slate-50 group" id="label-type-question">
-                <input type="radio" name="entryType" value="question" class="sr-only" id="radio-question">
-                <i class="fa-solid fa-circle-question text-emerald-600 text-lg mb-1 group-hover:scale-110 transition"></i>
-                <span class="text-sm font-semibold text-slate-900">Question / سوال</span>
-              </label>
-            </div>
-          </div>
+      try {
+        await db.collection('reviews').add({
+          name: name,
+          type: type,
+          rating: type === 'review' ? parseInt(rating) : null,
+          message: message,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
 
-          <!-- Name Input -->
-          <div>
-            <label for="user-name" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
-              Your Name / آپ کا نام <span class="text-rose-500">*</span>
-            </label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
-                <i class="fa-solid fa-user text-sm"></i>
-              </span>
-              <input type="text" id="user-name" required placeholder="e.g. Ali Raza / علی رضا" class="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
-            </div>
-          </div>
-
-          <!-- Star Rating (Shown when Review is selected) -->
-          <div id="star-rating-container" class="bg-amber-50/60 p-3.5 rounded-xl border border-amber-200/80">
-            <div class="flex items-center justify-between mb-2">
-              <label class="block text-xs font-bold uppercase tracking-wider text-amber-900">
-                Rating / درجہ بندی <span class="text-rose-500">*</span>
-              </label>
-              <span id="rating-label" class="text-xs font-semibold text-amber-700">5 Out of 5 Stars</span>
-            </div>
-            
-            <div class="flex items-center justify-center gap-2 py-1" id="star-buttons-wrapper">
-              <button type="button" data-star="1" class="star-btn text-2xl text-amber-400 focus:outline-none"><i class="fa-solid fa-star"></i></button>
-              <button type="button" data-star="2" class="star-btn text-2xl text-amber-400 focus:outline-none"><i class="fa-solid fa-star"></i></button>
-              <button type="button" data-star="3" class="star-btn text-2xl text-amber-400 focus:outline-none"><i class="fa-solid fa-star"></i></button>
-              <button type="button" data-star="4" class="star-btn text-2xl text-amber-400 focus:outline-none"><i class="fa-solid fa-star"></i></button>
-              <button type="button" data-star="5" class="star-btn text-2xl text-amber-400 focus:outline-none"><i class="fa-solid fa-star"></i></button>
-            </div>
-          </div>
-
-          <!-- Message Textarea -->
-          <div>
-            <div class="flex items-center justify-between mb-1">
-              <label for="user-message" class="block text-xs font-bold uppercase tracking-wider text-slate-700">
-                Message / پیغام <span class="text-rose-500">*</span>
-              </label>
-              <span class="text-xs text-slate-400" id="char-count">0 / 500</span>
-            </div>
-            <textarea id="user-message" rows="4" required maxlength="500" placeholder="Write your thoughts or question here in English or Urdu...&#10;یہاں انگریزی یا اردو میں اپنا سوال یا جائزہ لکھیے..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition leading-relaxed"></textarea>
-          </div>
-
-          <!-- Submit Button -->
-          <button type="submit" id="submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition active:scale-98 flex items-center justify-center gap-2 text-sm">
-            <i class="fa-solid fa-paper-plane"></i>
-            <span>Submit Entry / جواب دیں</span>
-          </button>
-        </form>
-      </section>
-
-      <!-- RIGHT COLUMN: Given Reviews & Questions Section -->
-      <section class="lg:col-span-7 space-y-6">
-
-        <!-- Controls Header: Tabs + Search -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm space-y-4">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <i class="fa-solid fa-list-check text-amber-500"></i>
-                <span>Given Reviews & Questions</span>
-              </h2>
-              <p class="urdu-inline text-slate-600 text-sm mt-0.5" dir="rtl">
-                عام جائزے اور سوالات
-              </p>
-            </div>
-
-            <!-- Sort dropdown -->
-            <div class="flex items-center gap-2">
-              <label for="sort-select" class="text-xs font-semibold text-slate-500 shrink-0">Sort / ترتیب:</label>
-              <select id="sort-select" class="bg-slate-50 border border-slate-300 text-slate-700 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium">
-                <option value="newest">Newest First / جدید ترین</option>
-                <option value="highest">Highest Rated / بہترین ریٹنگ</option>
-                <option value="helpful">Most Helpful / سب سے مفید</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Filter Pills & Search Input -->
-          <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2 border-t border-slate-100">
-            <!-- Filter Tabs -->
-            <div class="flex items-center bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600 self-start sm:self-auto">
-              <button type="button" data-filter="all" class="filter-tab px-3 py-1.5 rounded-lg bg-white text-blue-600 shadow-sm transition">
-                All / تمام (<span id="count-filter-all">0</span>)
-              </button>
-              <button type="button" data-filter="review" class="filter-tab px-3 py-1.5 rounded-lg hover:text-slate-900 transition">
-                Reviews (<span id="count-filter-reviews">0</span>)
-              </button>
-              <button type="button" data-filter="question" class="filter-tab px-3 py-1.5 rounded-lg hover:text-slate-900 transition">
-                Questions (<span id="count-filter-questions">0</span>)
-              </button>
-            </div>
-
-            <!-- Search Field -->
-            <div class="relative flex-1 max-w-xs">
-              <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400">
-                <i class="fa-solid fa-magnifying-glass text-xs"></i>
-              </span>
-              <input type="text" id="search-input" placeholder="Search / تلاش کریں..." class="w-full pl-8 pr-7 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
-              <button type="button" id="clear-search" class="hidden absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-slate-600 text-xs">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Reviews List Container -->
-        <div id="reviews-list" class="space-y-4">
-          <!-- Loading Spinner Placeholder -->
-          <div class="bg-white p-12 rounded-2xl border border-slate-200 text-center text-slate-500 shadow-sm">
-            <i class="fa-solid fa-circle-notch fa-spin text-3xl text-blue-600 mb-3"></i>
-            <p class="text-sm font-medium">Loading reviews and questions from database...</p>
-            <p class="urdu-inline text-xs text-slate-400 mt-1" dir="rtl">ڈیٹا بیس سے جائزے اور سوالات لوڈ کیے جا رہے ہیں...</p>
-          </div>
-        </div>
-
-      </section>
-
-    </div>
-  </main>
-
-  <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 ease-out pointer-events-none max-w-sm">
-    <div class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-700">
-      <div id="toast-icon" class="text-emerald-400 text-lg">
-        <i class="fa-solid fa-circle-check"></i>
-      </div>
-      <div id="toast-message" class="text-xs font-medium leading-relaxed">
-        Entry submitted successfully!
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="mt-auto bg-slate-900 text-slate-400 border-t border-slate-800 text-xs text-center py-6">
-    <div class="max-w-6xl mx-auto px-4">
-      <p>© Story Hub - All content on this platform is completely fabricated for entertainment purposes.</p>
-      <p class="urdu-inline mt-1 text-slate-500" dir="rtl">یہ تمام مواد صرف تفریحی مقاصد کے لیے بنایا گیا ہے۔</p>
-    </div>
-  </footer>
-
-  <!-- Firebase & App Script -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, collection, doc, addDoc, updateDoc, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // Application state
-    let db, auth, currentUser = null;
-    let allEntries = [];
-    let currentFilter = 'all';
-    let currentSort = 'newest';
-    let searchQuery = '';
-    let selectedRating = 5;
-    let localUpvotedIds = new Set(); // store client-side upvoted items to prevent double clicks
-
-    // Global App ID standard path for public data
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'story-reviews-app';
-
-    // Firebase fallback mock config for testing in sandbox environments
-   const firebaseConfig = {
-  apiKey: "AIzaSyC5-ibHpHYvBVt9PL6hKRqK6eznbWITgrA",
-  authDomain: "novel-7535a.firebaseapp.com",
-  projectId: "novel-7535a",
-  storageBucket: "novel-7535a.firebasestorage.app",
-  messagingSenderId: "731929347594",
-  appId: "1:731929347594:web:afbe42ebc9faff852b01f3",
-  measurementId: "G-T2WSPTZWS0"
-};
-
-  // Initialize Firebase and Firestore
-  const app = firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-        // Authenticate as required by Rule 3
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-          try {
-            const userCred = await signInWithCustomToken(auth, __initial_auth_token);
-            currentUser = userCred.user;
-          } catch (e) {
-            console.warn("Custom token auth failed, falling back to anonymous auth:", e);
-            const userCred = await signInAnonymously(auth);
-            currentUser = userCred.user;
-          }
-        } else {
-          const userCred = await signInAnonymously(auth);
-          currentUser = userCred.user;
-        }
-
-        // Subscribe to public collection following STRICT Path Rule 1 & Simple Query Rule 2
-        // Path: /artifacts/{appId}/public/data/reviews
-        const publicReviewsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
-
-        onSnapshot(
-          publicReviewsCollection,
-          (snapshot) => {
-            allEntries = snapshot.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data()
-            }));
-            renderUI();
-          },
-          (error) => {
-            console.error("Firestore onSnapshot error:", error);
-            // If firestore fails (e.g., demo key), fall back to local seed memory gracefully
-            if (allEntries.length === 0) {
-              allEntries = getSeedData();
-              renderUI();
-            }
-          }
-        );
-
-      } catch (err) {
-        console.error("Firebase init failed, switching to local memory mode:", err);
-        allEntries = getSeedData();
-        renderUI();
+        // Show Success
+        showStatus('Your submission has been published successfully!', 'success');
+        reviewForm.reset();
+        toggleRatingField();
+      } catch (error) {
+        console.error("Error adding document: ", error);
+        showStatus('Failed to submit. Please check your Firestore rules.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Submit';
       }
-    }
-
-    // Default Seed Data if DB is empty or during offline fallback
-    function getSeedData() {
-      return [
-        {
-          id: 'seed-1',
-          name: 'Usman Ahmad / عثمان احمد',
-          type: 'review',
-          rating: 5,
-          message: 'This story was incredibly thrilling! Excellent plot twists, even though it is completely fabricated.',
-          helpfulCount: 8,
-          createdAt: new Date(Date.now() - 3600000 * 5).toISOString()
-        },
-        {
-          id: 'seed-2',
-          name: 'Fatima Noor / فاطمہ نور',
-          type: 'question',
-          rating: null,
-          message: 'کیا یہ کہانی کسی حقیقی واقعہ پر مبنی ہے یا مکمل طور پر فرضی ہے؟',
-          helpfulCount: 4,
-          createdAt: new Date(Date.now() - 3600000 * 24).toISOString()
-        },
-        {
-          id: 'seed-3',
-          name: 'Zainab Bibi',
-          type: 'review',
-          rating: 4,
-          message: 'کہانی کی ساخت اور تحریر بہت زبردست تھی! میں تمام دوستوں کو پڑھنے کا مشورہ دوں گی۔',
-          helpfulCount: 2,
-          createdAt: new Date(Date.now() - 3600000 * 48).toISOString()
-        }
-      ];
-    }
-
-    // Setup Form & DOM Interaction Events
-    document.addEventListener('DOMContentLoaded', () => {
-      init();
-      setupFormControls();
-      setupFiltersAndSearch();
     });
 
-    function setupFormControls() {
-      const form = document.getElementById('submission-form');
-      const radioReview = document.getElementById('radio-review');
-      const radioQuestion = document.getElementById('radio-question');
-      const labelReview = document.getElementById('label-type-review');
-      const labelQuestion = document.getElementById('label-type-question');
-      const starContainer = document.getElementById('star-rating-container');
-      const messageInput = document.getElementById('user-message');
-      const charCount = document.getElementById('char-count');
-
-      // Toggle Type UI
-      function updateTypeUI() {
-        if (radioReview.checked) {
-          labelReview.className = "cursor-pointer border-2 border-blue-600 bg-blue-50/50 rounded-xl p-3 flex flex-col items-center justify-center text-center transition group";
-          labelQuestion.className = "cursor-pointer border-2 border-slate-200 rounded-xl p-3 flex flex-col items-center justify-center text-center transition hover:bg-slate-50 group";
-          starContainer.style.display = "block";
-        } else {
-          labelQuestion.className = "cursor-pointer border-2 border-emerald-600 bg-emerald-50/50 rounded-xl p-3 flex flex-col items-center justify-center text-center transition group";
-          labelReview.className = "cursor-pointer border-2 border-slate-200 rounded-xl p-3 flex flex-col items-center justify-center text-center transition hover:bg-slate-50 group";
-          starContainer.style.display = "none";
-        }
-      }
-
-      radioReview.addEventListener('change', updateTypeUI);
-      radioQuestion.addEventListener('change', updateTypeUI);
-
-      // Star Rating Selection
-      const starBtns = document.querySelectorAll('.star-btn');
-      const ratingLabel = document.getElementById('rating-label');
-
-      starBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          selectedRating = parseInt(btn.dataset.star, 10);
-          ratingLabel.textContent = `${selectedRating} Out of 5 Stars`;
-          updateStarWidget(selectedRating);
-        });
-      });
-
-      function updateStarWidget(rating) {
-        starBtns.forEach(btn => {
-          const starVal = parseInt(btn.dataset.star, 10);
-          const icon = btn.querySelector('i');
-          if (starVal <= rating) {
-            icon.className = 'fa-solid fa-star text-amber-400';
-          } else {
-            icon.className = 'fa-regular fa-star text-slate-300';
-          }
-        });
-      }
-
-      // Live Char Counter
-      messageInput.addEventListener('input', () => {
-        charCount.textContent = `${messageInput.value.length} / 500`;
-      });
-
-      // Form Submit
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const nameVal = document.getElementById('user-name').value.trim();
-        const msgVal = messageInput.value.trim();
-        const entryType = radioReview.checked ? 'review' : 'question';
-
-        if (!nameVal || !msgVal) return;
-
-        const submitBtn = document.getElementById('submit-btn');
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Submitting...`;
-
-        const newEntry = {
-          name: nameVal,
-          type: entryType,
-          rating: entryType === 'review' ? selectedRating : null,
-          message: msgVal,
-          helpfulCount: 0,
-          createdAt: new Date().toISOString()
-        };
-
-        try {
-          if (db && currentUser) {
-            const publicCollection = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
-            await addDoc(publicCollection, newEntry);
-          } else {
-            // Memory fallback
-            newEntry.id = 'local-' + Date.now();
-            allEntries.unshift(newEntry);
-            renderUI();
-          }
-
-          showToast("Submitted successfully! / کامیابی سے ارسال ہو گیا!", "success");
-
-          // Reset Form
-          form.reset();
-          selectedRating = 5;
-          updateStarWidget(5);
-          updateTypeUI();
-          charCount.textContent = "0 / 500";
-
-        } catch (err) {
-          console.error("Submission failed:", err);
-          showToast("Submission error. Try again.", "error");
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Submit Entry / جواب دیں</span>`;
-        }
-      });
+    function showStatus(text, type) {
+      statusMessage.innerText = text;
+      statusMessage.className = type === 'success' ? 'status-success' : 'status-error';
+      statusMessage.style.display = 'block';
+      setTimeout(() => {
+        statusMessage.style.display = 'none';
+      }, 4000);
     }
 
-    function setupFiltersAndSearch() {
-      // Filter Tabs
-      const filterBtns = document.querySelectorAll('.filter-tab');
-      filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          filterBtns.forEach(b => {
-            b.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
-            b.classList.add('hover:text-slate-900');
-          });
-          btn.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
-          btn.classList.remove('hover:text-slate-900');
+    // Real-Time Listener to fetch and display reviews
+    const reviewsList = document.getElementById('reviewsList');
 
-          currentFilter = btn.dataset.filter;
-          renderUI();
-        });
-      });
-
-      // Search Bar
-      const searchInput = document.getElementById('search-input');
-      const clearSearchBtn = document.getElementById('clear-search');
-
-      searchInput.addEventListener('input', (e) => {
-        searchQuery = e.target.value.toLowerCase().trim();
-        if (searchQuery) {
-          clearSearchBtn.classList.remove('hidden');
-        } else {
-          clearSearchBtn.classList.add('hidden');
-        }
-        renderUI();
-      });
-
-      clearSearchBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        searchQuery = '';
-        clearSearchBtn.classList.add('hidden');
-        renderUI();
-      });
-
-      // Sort select
-      document.getElementById('sort-select').addEventListener('change', (e) => {
-        currentSort = e.target.value;
-        renderUI();
-      });
-    }
-
-    // Render Full UI (Stats, Lists, Filter Counts)
-    function renderUI() {
-      updateStats();
-      renderList();
-    }
-
-    function updateStats() {
-      const reviewsOnly = allEntries.filter(e => e.type === 'review');
-      const questionsOnly = allEntries.filter(e => e.type === 'question');
-
-      document.getElementById('count-filter-all').textContent = allEntries.length;
-      document.getElementById('count-filter-reviews').textContent = reviewsOnly.length;
-      document.getElementById('count-filter-questions').textContent = questionsOnly.length;
-
-      document.getElementById('stat-total-reviews').textContent = reviewsOnly.length;
-      document.getElementById('stat-total-questions').textContent = questionsOnly.length;
-
-      // Average Rating Calculation
-      if (reviewsOnly.length > 0) {
-        const sum = reviewsOnly.reduce((acc, curr) => acc + (curr.rating || 0), 0);
-        const avg = (sum / reviewsOnly.length).toFixed(1);
-        document.getElementById('stat-avg-rating').textContent = avg;
-        renderStarsHTML(document.getElementById('stat-stars'), Math.round(avg));
-      } else {
-        document.getElementById('stat-avg-rating').textContent = "0.0";
-        renderStarsHTML(document.getElementById('stat-stars'), 0);
-      }
-    }
-
-    function renderStarsHTML(container, rating) {
-      let html = '';
-      for (let i = 1; i <= 5; i++) {
-        if (i <= rating) {
-          html += '<i class="fa-solid fa-star text-amber-400"></i>';
-        } else {
-          html += '<i class="fa-regular fa-star text-slate-300"></i>';
-        }
-      }
-      container.innerHTML = html;
-    }
-
-    // Filter, Sort, and Render Card List
-    function renderList() {
-      const listContainer = document.getElementById('reviews-list');
-
-      // 1. Filter
-      let filtered = allEntries.filter(entry => {
-        if (currentFilter === 'review' && entry.type !== 'review') return false;
-        if (currentFilter === 'question' && entry.type !== 'question') return false;
-
-        if (searchQuery) {
-          const matchName = entry.name.toLowerCase().includes(searchQuery);
-          const matchMsg = entry.message.toLowerCase().includes(searchQuery);
-          return matchName || matchMsg;
+    db.collection('reviews')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot((snapshot) => {
+        if (snapshot.empty) {
+          reviewsList.innerHTML = '<div class="empty-state">No reviews or questions yet. Be the first to submit one!</div>';
+          return;
         }
 
-        return true;
-      });
+        reviewsList.innerHTML = ''; // Clear container
 
-      // 2. Sort
-      filtered.sort((a, b) => {
-        if (currentSort === 'highest') {
-          return (b.rating || 0) - (a.rating || 0);
-        } else if (currentSort === 'helpful') {
-          return (b.helpfulCount || 0) - (a.helpfulCount || 0);
-        } else {
-          // Newest
-          return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
-        }
-      });
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          const card = document.createElement('div');
+          card.className = `review-card ${data.type}`;
 
-      // 3. Render Empty State or Cards
-      if (filtered.length === 0) {
-        listContainer.innerHTML = `
-          <div class="bg-white p-10 rounded-2xl border border-slate-200 text-center space-y-3 shadow-sm">
-            <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto text-2xl">
-              <i class="fa-solid fa-comment-slash"></i>
+          const stars = data.rating ? '⭐'.repeat(data.rating) : '';
+          const dateStr = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleString() : 'Just now';
+
+          card.innerHTML = `
+            <div class="review-header">
+              <span class="user-name">${escapeHTML(data.name)}</span>
+              <span class="type-badge ${data.type}">${data.type}</span>
             </div>
-            <h3 class="text-base font-bold text-slate-800">No entries found / کوئی نتائج نہیں ملے</h3>
-            <p class="text-xs text-slate-500 max-w-sm mx-auto">
-              Be the first to share your review or question about this story using the form!
-            </p>
-            <p class="urdu-inline text-xs text-slate-400" dir="rtl">فارم کا استعمال کرتے ہوئے اپنا جائزہ یا سوال پوسٹ کرنے والے پہلے فرد بنیں!</p>
-          </div>
-        `;
-        return;
-      }
+            ${data.rating ? `<div class="rating-stars">${stars}</div>` : ''}
+            <div class="review-body">${escapeHTML(data.message)}</div>
+            <div class="review-date">${dateStr}</div>
+          `;
 
-      listContainer.innerHTML = filtered.map(item => createCardHTML(item)).join('');
-
-      // Attach Upvote Click Events
-      document.querySelectorAll('.upvote-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const id = btn.dataset.id;
-          handleUpvote(id);
+          reviewsList.appendChild(card);
         });
+      }, (error) => {
+        console.error("Firestore listen error: ", error);
+        reviewsList.innerHTML = '<div class="empty-state">Error loading reviews. Make sure Firestore rules allow read access.</div>';
       });
-    }
 
-    // Build Individual Card HTML
-    function createCardHTML(item) {
-      const isUrdu = isUrduText(item.message);
-      const isReview = item.type === 'review';
-      const initial = item.name ? item.name.trim().charAt(0).toUpperCase() : '?';
-      const formattedDate = formatDate(item.createdAt);
-      const hasUpvoted = localUpvotedIds.has(item.id);
-
-      // Star rating markup
-      let starsMarkup = '';
-      if (isReview && item.rating) {
-        starsMarkup = `<div class="flex text-amber-400 text-xs">`;
-        for (let i = 1; i <= 5; i++) {
-          starsMarkup += i <= item.rating
-            ? `<i class="fa-solid fa-star"></i>`
-            : `<i class="fa-regular fa-star text-slate-300"></i>`;
-        }
-        starsMarkup += `</div>`;
-      }
-
-      // Badge markup
-      const categoryBadge = isReview
-        ? `<span class="inline-flex items-center gap-1 bg-amber-50 text-amber-700 border border-amber-200 text-xs font-semibold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-star text-amber-500 text-[10px]"></i> Review / جائزہ</span>`
-        : `<span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-circle-question text-emerald-500 text-[10px]"></i> Question / سوال</span>`;
-
-      return `
-        <article class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-3" id="card-${item.id}">
-          <div class="flex items-start justify-between gap-3">
-            <div class="flex items-center gap-3">
-              <!-- Avatar -->
-              <div class="w-10 h-10 rounded-full ${isReview ? 'bg-blue-600' : 'bg-emerald-600'} text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-sm">
-                ${initial}
-              </div>
-              <div>
-                <h3 class="text-sm font-bold text-slate-900 leading-snug">${escapeHTML(item.name)}</h3>
-                <p class="text-xs text-slate-400 mt-0.5">${formattedDate}</p>
-              </div>
-            </div>
-
-            <!-- Type Badge -->
-            <div>
-              ${categoryBadge}
-            </div>
-          </div>
-
-          <!-- Star Rating if review -->
-          ${isReview ? `<div class="pt-1">${starsMarkup}</div>` : ''}
-
-          <!-- Message Text -->
-          <div class="text-slate-700 text-sm leading-relaxed ${isUrdu ? 'urdu-text text-right text-base text-slate-900 pt-1' : 'pt-0.5'}">
-            ${escapeHTML(item.message)}
-          </div>
-
-          <!-- Footer Actions (Upvote Button) -->
-          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-            <button type="button" data-id="${item.id}" class="upvote-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border ${hasUpvoted ? 'bg-blue-50 border-blue-200 text-blue-600 font-semibold' : 'bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-600'} transition active:scale-95">
-              <i class="fa-regular fa-thumbs-up ${hasUpvoted ? 'fa-solid' : ''}"></i>
-              <span>Helpful / مفید (${item.helpfulCount || 0})</span>
-            </button>
-
-            <span class="text-[11px] text-slate-400 flex items-center gap-1">
-              <i class="fa-solid fa-shield-halved text-slate-300"></i>
-              Public Reader Entry
-            </span>
-          </div>
-        </article>
-      `;
-    }
-
-    // Handle Upvoting
-    async function handleUpvote(id) {
-      if (localUpvotedIds.has(id)) {
-        showToast("You already marked this as helpful!", "info");
-        return;
-      }
-
-      localUpvotedIds.add(id);
-
-      // Local UI Optimistic Update
-      const item = allEntries.find(e => e.id === id);
-      if (item) {
-        item.helpfulCount = (item.helpfulCount || 0) + 1;
-        renderUI();
-      }
-
-      try {
-        if (db && currentUser && !id.startsWith('seed-') && !id.startsWith('local-')) {
-          // Rule 1 strict document path
-          const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'reviews', id);
-          await updateDoc(docRef, {
-            helpfulCount: increment(1)
-          });
-        }
-        showToast("Thanks for your feedback! / شکریہ!", "success");
-      } catch (err) {
-        console.error("Upvote error:", err);
-      }
-    }
-
-    // Detect Urdu language script
-    function isUrduText(text) {
-      const urduPattern = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
-      return urduPattern.test(text);
-    }
-
-    // Date Formatter
-    function formatDate(dateStr) {
-      if (!dateStr) return 'Recently';
-      try {
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric'
-        });
-      } catch (e) {
-        return 'Recently';
-      }
-    }
-
-    // Escape HTML strings for XSS security
+    // Helper to prevent XSS attacks
     function escapeHTML(str) {
-      if (!str) return '';
       return str.replace(/[&<>'"]/g, 
         tag => ({
           '&': '&amp;',
@@ -838,30 +373,6 @@
           '"': '&quot;'
         }[tag] || tag)
       );
-    }
-
-    // Toast Alert Helper
-    function showToast(message, type = 'success') {
-      const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toast-message');
-      const toastIcon = document.getElementById('toast-icon');
-
-      toastMsg.textContent = message;
-      if (type === 'error') {
-        toastIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400"></i>`;
-      } else if (type === 'info') {
-        toastIcon.innerHTML = `<i class="fa-solid fa-circle-info text-blue-400"></i>`;
-      } else {
-        toastIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i>`;
-      }
-
-      toast.classList.remove('translate-y-20', 'opacity-0');
-      toast.classList.add('translate-y-0', 'opacity-100');
-
-      setTimeout(() => {
-        toast.classList.remove('translate-y-0', 'opacity-100');
-        toast.classList.add('translate-y-20', 'opacity-0');
-      }, 3000);
     }
   </script>
 </body>
