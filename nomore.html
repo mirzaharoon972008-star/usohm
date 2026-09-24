@@ -469,6 +469,50 @@
     color: black;
     margin: 0 0 12px 0;
   }
+        /* CSS */
+.pdf-download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.25), 0 2px 4px -2px rgba(37, 99, 235, 0.1);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+/* Hover effect: lifts up slightly and darkens background */
+.pdf-download-btn:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px -2px rgba(37, 99, 235, 0.35), 0 4px 6px -2px rgba(37, 99, 235, 0.15);
+}
+
+/* Active click state */
+.pdf-download-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px -1px rgba(37, 99, 235, 0.2);
+}
+
+/* Accessibility focus ring */
+.pdf-download-btn:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 4px;
+}
+
+/* SVG Icon sizing */
+.pdf-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
     </style>
 </head>
 <body>
@@ -480,10 +524,10 @@
             A bittersweet tale of love, sacrifice, and unspoken goodbyes.<br>
             <span class="identity-note">NOTE: Maya is just a made up name, to hide her real identity.</span>
         </p>
-        <a href="untold-story-of-hm-chp1.pdf" download="untold-story-of-hm-chp1.pdf">
+        <a href="untold-story-of-hm-chp1.pdf" class="pdf-download-btn" download="untold-story-of-hm-chp1.pdf">
   Download Chp 1
 </a>
-        <a href="untold-story-of-hm-chp2.pdf" download="untold-story-of-hm-chp2.pdf">
+        <a href="untold-story-of-hm-chp2.pdf" class="pdf-download-btn" download="untold-story-of-hm-chp2.pdf">
   Download Chp 2
 </a>
     </header>
