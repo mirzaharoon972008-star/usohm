@@ -1,868 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Untold Story of HM</title>
-    <!-- Google Fonts for dual-language typography and modern UI -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
-    <!-- Vercel Web Analytics -->
-    <script>
-        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-    
-    <style>
-        :root {
-            --bg-color: #0f141d;
-            --card-bg: #18202c;
-            --card-border: #2a3546;
-            --accent-gold: #d4af37;
-            --accent-gold-glow: rgba(212, 175, 55, 0.25);
-            --text-primary: #e2e8f0;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --border-color: #2a3546;
-            --modal-overlay: rgba(7, 10, 15, 0.85);
-            --transition-speed: 0.35s;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 2 Release</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 20px;
+    }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: 'Merriweather', serif;
-            line-height: 1.8;
-            padding: 0;
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
-        }
+    .release-card {
+      width: 100%;
+      max-width: 440px;
+      padding: 40px 24px;
+      background: rgba(30, 41, 59, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
 
-        header {
-            width: 100%;
-            padding: 50px 20px 35px;
-            text-align: center;
-            background: linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, rgba(15, 20, 29, 0) 100%);
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-        }
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
 
-        .header-tag {
-            font-family: 'Inter', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.8rem;
-            color: var(--accent-gold);
-            margin-bottom: 12px;
-            display: inline-block;
-            font-weight: 600;
-            background: rgba(212, 175, 55, 0.1);
-            padding: 4px 14px;
-            border-radius: 20px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-        }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
-            color: #ffffff;
-            font-weight: 700;
-            margin-bottom: 15px;
-            letter-spacing: -0.5px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
+    .release-date {
+      font-size: 1rem;
+      color: #94a3b8;
+      margin-bottom: 28px;
+    }
 
-        .subtitle {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            font-style: italic;
-            max-width: 620px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
+    .timer-grid {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
 
-        .identity-note {
-            display: inline-block;
-            margin-top: 12px;
-            font-size: 0.85rem;
-            font-style: normal;
-            font-family: 'Inter', sans-serif;
-            color: var(--accent-gold);
-            background: rgba(212, 175, 55, 0.08);
-            padding: 6px 16px;
-            border-radius: 6px;
-            border-left: 3px solid var(--accent-gold);
-        }
+    .time-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px 12px;
+      min-width: 80px;
+    }
 
-        .controls-wrapper {
-            position: sticky;
-            top: 15px;
-            z-index: 100;
-            margin: 25px auto 10px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            width: 92%;
-            max-width: 880px;
-        }
+    .time-box span {
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #38bdf8;
+    }
 
-        .control-group {
-            display: flex;
-            background: rgba(24, 32, 44, 0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 6px;
-            border-radius: 50px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px var(--accent-gold-glow);
-            gap: 6px;
-        }
+    .time-box label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: #64748b;
+      letter-spacing: 0.5px;
+    }
 
-        .lang-btn, .chap-btn, .action-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.88rem;
-            font-weight: 600;
-            padding: 8px 18px;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            outline: none;
-            user-select: none;
-        }
+    .hidden {
+      display: none !important;
+    }
 
-        .lang-btn:hover, .chap-btn:hover, .action-btn:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.08);
-        }
+    .released-box {
+      margin-top: 10px;
+    }
 
-        .lang-btn.active, .chap-btn.active {
-            background: var(--accent-gold);
-            color: #0f141d;
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-            font-weight: 700;
-        }
+    .released-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #10b981;
+      margin-bottom: 20px;
+    }
 
-        .action-btn.highlight {
-            background: rgba(212, 175, 55, 0.2);
-            color: var(--accent-gold);
-            border: 1px solid rgba(212, 175, 55, 0.4);
-        }
+    .btn-read {
+      display: inline-block;
+      padding: 14px 32px;
+      background-color: #10b981;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      transition: all 0.2s ease;
+    }
 
-        .action-btn.highlight:hover {
-            background: var(--accent-gold);
-            color: #0f141d;
-        }
-
-        main {
-            max-width: 820px;
-            width: 92%;
-            margin: 20px auto 60px;
-            flex-grow: 1;
-        }
-
-        .story-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 45px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-            margin-top: 15px;
-            position: relative;
-            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
-        }
-
-        /* Paragraph Hover & Bookmarked Styles */
-        .story-content p {
-            position: relative;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-            cursor: pointer;
-        }
-
-        .story-content p:hover {
-            background-color: rgba(212, 175, 55, 0.04);
-        }
-
-        .story-content p.bookmarked-para {
-            background-color: rgba(212, 175, 55, 0.12) !important;
-            border-left: 4px solid var(--accent-gold) !important;
-            box-shadow: 0 2px 10px rgba(212, 175, 55, 0.1);
-        }
-
-        .urdu-section p.bookmarked-para {
-            border-left: none !important;
-            border-right: 4px solid var(--accent-gold) !important;
-        }
-
-        .bookmarked-para::after {
-            content: "🔖 Bookmark";
-            position: absolute;
-            top: 6px;
-            right: 12px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: var(--accent-gold);
-            background: rgba(15, 20, 29, 0.85);
-            padding: 2px 8px;
-            border-radius: 4px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            pointer-events: none;
-        }
-
-        .urdu-section .bookmarked-para::after {
-            right: auto;
-            left: 12px;
-        }
-
-        .section-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: rgba(212, 175, 55, 0.15);
-            color: var(--accent-gold);
-            padding: 6px 14px;
-            border-radius: 6px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(212, 175, 55, 0.25);
-        }
-
-        .chapter-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: var(--accent-gold);
-            margin-bottom: 20px;
-            border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
-            padding-bottom: 10px;
-        }
-
-        .urdu-section .chapter-title {
-            font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 2.2rem;
-            line-height: 1.8;
-        }
-
-        .chapter-block {
-            transition: opacity 0.3s ease;
-        }
-
-        .chapter-block.hidden-chapter {
-            display: none !important;
-        }
-
-        .story-content {
-            transition: opacity 0.4s ease, max-height 0.5s ease;
-            opacity: 1;
-        }
-
-        .story-content.hidden-section {
-            display: none !important;
-            opacity: 0;
-        }
-
-        .english-section p {
-            font-size: 1.08rem;
-            color: var(--text-primary);
-            margin-bottom: 1.6rem;
-            text-align: justify;
-            hyphens: auto;
-        }
-
-        .english-section p:last-child {
-            margin-bottom: 0;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 45px 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .divider.hidden-section {
-            display: none !important;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .divider span {
-            padding: 0 18px;
-            color: var(--accent-gold);
-            font-size: 1.2rem;
-            letter-spacing: 6px;
-        }
-
-        .urdu-section {
-            direction: rtl;
-            text-align: right;
-            font-family: 'Noto Nastaliq Urdu', serif;
-        }
-
-        .urdu-section p {
-            font-size: 1.68rem;
-            line-height: 2.6;
-            color: #f8fafc;
-            margin-bottom: 2.2rem;
-            word-spacing: 1px;
-        }
-
-        .urdu-section p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Toast Notification */
-        .toast-notification {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: rgba(24, 32, 44, 0.95);
-            color: var(--accent-gold);
-            border: 1px solid var(--accent-gold);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 600;
-            padding: 12px 24px;
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
-        }
-
-        .toast-notification.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            color: var(--text-secondary);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border-color);
-            width: 100%;
-            margin-top: auto;
-            background: rgba(15, 20, 29, 0.8);
-        }
-
-        @media (max-width: 640px) {
-            header {
-                padding: 35px 15px 25px;
-            }
-
-            h1 {
-                font-size: 2.1rem;
-            }
-
-            .story-card {
-                padding: 24px 20px;
-                border-radius: 12px;
-            }
-
-            .lang-btn, .chap-btn, .action-btn {
-                padding: 7px 12px;
-                font-size: 0.8rem;
-            }
-
-            .urdu-section p {
-                font-size: 1.15rem;
-                line-height: 2.4;
-            }
-
-            .english-section p {
-                font-size: 1rem;
-            }
-        }
-    </style>
+    .btn-read:hover {
+      background-color: #059669;
+      transform: translateY(-2px);
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <span class="header-tag">Writer: M.Haroon</span>
-        <h1>The Untold Story of HM</h1>
-        <p class="subtitle">
-            A bittersweet tale of love, sacrifice, and unspoken goodbyes.<br>
-            <span class="identity-note">NOTE: Maya is just a made up name, to hide her real identity.</span>
-        </p>
-    </header>
+  <div class="release-card">
+    <span class="badge">Coming Soon</span>
+    <h1>Chapter 2</h1>
+    <p class="release-date">Releasing September 24, 2026 at 9:00 PM</p>
 
-    <!-- Interactive Controls Bar -->
-    <div class="controls-wrapper">
-        <!-- Chapter Selector -->
-        <div class="control-group" role="radiogroup" aria-label="Chapter Selector">
-            <button type="button" class="chap-btn active" data-chapter="1" id="btn-chap-1">
-                <span>📖</span> Chp 1
-            </button>
-            <button type="button" class="chap-btn" data-chapter="2" id="btn-chap-2">
-                <span>📖</span> Chp 2
-            </button>
-        </div>
-
-        <!-- Language Selector -->
-        <div class="control-group" role="radiogroup" aria-label="Language Mode Selector">
-            <button type="button" class="lang-btn active" data-lang="both" role="radio" aria-checked="true" id="btn-both">
-                <span>🌐</span> Both
-            </button>
-            <button type="button" class="lang-btn" data-lang="english" role="radio" aria-checked="false" id="btn-english">
-                <span>🇬🇧</span> English
-            </button>
-            <button type="button" class="lang-btn" data-lang="urdu" role="radio" aria-checked="false" id="btn-urdu">
-                <span>🇵🇰</span> اردو
-            </button>
-        </div>
-
-        <!-- Bookmark Controls -->
-        <div class="control-group">
-            <button type="button" class="action-btn" id="btn-save-bookmark" title="Bookmark clicked paragraph">
-                <span>📌</span> Bookmark
-            </button>
-            <button type="button" class="action-btn highlight" id="btn-resume-bookmark" style="display: none;" title="Resume reading from last saved bookmark">
-                <span>📖</span> Resume
-            </button>
-        </div>
+    <!-- Live Countdown -->
+    <div id="timer" class="timer-grid">
+      <div class="time-box">
+        <span id="hours">00</span>
+        <label>Hours</label>
+      </div>
+      <div class="time-box">
+        <span id="minutes">00</span>
+        <label>Mins</label>
+      </div>
+      <div class="time-box">
+        <span id="seconds">00</span>
+        <label>Secs</label>
+      </div>
     </div>
 
-    <main>
-        <article class="story-card">
-            
-            <!-- English Story Section -->
-            <section id="english-content" class="story-content english-section" lang="en">
-                <span class="section-label">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    English Version
-                </span>
-<div class="chapter-block" data-chapter="1">
-                  <p>Before the world became complex, before heartbreaks had names, life was simple. It was measured strictly in percentages, blue ink on crisp white answer sheets, and the quiet satisfaction of a teacher’s handwriting at the top of a page: <em>1st Position.</em></p>
-                <p>At nine years old, Haroon did not understand love, nor did he have any desire to. Girls were background noise in the school corridors—distant, irrelevant chatter that existed outside the boundary of his world. His world was built on logic, discipline, and order. While other children spent their breaks running wildly across the dusty courtyard or gossiping under the shade of the tall neem trees, Haroon was busy calculating marks, anticipating exam questions, and reinforcing the walls of his own little kingdom.</p>
-                <p>From 2nd class all the way through 5th class, Haroon's dominance was undisputed. Every academic year ended the exact same way. On result day, while parents shifted nervously in their seats and classmates chewed on the ends of their wooden pencils, Haroon stood near the front with complete calm. When the principal called out the top rank, it was always Haroon's name that echoed through the hall.</p>
-                <p>Being first wasn't just a habit; it was Haroon's identity. It was proof that if a person controlled their focus, they controlled their fate. Haroon believed that life was an equation: <em>Effort in, victory out.</em> Nothing could slip past his defense.</p>
-                <p>Then came 6th class, and with it, the quiet arrival of a newcomer.</p>
-                <p>He moved into the section around mid-term—a quiet boy with a neat uniform and an unbothered expression. Classmates whispered about him, speculating on how smart he might be, but Haroon barely looked up from his notebook. Overconfidence is a silent thief; it steals vigilance long before it takes a crown. Haroon assumed the hierarchy was set in stone. He assumed no one could walk into his domain and disrupt years of unbroken victory.</p>
-                <p>Haroon didn't take him seriously. He didn't study with the usual manic intensity before the final examinations. He relied on memory, on routine, on the dangerous belief that being number one was simply his natural right.</p>
-                <p>The day the results were posted remained etched in Haroon's mind with frightening clarity.</p>
-                <p>The sheet was pinned to the main notice board, surrounded by a crowd of shouting boys. Haroon pushed through them casually, expecting to see his name at the very top as it had been for four straight years.</p>
-                <p>His eyes scanned the header. Haroon's name wasn't there.</p>
-                <p>It was printed on the second line. Right above it, sitting proudly in the 1st position, was the name of the new student.</p>
-                <p>A strange, cold stillness washed over Haroon. The noise of the hallway faded into a low hum. For the first time in his life, Haroon tasted failure—not a catastrophic ruin, but a sharp, stinging humiliation that felt far worse. He had lost ground in the only arena that mattered to him. He had allowed someone else to take what was rightfully his.</p>
-                <p>That summer, while the rest of the neighborhood played in the streets until dusk, Haroon stayed inside. The defeat didn't break him; it ignited something fierce and relentless. He didn't cry about the lost position; he plotted its return.</p>
-                <p>When 7th class began, Haroon was a different student. The easygoing pride was gone, replaced by an iron resolve. He tracked every test, calculated every margin, and spent late nights under the warm glow of his desk lamp, committing entire textbooks to memory. Haroon didn't just want to win back 1st position; he wanted to make sure it could never be taken from him again.</p>
-                <p>By the end of 7th class, when the final results were announced, Haroon's name was restored to the top of the board. The gap between first and second place was undeniable. Haroon had reclaimed his fortress.</p>
-                <p>Standing there on the stage, holding the certificate of achievement, Haroon felt completely invincible. He had proven to himself that hard work could conquer any threat, fix any mistake, and bend reality back to my will. In Haroon's mind, life was predictable and controllable. Love was a foolish distraction, emotion was a weakness, and heartbreaks were things that only happened to people who lacked discipline.</p>
-                <p>Haroon had no idea that the hardest lesson of his life wouldn't come from a textbook or an academic rival—and that no amount of studying could prepare him for what was waiting just around the corner.</p>
-                <p>Victories have a strange way of granting peace, only for life to rewrite the rules entirely. Haroon had barely settled into the comfort of his reclaimed first position when the world he knew was quietly dismantled. Following his 7th class results, the decision was made: Haroon would be changing schools.</p>
-                <p>Leaving meant walking away from the familiar routines that had defined his childhood. The familiar brick walls, the worn wooden desks where he had calculated his marks, and the teachers who knew his name before he even entered the classroom were all left behind. Most notably, the friends he had grown up alongside—the boys who shared the courtyard during break times—were suddenly gone from his daily life. The small social network that had existed passively in the background of his academic focus vanished overnight.</p>
-                <p>On his first day at the new school, Haroon stood before a landscape that felt entirely foreign. The campus was larger, the corridors echoed with louder voices, and the atmosphere carried a different energy altogether. Groups of students moved together in tight-knit circles, bonded by years of shared history that Haroon had no part in. For the first time in a long while, he was not the top student holding a crown; he was simply a new face sitting in the back row, completely unknown.</p>
-                <p>The transition brought a distinct sense of isolation, but Haroon did not allow it to disorient him. Where others might have felt overwhelmed by the sudden shift in environment, Haroon treated the change like a fresh slate. He observed the new classroom dynamics quietly, noting who the vocal students were, how the teachers conducted their lessons, and where the academic standards lay.</p>
-                <p>Without his old friends around to break the silence, Haroon turned inward once more. His discipline became his sanctuary. While the new environment felt chaotic and unfamiliar, the rules of his studies remained unchanged. The textbooks were different, the faces were new, but the equations, logic, and determination required to succeed were the exact same tools he had masterfully honed over the years.</p>
-                <p>Haroon adapted silently, rebuilding his focus step by step within these unfamiliar walls, entirely unaware of how this new environment would eventually shape his future.</p>
-                <p class="no-indent">Time moved onward not in days or months, but in the quiet, predictable measures Haroon built for himself: school terms completed, exam schedules calculated, and the rigid order of a self-imposed routine. Having adapted to his new school, Haroon had successfully reconstructed his safe haven. He walked through the crowded hallways wrapped in an invisible armor of detachment, observing the social noise around him without ever letting it touch him. For Haroon, safety lived entirely in predictability. If a situation could be analyzed, measured, and controlled, it could not harm him. But life has a way of dismantling logic when a person least expects it.</p>
-                <p>The shift arrived on an evening completely severed from his daily routine. It was the night of a cousin's wedding—an grand event held in a sprawling, brightly lit banquet hall filled with overlapping voices, warm laughter, the heavy scent of fresh marigolds, rosewater, and rich spices lingering in the air. For most people, such gatherings were a celebration of togetherness. For Haroon, an introvert by nature and habit, it was a sensory sensory overload. The clinking of heavy glass dinnerware, the sudden bursts of music, and the constant shuffling of extended family members felt like an environment completely foreign to his quiet, interior world.</p>
-                <p>As usual, Haroon sought the safety of the perimeter. He maneuvered through the bustling crowd with quiet efficiency, slipping past groups of elderly relatives engaged in animated discussions and children darting between the decorated pillars. Finding a quiet corner near the edge of the hall, he leaned back against a shaded pillar, adjusting his coat and folding his hands. From this vantage point, he could play the role he knew best: the silent, unseen observer. He watched the world move past him, completely satisfied to stay tucked inside the fortress of his own mind.</p>
-                <p>Then, without warning, the entire room seemed to lose its focus.</p>
-                <p>It happened in a single, unscripted second as the central doors opened further and a new group stepped into the hall. Haroon’s eyes, casually scanning the moving crowd, brushed past dozens of faces before coming to a sudden, absolute halt on one person.</p>
-                <p>It was Maya.</p>
-                <p>Haroon’s breath caught in his throat, trapped behind a sudden wall of total disbelief. The world around him—the shouting waiters, the ringing laughter, the vibrant glare of the chandeliers—instantly receded into a dim, meaningless blur. Everything shrank down to a single point of absolute clarity.</p>
-                <p>She carried herself with an effortless, breathtaking elegance that immediately set her apart from the overwhelming chaos of the room. It was not merely how striking she looked in her traditional attire, draped gracefully with subtle detailing that caught the warm light; it was the quiet stillness she held within herself. While everyone else moved with frantic energy, Maya seemed to move through the hall like a soft, unexpected breeze on a humid summer night.</p>
-                <p>In that exact fragment of a second, something fundamental inside Haroon shattered and reshaped itself. A strange, terrifying, and profoundly beautiful sensation surged through his chest—a feeling no textbook had ever described, no academic theory had ever warned him about, and no mathematical formula could quantify. His heart, which had spent years beating to the steady, calculated rhythm of discipline, skipped a beat, then began to race uncontrollably.</p>
-                <p>Without a single word spoken across the crowded floor, Haroon knew his heart was no longer entirely his own. It had been stolen right then and there, quietly and completely.</p>
-                <p>The iron armor of academic pride, self-reliance, and emotional control he had painstakingly constructed since childhood felt entirely weightless. All the rules he had relied upon to keep the world at bay vanished in an instant. He stood completely paralyzed, his eyes locked onto her, overwhelmed by a sudden, desperate urge to bridge the distance between them.</p>
-                <p>He wanted to step away from the shadows of his pillar. He wanted to walk across the polished floor, cut through the crowd of strangers, stand in front of her, and say something—anything—to hear her voice and acknowledge this unspoken storm inside him. The thought burned with intense clarity in his mind.</p>
-                <p>Yet, the very nature that guarded Haroon pulled him backward. The deep-seated introversion that made him an observant student also built an invisible, insurmountable wall around him. The words rose to his throat only to freeze there, heavy and unspoken. What could he possibly say? How could someone who spent his entire life hiding behind books and logic step out into the light so recklessly?</p>
-                <p>So, Haroon stayed where he was. He stood anchored to the floor in silent agony, watching her from across the hall as she conversed softly with relatives, occasionally smiling—a smile that felt to Haroon like a light shining directly into the dark, quiet corners of his soul. Every minute that passed felt like an eternity laced with both exquisite wonder and sharp regret. He was closer to her than he had ever been, yet separated by a canyon built of his own silence.</p>
-                <p>When the celebrations eventually began to wind down, the music faded into hushed chatter, and families began gathering their belongings to depart, the hall slowly emptied out. Maya disappeared into the crowd with her family, leaving behind an empty space that felt colder and larger than the hall itself.</p>
-                <p>The journey home was long and quiet. Haroon sat by the car window, staring out at the passing streetlights as they cut yellow streaks through the dark glass. The physical world was restoring its mundane rhythm, but inside the silence of his thoughts, Haroon was completely changed. The quiet boy who believed that hard work and logic could control any outcome had finally met a variable he could neither solve nor defend against. He carried her memory into the night, knowing that his world had officially split in two: the life he had planned, and the girl who had unknowingly rewritten it all.</p>
-                <p class="no-indent">By the time Haroon reached fifteen years of age, the quiet simplicity of his childhood had completely dissolved. Fifteen was an strange, transitional threshold—an age where a boy begins to look at the world not through the innocent lens of play and academic competition, but through the heavy, introspective awareness of growing up. The world around him kept moving at its usual relentless speed, yet inside Haroon, everything had narrowed down to a single, unspoken truth. Maya had not faded into the background of his memory; she had anchored herself at the very center of his soul.</p>
-                <p>Being an naturally quiet and deeply introverted teenager, Haroon possessed no outlet for the storm brewing inside him. He could not share his thoughts with his classmates, who were busy navigating their own noisy lives, nor could he bring himself to utter her name before his family. His pride, which had always served as his armor, insisted that this emotion remain entirely private. But holding such an immense feeling inside a quiet room late at night creates a solitude that is heavy to bear.</p>
-                <p>On many evenings, after the household had fallen asleep and the street outside grew silent, Haroon would retreat to his desk. Under the soft, golden glow of a single study lamp, he would finish his books, push his notebooks aside, and stand quietly before the small glass mirror hanging near his wardrobe. It was a ritual born not of vanity, but of a quiet, aching curiosity.</p>
-                <p>He would study his reflection for long, unbroken minutes. In the glass, he saw a fifteen-year-old boy who seemed to belong entirely to the shadows. His skin was dusky, carrying a deep, muted tone that felt far removed from the bright, glowing faces he often admired in poetry and pictures. Above his brow sat a mop of dark, unruly curly hair that refused to obey any comb, springing back into wild patterns no matter how much effort he spent trying to tame it. His features were sharp with quiet contemplation, but to his own harsh judgment, he looked entirely ordinary—a boy built for dusty school corridors and lonely study desks.</p>
-                <p>He would run his fingers through his stubborn curls, staring into his own dark eyes, and feel a cold, lingering wave of inadequacy settle over his chest. Insecurity at fifteen is a sharp, unforgiving instrument. Haroon didn't know how to bridge the gap between the boy he saw in the mirror and the impossible grandeur of the feeling he carried inside.</p>
-                <p class="no-indent">Whenever Haroon thought of Maya, his mind naturally searched for metaphors to capture what he felt, but classical poetry always fell short. For centuries, poets had compared breathtaking human beauty to the full moon shining in a night sky. They wrote endless couplets about its radiance, its ethereal glow, and its ability to pierce through the darkest night. But whenever Haroon remembered Maya from that wedding hall, he found the comparison flawed.</p>
-                <p>The moon, for all its celestial magnificence, was not perfect. If a person looked closely at the night sky, or studied the lunar surface, they would see dark patches—cratering shadows and visible blemishes scattered across its pale surface. The moon was beautiful, yes, but it carried marks of wear and ancient scars. It was flawed light.</p>
-                <p>Maya, in Haroon’s eyes, was fundamentally different. She was like a moon completely stripped of its spots—a light so pure, bright, and unbroken that it defied description. Her presence carried an effortless clarity, a stillness that illuminated everything around her without carrying a single shadow or flaw. She stood in his imagination as something entirely untouchable, elevated far above the mundane, dusty world he inhabited every day.</p>
-                <p>This contrast haunted him ceaselessly. He was a dusky boy with wild, unruly curly hair, living in the quiet background of life, while she was a radiant, unblemished light. The sheer distance between those two pictures felt vast and terrifying.</p>
-                <p>He would sit by his window, staring out at the actual moon hanging over the quiet rooftops of his neighborhood, letting his mind wander into dangerous, uncertain territory. How could two people from such completely different ends of the spectrum ever align? Why would a girl who shone like flawless light ever cast a glance toward a boy who lived entirely in the shade? Logic, the tool Haroon had relied upon since he was nine years old to solve every problem, brought him no comfort here. There was no equation that could equalize dusk and moonlight.</p>
-                <p class="no-indent">Having no human ear to listen to his secrets, and finding no solace in cold logic, Haroon turned his entire heart toward the Divine. Maya became his secret, shared exclusively between his soul and Allah. Where human conversation failed him, prayer became his refuge.</p>
-                <p>At fifteen, while other boys his age slept soundly through the night, Haroon would often rise in the silent hours before dawn. He would perform his ablutions in the cool, quiet washroom, feeling the icy water wake his senses and calm the restlessness in his chest. Stepping back into his darkened room, he would unroll his prayer mat on the cold floor, facing the direction of the Qibla.</p>
-                <p>When Haroon stood on that mat, the heavy weight of the world lifted. The insecurities about his dusky skin, his unruly hair, and his introverted silence faded into the background. Before the Almighty, he was neither inferior nor superior—he was simply a servant pouring out his heart to the Creator of the universe.</p>
-                <p>As he finished his obligatory prayers and rested his hands upon his knees, he would slowly raise his palms toward the heavens. It was in these quiet, sacred moments that his love for Maya found its true home. She sat at the absolute top of his prayer list, second by second, breath by breath. Every single supplication was steeped in her name.</p>
-                <p><em>"O Allah,"</em> he would whisper into the dark silence of his room, his voice barely audible even to himself, <em>"You created the moon and the stars. You placed the light in her eyes, and You know the quiet ache inside my chest. If it pleases You, write her in my destiny. Protect her, keep her radiant, and grant me the strength to be worthy of standing beside her one day."</em></p>
-                <p>His prayers were not arrogant demands born of entitlement, but humble, desperate petitions poured out from the deepest corners of his heart. He asked for her every second, placing his fragile hope entirely in the hands of the One who turns hearts and controls destinies.</p>
-                <p>Yet, as he lowered his hands and wiped them across his face, the quiet question would always linger in the dark air, soft and trembling: <em>Will she ever be mine?</em> He had no answer, but in those late-night prayers, Haroon found the strength to carry the uncertainty for another day.</p>
-                <p class="no-indent">Time continued its steady, indifferent progression, measured not by dates on a calendar, but by silent prayer mats, late-night study sessions under a single desk lamp, and the endless internal dialogue of a quiet heart. Months had drifted past since Haroon had first seen Maya at his cousin's wedding, yet the memory of that single evening remained etched into his mind with frightening precision. Then, an invitation arrived for another mutual cousin's wedding. For Haroon, who typically avoided crowded family functions with every fiber of his introverted nature, this event carried a singular, heart-pounding question that overshadowed everything else: *Would she be there?*</p>
-                <p>When the evening finally arrived and Haroon stepped over the threshold into the wedding hall, the familiar sensory overload met him at once—the heavy scent of marigolds and rosewater, the warm glow of massive crystal chandeliers, and the chaotic hum of overlapping family voices. He kept strictly to his usual habit, slipping quietly toward the shadowed periphery of the room, adjusting his cuffs, and keeping his hands firmly buried in his pockets. But as his eyes casually swept across the crowded hall, his heart gave a sudden, violent leap against his ribs. Standing among a circle of chatting relatives was Maya.</p>
-                <p>This was only the second time in his life he was seeing her in person, yet the physical effect was immediate and overwhelming. She looked just as breathtaking as she had the first time—carrying that same effortless, radiant purity that reminded him of a moon without a single spot or shadow. The entire room, filled with bright traditional clothes and loud laughter, seemed to turn into a dim, muted backdrop. Haroon stood anchored in the shadows near a decorated pillar, his mind floating back to all those long, solitary nights in his room, all those quiet, tearful supplications raised after the midnight hours. A soft, profound realization washed over his chest: *Allah never disappoints His creatures.* Just being allowed to stand in the same room as her, breathing the same air, felt like a quiet mercy answered from above.</p>
-                <p class="no-indent">As the night wore on and the formal wedding functions drew near their conclusion, guests began gathering their shawls, exchanging lingering farewells, and moving toward the main exit. Haroon stayed near the edges of the doorway, preparing himself mentally for the quiet ride home, entirely content with having simply seen her from afar once more. He had expected the night to end like every other—in silent observation. But as the crowd began to thin out, two of his female cousins—who were also mutual cousins to Maya—approached him with deliberate, hurried steps.</p>
-                <p>They navigated past lingering groups of elders and stopped directly in front of him, their eyes darting briefly behind them before locking onto Haroon with unspoken urgency. "Haroon," one of them whispered, dropping her voice low so as not to attract the attention of nearby relatives. "Come with us right now. Someone wants to talk to you."</p>
-                <p>A wave of sudden, paralyzing coldness rushed straight through Haroon's chest. An introverted soul is not built for unscripted encounters, and the sudden thought of being pulled away to a private corner of a busy wedding hall sent his blood pressure spiking. "Who? Where?" he asked, his voice tight, barely rising above a whisper. They offered no detailed explanation, merely gesturing impatiently for him to follow them down a quiet side corridor, away from the loud music and bright lights of the main banquet hall.</p>
-                <p>Every step Haroon took down that tiled hallway felt unnaturally heavy, as if he were walking through deep water. His hands grew ice-cold, his pulse hammering wildly in his ears as his mind raced through a dozen terrifying scenarios. Why was he being summoned? Had someone noticed him looking at her across the room? Had his hidden feelings been exposed to the family? His breath came short and shallow as his cousins reached a wooden door at the end of the passage, pushed it open slightly, and motioned for him to step inside alone.</p>
-                <p class="no-indent">Haroon stepped over the threshold, his shoes making no sound against the rug, and the heavy door closed softly behind him—instantly muffling the distant noise of the wedding hall into total silence. The room was small and quiet, illuminated by the warm, soft glow of a single floor lamp. Standing near the center of the space, turning slowly around to face him, was Maya.</p>
-                <p>The sheer shock of her physical presence in that tiny room nearly stopped Haroon's heart entirely. He stood frozen near the door frame, his mind going completely blank, his introversion locking his jaw like an iron vice. He was a boy built entirely on cold logic, structured study habits, and hidden late-night prayers, completely unprepared for the physical reality of standing face-to-face with the girl who occupied his every waking thought. His eyes remained fixed on the carpet for a fraction of a second, utterly unable to bear the sheer intensity of the moment.</p>
-                <p>Maya, however, showed none of his paralyzing hesitation. She did not make the moment awkward, nor did she allow the heavy silence to linger and crush his fragile composure. She looked directly at him, her expression calm, gentle, and completely genuine.</p>
-                <p class="dialogue">"I like you!" she said softly.</p>
-                <p>The words fell into the quiet room like a sudden lightning strike on a clear, silent night. Haroon's breath caught entirely in his throat, trapped behind a wall of pure disbelief. The world around him seemed to lose its center gravity. *I like you.* Three simple, unmistakable words, spoken with effortless honesty, echoing in the quiet space between them.</p>
-                <p>Haroon stood completely motionless, his dark eyes wide with shock, his unruly curls casting soft shadows across his forehead. His mind scrambled violently to process the sound of her voice addressing him directly. For a long, terrifying moment, he was convinced his mind had finally broken under the weight of his own silent longing. He was certain he was dreaming—that he was still asleep on his bed after late-night prayers, fabricating an impossible fantasy out of thin air. How could this be real? How could the radiant girl who seemed as untouched and untouchable as the moon be standing in a quiet room, confessing her feelings to a dusky, introverted boy who had spent years hiding in the shadows?</p>
-                <p class="no-indent">The silence that followed her confession felt like an eternity compressed into a few heartbeats. Haroon tried to speak, to form a sentence that could convey the immense storm surging inside his soul, but his throat was completely dry. His introversion, which had protected him for years from the outside world, now felt like a cage holding him back from the greatest moment of his life. He could only stare at her, his hands trembling slightly inside his jacket pockets, his pulse echoing like thunder in his ears.</p>
-                <p>Yet Maya seemed to understand his silence without requiring a single word of explanation. She didn't demand an immediate, polished speech; she simply stood there, her soft gaze holding his, offering him a smile that felt like the sun breaking through years of overcast skies. In her eyes, there was no judgment for his silence, no awkwardness for his shock—only a quiet, profound acceptance that made the narrow room feel infinitely large.</p>
-                <p>In that quiet fragment of time, the lingering insecurities that had tormented Haroon for years—about his dusky skin, his stubborn curly hair, and his invisible presence in the world—vanished into thin air. The math had failed, logic had proven useless, but the whispers poured out on the prayer rug during the darkest hours of the night had risen straight to the heavens. Standing before her in that dimly lit room, Haroon finally understood that miracles do not always arrive with fanfare; sometimes, they arrive in three quiet words that rewrite a person's entire universe forever.</p>
-                <p class="no-indent">Shock has a strange, paralyzing weight. When a human soul prepares itself for years to endure longing from a distance, the sudden, unearned arrival of the answer can shatter its defenses. In that dimly lit room, with Maya's three quiet words lingering in the air, Haroon's vocal cords completely froze. The years he had spent hiding inside his own introverted fortress rebelled against him; he couldn't form a sentence, couldn't utter a whisper, couldn't even nod. His pulse roared in his ears like a surging river, drowning out any words his heart desperately tried to offer.</p>
-                <p>Overwhelmed by the sheer magnitude of the moment, Haroon did the only thing his survival instinct dictated: he stepped backward. His hand fumbled blindly behind him for the brass door handle, pushed the heavy door open, and retreated into the cool, silent corridor. He walked away without answering her, leaving Maya standing alone in the soft light of the small room.</p>
-                <p>The journey back home was an agonizing blur. Sitting motionless in the back of the family vehicle, staring out at the passing streetlights casting long, amber streaks across the dark window, Haroon felt a bitter storm of self-reproach rising inside him. Why hadn't he spoken? Why had he allowed his introversion to cage him at the precise moment his lifelong prayer was granted? He had spent countless nights asking Allah for her, yet when she stood before him offering her heart, he had fled in silent terror. He convinced himself he had ruined everything—that his silence had been mistaken for rejection, and that the miracle had slipped through his trembling fingers forever.</p>
-                <p class="no-indent">Late into the night, the world outside fell into complete silence. Haroon sat on the edge of his bed in the darkened bedroom, his desk lamp turned off, staring blankly at the floor. His prayer mat lay unrolled nearby, but his mind was too chaotic to gather his thoughts. Every tick of the wall clock felt like an accusation, reminding him of the opportunity he had lost to his own silence.</p>
-                <p>Then, the faint vibration of his smartphone broke the stillness. A soft glow illuminated the corner of his nightstand.</p>
-                <p>Haroon reached out with a cold, hesitant hand, half-expecting a routine notification. But when his thumb unlocked the screen, his breath caught entirely in his chest. A notification from social media sat at the top of his screen—a new message request. Below the small profile icon was a name that made his heart leap violently against his ribs: *Maya.*</p>
-                <p>With trembling fingers, he tapped the screen. She hadn't walked away in anger, nor had she let his silent flight close the door between them. She had taken the initiative once more, breaking the wall of his isolation with a simple, gentle text that cut directly through his regret. Maya understood him far better than he understood himself; she had seen through his paralyzing shock and recognized the quiet storm beneath his silence.</p>
-                <p>Staring at her words in the quiet darkness of his room, Haroon felt tears of sheer relief warm his eyes. The boy who had fled in terror was given a second chance—not in a crowded wedding hall, but in the quiet, safe refuge of written words, where his introversion could no longer hold him hostage.</p>
-                <p class="no-indent">That first digital exchange unlocked a dam that had held back years of unspoken emotions. Through written text, the barriers that crippled Haroon in person dissolved into thin air. The quiet, introverted boy who struggled to speak aloud found his voice in glowing blue screens during the late hours of the night. Words flowed effortlessly from his heart, pouring out the depth, sincerity, and intellect he had kept hidden from the world for so long.</p>
-                <p>Night after night, while the rest of the neighborhood slept under a blanket of stars, Haroon and Maya remained awake, connected by an invisible thread. They talked about everything and nothing—their childhood memories, their favorite quiet routines, their secret fears, and the little details of their daily lives. Maya spoke with an open, radiant warmth that softened Haroon's guarded nature, while Haroon offered her a steady, deeply devoted presence that she had never found anywhere else.</p>
-                <p>It did not take long for both of them to realize that their connection was not a passing teenage infatuation. It was a profound, soul-deep alignment. Maya loved him with an intensity that blew away all of Haroon's old insecurities—she loved his quiet soul, his sharp mind, his dusky skin, and his stubborn, wild curly hair. To her, he was not the invisible boy standing in the shadows; he was her safe harbor, her confidant, and her heart's choice. And Haroon loved her with every fiber of his being, a love rooted in years of silent supplication before the Divine.</p>
-                <p class="no-indent">As the weeks turned into months, their conversations naturally shifted from the present to the endless horizon of tomorrow. Together, in the quiet sanctuary of their late-night messages, they became architects of a shared future. They wove detailed, beautiful dreams of the life they would build together—a home filled with peace, mutual respect, and an unbroken bond that no external force could ever sever.</p>
-                <p>They spoke of the days when they would no longer have to hide behind glowing screens or quiet glances across crowded wedding halls. They imagined standing beside each other openly, supported by their families, building a sanctuary where his quiet strength and her radiant light would complete one another. Haroon would map out his academic and life goals, promising to work tirelessly to become a man worthy of claiming her hand honorably before the world.</p>
-                <p>In those moments, wrapped in the warmth of her unconditional love, Haroon felt completely invincible. The equation of his life had finally solved itself in the most magnificent way possible. He was no longer just the dusky, introverted boy praying alone in the dark; he was a man deeply loved by the girl who shone like a moon without a single spot. They held tightly to their shared promises, completely unaware of the dark clouds gathering silently on the distant horizon—clouds that would soon test every prayer, every promise, and every thread of love they had so carefully woven together.</p>
-                <p class="no-indent">For a year and a half, time flowed with the serene, unbroken beauty of a quiet river. Eighteen months passed in a steady rhythm of shared thoughts, late-night messages, and an intimacy that deepened with every passing week. By the time Haroon and Maya both turned sixteen, their quiet bond had outgrown the fragile uncertainty of its beginnings. They were no longer just two teenagers navigating an unexpected connection; they had become each other's anchor in a loud and unpredictable world.</p>
-                <p>Sixteen brought a new maturity to Haroon. The dusky, introverted boy who used to hide in the corners of wedding halls had found an incredible sense of purpose in Maya's love. She was his confidante, his daily motivation, and the constant light behind his academic focus. In turn, Haroon offered Maya a loyalty that was absolute—a steady, unyielding presence that treated her feelings with sacred respect. Through seasons of exams, daily routines, and quiet family gatherings, their digital sanctuary remained undiscovered, a secret universe built entirely for two.</p>
-                <p>They spoke with the unshakeable confidence of young souls who believed destiny was completely in their hands. They planned their futures with meticulous detail—how Haroon would pursue his studies, build his career, and eventually walk up to her family's doorstep with honorable intentions. To Haroon, the path ahead seemed clear, mapped out by sincerity, devotion, and the endless prayers he still offered in the quiet before dawn. He believed the hard part was behind them.</p>
-                <p class="no-indent">Human secrets, however, rarely break because of direct attacks; more often, they fracture from the inside, through the very doors left unlocked by trust. The foundation of their private world had been assisted by their mutual female cousins—the same cousins who had led Haroon down that quiet corridor during the second wedding. For eighteen months, those cousins had served as the silent keepers of the bridge, aware of the quiet affection that connected Haroon and Maya.</p>
-                <p>In a tightly-knit family structure, secrecy is a heavy weight for young minds to carry. What began as a protected confidence slowly lost its sanctity over time. A careless word dropped in a quiet room, a glance over a shoulder at a glowing screen, or the simple, innocent oversight of a phone left unlocked—the precise mechanism hardly mattered. The walls that had protected Haroon and Maya's haven for a year and a half suddenly crumbled.</p>
-                <p>The cousins' parents discovered the truth. What to Haroon and Maya was a pure, prayer-answered bond built on mutual respect and future intentions appeared, through the harsh lens of strict adult authority, as an unsanctioned, dangerous secret. The news did not remain contained within that single household for long. In family webs where reputations and traditional expectations dictate every social boundary, panic travels with terrifying speed.</p>
-                <p class="no-indent">The exposure unfolded like a row of falling dominos, swift and utterly destructive. The cousins' parents, driven by a mixture of shock and traditional propriety, immediately contacted Maya's parents and Haroon's parents. The private sanctuary that two sixteen-year-olds had built out of middle-of-the-night prayers and quiet promises was suddenly dragged into the harsh, uncompromising spotlight of family judgment.</p>
-                <p>The atmosphere in Haroon's home shifted overnight from quiet routine to suffocating tension. The quiet, disciplined son who had never given his parents a single cause for concern was suddenly viewed through a lens of suspicion and disappointment. Heavy questions were asked, cold glances were exchanged, and the quiet dignity Haroon had maintained for years felt stripped away in an instant. But the physical discomfort in his own home was nothing compared to the terror that seized his heart for Maya.</p>
-                <p>Haroon knew the rigid expectations that surrounded a young girl in their traditional environment. He knew that while he faced stern lectures and cold distance, Maya would face a far heavier burden—strict isolation, lost freedom, and the complete dismantling of her personal world. The thought of her standing alone before angry elders, bearing the brunt of a storm they had created together, broke Haroon's composure far more than any consequence aimed at himself.</p>
-                <p class="no-indent">The worst punishment was not the anger, the raised voices, or the heavy lectures—it was the sudden, absolute silence that fell between them. Almost instantly, phones were confiscated, digital accounts were locked down, and every avenue of communication was severed with surgical precision. The glowing screen that had been Haroon's window into Maya's soul for eighteen months went completely dark.</p>
-                <p>Haroon sat in his room late at night, staring at his study desk under the amber lamp, feeling a crushing weight on his chest. For a year and a half, he had drifted off to sleep holding her written words, reassured by her soft promises that they would face the world together. Now, he was trapped inside a cold, silent vacuum. He had no way of knowing if she was okay, what was being said to her, or if she was crying alone in her room behind locked doors.</p>
-                <p>He stood up and unrolled his prayer mat in the center of the dark floor, his hands trembling as he stood before the Almighty. The boy who had prayed for her as an untouchable dream at fifteen now wept for her as a sixteen-year-old whose entire world had been torn apart. As he lowered his forehead to the ground, tears soaked into the fabric of the mat. The miracle that had arrived so quietly in a wedding hall had now encountered the brutal reality of the world—and Haroon was left staring into an uncertain darkness, begging Allah to protect the girl who held his heart.</p>
-                <p class="no-indent">The immediate aftermath of the exposure fell upon both households with unyielding severity. For Haroon, the reckoning came in the form of a quiet, heavy confrontation in the family living room. The phones were taken away—confiscated swiftly as if removing the physical device could instantly erase eighteen months of profound emotional history. But far heavier than the loss of the glowing screen were the words delivered by their elders: *Forget each other.*</p>
-                <p>To the adults, it was a logical, necessary intervention to protect family honor and redirect two sixteen-year-olds toward their academic duties. They spoke of love as a fleeting distraction, a youthful mistake that would fade once the lines of communication were severed. Haroon stood before his parents with his hands by his side, his head bowed, accepting the verdict in disciplined silence. He did not argue or raise his voice, knowing that words would only sound like rebellion to minds that could not see the purity of what had been built.</p>
-                <p>Across the distance separating their homes, Maya faced her own strict confinement. Stripped of her device and placed under constant, watchful oversight, her world shrank to the four walls of her bedroom. The explicit command echoed through both their lives: erase the past, erase the promises, and move on as if the other had never existed.</p>
-                <p class="no-indent">What followed was a brutal, three-month exile into complete darkness. Ninety long days unfolded without a single text, a single phone call, or a fleeting glimpse of each other’s face. For Haroon, who had grown accustomed to falling asleep to her written thoughts and waking up to her morning check-ins, the sudden emptiness in his daily routine felt like an open wound.</p>
-                <p>Every morning, Haroon walked to school wrapped in an impenetrable wall of solitude. He moved through the crowded streets with his head down, his unruly dark curls catching the wind, his dusky face carrying a quiet, somber weight that made him look years older than sixteen. He searched every passing face in public, every passing vehicle, with a quiet, desperate hope that fate might grant him a single second of seeing her from afar. But the world offered no such relief. They were completely insulated from each other.</p>
-                <p>In the absence of human contact, Haroon retreated deeper into the only sanctuary no authority could confiscate: his faith. Night after night, while his house lay silent under the dark sky, he unrolled his prayer mat. He spent those three months in continuous, tearful supplication. He did not pray with anger or bitterness toward their families; instead, he prayed for Maya’s strength, her health, and her peace of mind. He begged Allah to keep her safe behind those locked doors and to preserve the love they had shared in silence. Unknown to him, miles away in her own quiet room, Maya was lifting her hands in the exact same prayers, asking the Almighty to guard the boy who held her soul.</p>
-                <p class="no-indent">Three months can feel like an eternity when spent in total silence. Just as the weight of the separation began to feel like a permanent, heavy reality, the impossible happened. Maya found a way.</p>
-                <p>It was neither easy nor without immense risk. Navigating strict household surveillance, utilizing temporary access through hidden means with breathtaking courage, Maya managed to send a message across the void. On an ordinary evening, as Haroon sat at his study desk under the amber glow of his lamp, a hidden notification flashed across a borrowed screen.</p>
-                <p>When Haroon saw her name, his breath stopped entirely. His chest surged with a violent mixture of shock, awe, and overwhelming relief. His hands trembled so violently he could barely hold the device. Three months of silence, of aching fear that she might have been forced to forget him, vanished in a single instant as he read her words. She had not forgotten. Her love had not wavered; if anything, the three months of isolation had only burned away the casual noise of youth and left behind a devotion as hard as diamond.</p>
-                <p class="no-indent">Reconnecting, however, was far from simple. The easy, carefree late-night conversations of their past were gone, replaced by a tense, high-stakes reality where a single mistake could bring total ruin. Every word had to be measured, every message sent with extreme caution, and every connection made under the constant shadow of discovery.</p>
-                <p>They spoke in brief, urgent bursts, piecing their bond back together thread by thread. It was exhausting, terrifying, and fraught with difficulty, but neither of them cared. Standing on broken ground, surrounded by strict boundaries, Haroon and Maya realized that their love was no longer just a sweet dream—it was a battle fought through patience and quiet resistance.</p>
-                <p class="no-indent">As Haroon lay back on his bed late that night, listening to the quiet night air, he knew the road ahead would be treacherous. The three-month silence had proven that distance and authority could not sever what had been written in his prayers. They were reconnected, fragile yet unbroken, ready to face whatever storm the world decided to throw at them next.</p>
-</div>
-                <!-- CHAPTER 2 ENGLISH -->
-                <div class="chapter-block hidden-chapter" data-chapter="2">
-                    <h2 class="chapter-title">For some reasons, chapter 2 is late.</h2>
-                   <p>I apologize for unconvinience</p>
-                    <!-- ADD YOUR ADDITIONAL CHAPTER 2 ENGLISH PARAGRAPHS HERE -->
-                    <p><em>Chapter 2 will be longer than chapter 1 because It will be the mixture of Chapter 2 and 3.</em></p>
-                </div>
+    <!-- Automatically unlocks at 9:00 PM -->
+    <div id="released" class="released-box hidden">
+      <p class="released-text">🎉 Chapter 2 is live now!</p>
+      <a href="chapter-2.html" class="btn-read">Read Chapter 2</a>
+    </div>
+  </div>
 
-            </section>
+  <script>
+    // Target time: September 24, 2026 at 9:00 PM (21:00)
+    const releaseTime = new Date("2026-09-24T21:00:00").getTime();
 
-            <div id="section-divider" class="divider">
-                <span>✦ ✦ ✦</span>
-            </div>
+    const timerEl = document.getElementById("timer");
+    const releasedEl = document.getElementById("released");
+    const hoursEl = document.getElementById("hours");
+    const minsEl = document.getElementById("minutes");
+    const secsEl = document.getElementById("seconds");
 
-            <!-- Urdu Story Section -->
-            <section id="urdu-content" class="story-content urdu-section" lang="ur">
-                <span class="section-label" style="float: right;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    اردو ترجمہ
-                </span>
-                <div style="clear: both;"></div>
+    const updateTimer = () => {
+      const now = new Date().getTime();
+      const diff = releaseTime - now;
 
-                <!-- CHAPTER 1 URDU -->
-                <div class="chapter-block" data-chapter="1">
-                      <p>اس سے پہلے کہ دنیا پیچیدہ ہوتی، اس سے پہلے کہ دل ٹوٹنے کے غم کا کوئی نام ہوتا، زندگی سادہ تھی۔ یہ محض فیصد، صاف شفاف سفید جوابی کاپیوں پر نیلی روشنائی، اور صفحے کے سب سے اوپر استاد کی تحریر سے ملنے والے پرسکون اطمینان تک محدود تھی: <strong>پہلی پوزیشن</strong>۔</p>
-                    <p>نو سال کی عمر میں، ہارون نہ تو محبت کو سمجھتا تھا اور نہ ہی اسے ایسا کرنے کی کوئی تمنا تھی۔ اسکول کی راہداریوں میں لڑکیاں اس کے لیے محض ایک پس منظر کا شور تھیں—ایک دور اور غیر متعلقہ چہ مگوئیاں جو اس کی دنیا کی حدود سے باہر تھیں۔ اس کی دنیا منطق، نظم و ضبط اور ترتیب پر قائم تھی۔ جبکہ دوسرے بچے اپنے وقتاً فوقتاً وقفے کا وقت دھول بھرے صحن میں بے تحاشا بھاگتے ہوئے یا اونچے نیم کے درختوں کی چھاؤں تلے باتیں کرتے ہوئے گزارتے، ہارون اپنے نمبروں کا حساب لگانے، امتحانی سوالات کا اندازہ لگانے، اور اپنی چھوٹی سی سلطنت کی دیواروں کو مضبوط کرنے میں مصروف رہتا تھا۔</p>
-                    <p>دوسری جماعت سے لے کر پانچویں جماعت تک، ہارون کا تسلط بے مثال اور ناقابلِ تردید رہا۔ ہر تعلیمی سال کا اختتام بالکل ایک ہی طرح ہوتا تھا۔ نتائج والے دن، جب والدین اپنی نشستوں پر بے چینی سے کروٹیں بدلتے اور جماعت کے ساتھی اپنی لکڑی کی پنسلوں کے کونے چباتے، ہارون مکمل پرسکون انداز میں سب سے آگے کھڑا ہوتا۔ جب پرنسپل پہلی پوزیشن کا اعلان کرتے، تو ہمیشہ ہارون ہی کا نام ہال میں گونجتا تھا۔</p>
-                    <p>پہلے نمبر پر آنا صرف ایک عادت نہیں تھی؛ یہ ہارون کی شناخت بن چکی تھی۔ یہ اس بات کا ثبوت تھا کہ اگر انسان اپنی توجہ پر قابو پا لے، تو وہ اپنی تقدیر پر بھی قابو پا سکتا ہے۔ ہارون کا ماننا تھا کہ زندگی ایک مساوات کی طرح ہے: <strong>محنت ان پٹ، اور فتح آؤٹ پٹ</strong>۔ اس کی دفاعی دیوار سے گزر کر کوئی چیز اس سے جیت نہیں چھین سکتی تھی۔</p>
-                    <p>پھر چھٹی جماعت آئی، اور اس کے ساتھ ہی ایک نئے طالب علم کی خاموش آمد ہوئی۔</p>
-                    <p>وہ مڈ ٹرم کے قریب ان کے سیکشن میں منتقل ہوا—ایک خاموش طبع لڑکا، جس کا یونیفارم صاف ستھرا اور چہرے پر ایک بے نیازی کا تاثر تھا۔ جماعت کے بچے اس کے بارے میں سرگوشیاں کرتے، اندازے لگاتے کہ وہ کتنا ذہین ہو سکتا ہے، لیکن ہارون نے مشکل سے ہی اپنی کاپی سے نظریں اٹھائیں۔ <strong>بے جا اعتماد ایک خاموش چور ہے</strong>؛ یہ تاج چھیننے سے بہت پہلے انسان کی بیداری اور ہوشیاری چھین لیتا ہے۔ ہارون نے فرض کر لیا تھا کہ یہ ترتیب پتھر پر لکیر ہے۔ اس کا خیال تھا کہ کوئی بھی اس کی قلمرو میں داخل ہو کر اس کی سالہا سال کی مسلسل کامیابیوں کو برباد نہیں کر سکتا۔</p>
-                    <p>ہارون نے اسے سنجیدگی سے نہیں لیا۔ سالانہ امتحانات سے پہلے اس نے اپنی معمول کی دیوانہ وار شدت سے پڑھائی نہیں کی۔ اس نے اپنی یادداشت، اپنے معمول، اور اس خطرناک غلط فہمی پر بھروسہ کیا کہ پہلے نمبر پر آنا صرف اس کا فطری حق ہے۔</p>
-                    <p>جس دن نتیجہ کا اعلان ہوا، وہ دن ہارون کے ذہن میں ایک خوفناک شفافیت کے ساتھ نقش ہو کر رہ گیا۔</p>
-                    <p>نتیجے کی شیٹ مرکزی نوٹس بورڈ پر لگی ہوئی تھی، جس کے گرد شور مچاتے لڑکوں کا ہجوم تھا۔ ہارون بے نیازی سے انہیں ہٹاتا ہوا آگے بڑھا، اسے توقع تھی کہ مسلسل چار سالوں کی طرح اس کا نام سب سے اوپر ہوگا۔</p>
-                    <p>اس کی نگاہوں نے فہرست کی پہلی سطر کو دیکھا۔ ہارون کا نام وہاں نہیں تھا۔</p>
-                    <p>یہ دوسری سطر پر چھپا ہوا تھا۔ اس کے بالکل اوپر، پہلی پوزیشن پر، اس نئے طالب علم کا نام فخر سے چمک رہا تھا۔</p>
-                    <p>ایک عجیب، سرد خاموشی ہارون پر طاری ہو گئی۔ راہداری کا شور مدہم سی سرگوشی میں بدل گیا۔ اپنی زندگی میں پہلی بار، ہارون نے ناکامی کا ذائقہ چکھا—یہ کوئی تباہ کن بربادی نہیں تھی، لیکن ایک تیز، چبھتی ہوئی ندامت تھی جو اس سے کہیں زیادہ تکلیف دہ تھی۔ اس نے اس واحد میدان میں اپنی زمین کھو دی تھی جو اس کے لیے اہمیت رکھتا تھا۔ اس نے کسی اور کو وہ چیز لے جانے دی تھی جو اس کا حق تھی۔</p>
-                    <p>اس گرمیوں کی تعطیلات میں، جب محلے کے باقی بچے شام ڈھلنے تک گلیوں میں کھیلتے، ہارون گھر کے اندر ہی رہا۔ اس شکست نے اسے توڑا نہیں؛ بلکہ اس کے اندر ایک بے رحم اور شدید آگ بھڑکا دی۔ وہ کھوئی ہوئی پوزیشن پر رویا نہیں؛ بلکہ اس نے اس کی واپسی کا منصوبہ بنایا۔</p>
-                    <p>جب ساتویں جماعت شروع ہوئی، تو ہارون ایک بدلا ہوا طالب علم تھا۔ وہ غرور اب جا چکا تھا، اور اس کی جگہ ایک <strong>فولادی عزم</strong> نے لے لی تھی۔ اس نے ہر ٹیسٹ پر نظر رکھی، ہر نمبر کا حساب لگایا، اور اپنے ڈیسک لیمپ کی زرد روشنی میں دیر رات تک جاگ کر پوری کتابیں حفظ کر لیں۔ ہارون صرف پہلی پوزیشن واپس حاصل نہیں کرنا چاہتا تھا؛ وہ یہ یقینی بنانا چاہتا تھا کہ اسے دوبارہ کبھی اس سے نہ چھینا جا سکے۔</p>
-                    <p>ساتویں جماعت کے اختتام پر، جب حتمی نتائج کا اعلان ہوا، تو ہارون کا نام نوٹس بورڈ پر دوبارہ سب سے اوپر بحال ہو چکا تھا۔ پہلی اور دوسری پوزیشن کے درمیان کا فرق واضح اور ناقابلِ تردید تھا۔ ہارون نے اپنا قلعہ دوبارہ فتح کر لیا تھا۔</p>
-                    <p>اسٹیج پر کھڑے ہو کر، کامیابی کی سند تھامے ہوئے، ہارون نے خود کو مکمل طور پر ناقابلِ تسخیر محسوس کیا۔ اس نے خود پر ثابت کر دیا تھا کہ سخت محنت کسی بھی خطرے کو شکست دے سکتی ہے، کسی بھی غلطی کو سدھار سکتی ہے، اور حقیقت کو اپنی مرضی کے مطابق موڑ سکتی ہے۔ ہارون کے ذہن میں، زندگی قابلِ پیشگوئی اور قابلِ کنٹرول تھی۔ محبت ایک بے وقوفانہ بھٹکاوٹ تھی، جذبات ایک کمزوری تھے، اور دل ٹوٹنا ان لوگوں کا مقدر تھا جن میں نظم و ضبط کی کمی ہوتی تھی۔</p>
-                    <p>ہارون کو اس بات کا اندازہ تک نہیں تھا کہ اس کی زندگی کا سب سے مشکل سبق کسی درسی کتاب یا تعلیمی حریف سے نہیں ملے گا—اور یہ کہ پڑھائی کی کوئی بھی مقدار اسے اس چیز کے لیے تیار نہیں کر سکتی تھی جو موڑ کے بالکل پار اس کا انتظار کر رہی تھی۔</p>
+      if (diff <= 0) {
+        clearInterval(interval);
+        timerEl.classList.add("hidden");
+        releasedEl.classList.remove("hidden");
+      } else {
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-                    <div class="divider">✦ ✦ ✦</div>
+        hoursEl.textContent = String(hours).padStart(2, "0");
+        minsEl.textContent = String(minutes).padStart(2, "0");
+        secsEl.textContent = String(seconds).padStart(2, "0");
+      }
+    };
 
-                    <p>کامیابیوں میں سکون دینے کا ایک عجیب طریقہ ہوتا ہے، لیکن زندگی اچانک تمام اصول ہی بدل دیتی ہے۔ ہارون ابھی اپنی بحال شدہ پہلی پوزیشن کے سکون میں سستایا ہی تھا کہ اس کی جانی پہچانی دنیا خاموشی سے بکھر گئی۔ ساتویں جماعت کے نتائج کے بعد ایک فیصلہ ہوا: ہارون کا اسکول تبدیل کیا جا رہا تھا۔</p>
-                    <p>اسکول چھوڑنے کا مطلب ان جانی پہچانی روایات اور معمولات سے دور جانا تھا جنہوں نے اس کے بچپن کو سنوارا تھا۔ وہ اینٹوں کی دیواریں، وہ پرانے لکڑی کے ڈیسک جہاں اس نے اپنے نمبروں کا حساب لگایا تھا، اور وہ اساتذہ جو اس کے کلاس روم میں داخل ہونے سے پہلے ہی اس کا نام جانتے تھے، سب پیچھے چھوٹ گئے۔ اور سب سے بڑھ کر، وہ دوست جن کے ساتھ وہ بڑا ہوا تھا—وہ لڑکے جو وقفے کے دوران صحن میں اس کے ساتھ ہوتے تھے—اچانک اس کی روزمرہ کی زندگی سے غائب ہو گئے۔ اس کی تعلیمی توجہ کے پس منظر میں خاموشی سے قائم چھوٹا سا سماجی دائرہ راتوں رات ختم ہو گیا۔</p>
-                    <p>نئے اسکول میں اپنے پہلے دن، ہارون ایک ایسے ماحول کے سامنے کھڑا تھا جو مکمل طور پر اجنبی محسوس ہوتا تھا۔ کیمپس بڑا تھا، راہداریوں میں بلند آوازیں گونجتی تھیں، اور ماحول میں ایک الگ ہی توانائی تھی۔ طلباء کے گروہ مل کر گھومتے تھے، سالہا سال کی مشترکہ یادوں سے جڑے ہوئے جن کا ہارون کبھی حصہ نہیں رہا تھا۔ ایک طویل عرصے کے بعد پہلی بار، وہ تاج سنبھالنے والا لائق ترین طالب علم نہیں تھا؛ وہ بس آخری قطار میں بیٹھا ایک نیا، گمنام چہرہ تھا۔</p>
-                    <p>اس تبدیلی نے تنہائی کا ایک الگ احساس پیدا کیا، لیکن ہارون نے اسے خود کو بھٹکانے نہیں دیا۔ جہاں دوسرے لوگ ماحول کی اس اچانک تبدیلی سے گھبرا جاتے، ہارون نے اس تبدیلی کو ایک نیا شروعاتی صفحہ سمجھا۔ اس نے خاموشی سے کلاس روم کے نئے ماحول کا مشاہدہ کیا، یہ نوٹ کرتے ہوئے کہ کون سے طلباء زیادہ فعال ہیں، اساتذہ کس طرح پڑھاتے ہیں، اور تعلیمی معیار کہاں قائم ہے۔</p>
-                    <p>سناٹے کو توڑنے کے لیے پرانے دوستوں کے بغیر، ہارون نے ایک بار پھر اپنے اندر پناہ لی۔ اس کا نظم و ضبط اس کی پناہ گاہ بن گیا۔ اگرچہ نیا ماحول بے ترتیب اور اجنبی محسوس ہوتا تھا، لیکن اس کی پڑھائی کے اصول غیر تبدیل شدہ رہے۔ کتابیں مختلف تھیں، چہرے نئے تھے، لیکن کامیاب ہونے کے لیے درکار مساوات، منطق اور عزم وہی پرانے اوزار تھے جنہیں اس نے سالوں کی محنت سے تراشا تھا۔</p>
-                    <p>ہارون نے خاموشی سے خود کو ڈھال لیا، ان اجنبی دیواروں کے اندر قدم بہ قدم اپنی توجہ دوبارہ قائم کی، اس بات سے مکمل طور پر بے خبر کہ یہ نیا ماحول کس طرح اس کے مستقبل کو تراشنے والا تھا۔</p>
-                    <p>وقت دنوں یا مہینوں میں نہیں، بلکہ ان خاموش اور قابلِ پیشگوئی پیمانوں میں آگے بڑھا جو ہارون نے اپنے لیے بنائے تھے: اسکول کی مدت کا پورا ہونا، امتحانات کے اوقات کا حساب، اور خود پر عائد کردہ سخت معمولات۔ نئے اسکول میں ڈھلنے کے بعد، ہارون نے کامیابی کے ساتھ اپنی محفوظ پناہ گاہ دوبارہ تعمیر کر لی تھی۔ وہ بے نیازی کی ایک ان دیکھی زرہ میں لپٹا ہوا بھیڑ بھاڑ والی راہداریوں سے گزرتا، اپنے ارد گرد کے سماجی شور کا مشاہدہ کرتا لیکن اسے کبھی خود کو چھونے نہ دیتا۔ ہارون کے لیے، تحفظ صرف قابلِ پیشگوئی حالات میں تھا۔ اگر کسی صورتحال کا تجزیہ، پیمائش اور کنٹرول کیا جا سکتا تھا، تو وہ اسے نقصان نہیں پہنچا سکتی تھی۔ لیکن زندگی کے پاس منطق کو بکھیرنے کا ایک طریقہ ہوتا ہے جب انسان کو اس کی سب سے کم توقع ہوتی ہے۔</p>
-                    <p>یہ تبدیلی ایک ایسی شام کو آئی جو اس کے روزمرہ کے معمولات سے بالکل کٹی ہوئی تھی۔ یہ اس کے کزن کی شادی کی رات تھی—ایک وسیع، روشن میرج ہال میں منعقدہ ایک شاندار تقریب جو گونجتی آوازوں، گرمجوش قہقہوں، تازہ گیندے کے پھولوں، عرقِ گلاب اور ہوا میں بسی گرم مصالحوں کی مہک سے بھری ہوئی تھی۔ زیادہ تر لوگوں کے لیے، ایسے اجتماعات باہمی خوشیوں کا جشن تھے۔ لیکن ہارون کے لیے، جو فطرت اور عادت سے الگ تھلگ رہنے والا تھا، یہ حواس پر بوجھ تھا۔ شیشے کے برتنوں کی کھنکھناہٹ، موسیقی کی اچانک گونج، اور رشتہ داروں کی مسلسل آمدورفت اس کی خاموش، اندرونی دنیا کے لیے بالکل اجنبی محسوس ہوتی تھی۔</p>
-                    <p>حسبِ معمول، ہارون نے ہال کے کنارے پر پناہ ڈھونڈی۔ وہ خاموش مہارت کے ساتھ ہجوم میں سے راستہ بناتا ہوا، پرجوش گفتگو میں مصروف بزرگ رشتہ داروں کے گروہوں اور سجے ہوئے ستونوں کے درمیان بھاگتے بچوں کے پاس سے گزر گیا۔ ہال کے ایک کونے میں خاموش جگہ تلاش کرتے ہوئے، وہ ایک ستون سے ٹیک لگا کر کھڑا ہو گیا، اپنا کوٹ درست کیا اور ہاتھ باندھ لیے۔ اس نقطہ نظر سے، وہ وہی کردار ادا کر سکتا تھا جسے وہ سب سے بہتر جانتا تھا: <strong>ایک خاموش، ان دیکھا مشاہدہ کرنے والا</strong>۔ وہ دنیا کو اپنے سامنے سے گزرتے ہوئے دیکھ رہا تھا، اپنی سوچ کے قلعے میں بند رہنے پر مکمل طور پر مطمئن۔</p>
-                    <p>پھر، بغیر کسی خبر کے، ایسا لگا جیسے پورے ہال کی توجہ بکھر گئی ہو۔</p>
-                    <p>یہ ایک ہی غیر متوقع سیکنڈ میں ہوا جب مرکزی دروازے کھلے اور لوگوں کا ایک نیا گروہ ہال میں داخل ہوا۔ ہارون کی نگاہیں، جو سرسری طور پر ہجوم کا جائزہ لے رہی تھیں، درجنوں چہروں سے گزرتی ہوئی اچانک ایک ہی شخص پر جا کر ٹھہر گئیں۔</p>
-                    <p><strong>وہ مایا تھی۔</strong></p>
-                    <p>ہارون کی سانسیں اس کے گلے میں اٹک کر رہ گئیں، بے یقینی کی ایک اچانک دیوار کے پیچھے قید ہو گئیں۔ اس کے ارد گرد کی دنیا—شور مچاتے ویٹر، قہقہوں کی گونج، جھومروں کی تیز چمک—ایک ہی لمحے میں مدہم اور بے معنی دھند میں بدل گئی۔ ہر چیز سمٹ کر ایک ہی نقطے پر واضح ہو گئی۔</p>
-                    <p>وہ ایک بے ساختہ، سحر انگیز دلکشی کے ساتھ چل رہی تھی جس نے اسے ہال کے ہنگامے سے فوری طور پر الگ کر دیا۔ یہ صرف اس کا روایتی لباس میں خوبصورت لگنا نہیں تھا، جو ہلکی سی روشنی میں چمک رہا تھا؛ بلکہ وہ سکون اور خاموشی تھی جو اس کے وجود میں تھی۔ جبکہ ہر کوئی بے چینی سے ادھر ادھر گھوم رہا تھا، مایا ہال میں حبس زدہ گرمیوں کی رات میں کسی نرم، غیر متوقع ہوا کے جھونکے کی طرح محسوس ہو رہی تھی۔</p>
-                    <p>اسی ایک لمحے کے چھوٹے سے حصے میں، ہارون کے اندر کچھ بنیادی طور پر ٹوٹا اور دوبارہ تشکیل پایا۔ اس کے سینے میں ایک عجیب، خوفناک اور بے حد خوبصورت احساس بیدار ہوا—ایک ایسا احساس جس کا کسی درسی کتاب میں ذکر نہیں تھا، کسی تعلیمی نظریے نے اسے خبردار نہیں کیا تھا، اور کوئی ریاضیاتی فارمولا اس کا حساب نہیں لگا سکتا تھا۔ اس کا دل، جو سالوں سے نظم و ضبط کی ناپی تُلی دھڑکن پر دھڑک رہا تھا، ایک پل کے لیے رکا، اور پھر بے قابو ہو کر دھڑکنے لگا۔</p>
-                    <p>اس بھرے ہوئے ہال میں ایک لفظ بھی کہے بغیر، ہارون کو معلوم ہو گیا تھا کہ اس کا دل اب مکمل طور پر اس کا اپنا نہیں رہا تھا۔ وہ بالکل اسی وقت، خاموشی اور مکمل طور پر چوری ہو چکا تھا۔</p>
-                    <p>تعلیمی غرور، خود انحصاری، اور جذباتی ضبط کا وہ فولادی غلاف جو اس نے بچپن سے محنت سے بنایا تھا، بالکل بے وزن محسوس ہونے لگا۔ وہ تمام اصول جن پر اس نے دنیا کو دور رکھنے کے لیے بھروسہ کیا تھا، ایک لمحے میں غائب ہو گئے۔ وہ مکمل طور پر ساکت کھڑا رہا، اس کی آنکھیں اس پر جمی ہوئی تھیں، اور اس کے اندر ان کے درمیان کے فاصلے کو ختم کرنے کی ایک اچانک، بے چین خواہش بیدار ہوئی۔</p>
-                    <p>وہ اپنے ستون کے سائے سے باہر نکلنا چاہتا تھا۔ وہ چمکدار فرش پر چل کر، اجنبیوں کے ہجوم کو چیرتا ہوا، اس کے سامنے جا کر کھڑا ہونا چاہتا تھا، اور اس کی آواز سننے اور اپنے اندر کے اس ناگفتہ بہ طوفان کا اعتراف کرنے کے لیے کچھ بھی—کوئی بھی لفظ بولنا چاہتا تھا۔ یہ سوچ اس کے ذہن میں بے حد شفافیت کے ساتھ جل رہی تھی۔</p>
-                    <p>لیکن وہی فطرت جس نے ہارون کی حفاظت کی تھی، اسے واپس پیچھے کھینچ رہی تھی۔ وہی گہری تنہائی پسندی جس نے اسے ایک محتاط طالب علم بنایا تھا، اس کے ارد گرد ایک ان دیکھی، ناقابلِ عبور دیوار بھی کھڑی کر چکی تھی۔ الفاظ اس کے گلے تک آئے اور وہیں جم گئے، بھاری اور ان کہے۔ وہ بھلا کیا کہتا؟ کوئی ایسا شخص جس نے اپنی پوری زندگی کتابوں اور منطق کے پیچھے چھپ کر گزاری ہو، وہ اتنی لاپرواہی سے روشنی میں کیسے قدم رکھ سکتا تھا؟</p>
-                    <p>چنانچہ، ہارون وہیں رہا جہاں وہ تھا۔ اس کے قدم زمین سے جڑے رہے۔ وہ خاموش اذیت میں فرش پر جم کر کھڑا رہا، ہال کے دوسرے کنارے سے اسے دیکھتا رہا جب وہ رشتہ داروں سے نرمی سے باتیں کر رہی تھی، کبھی کبھار مسکراتی—ایک ایسی مسکراہٹ جو ہارون کو اپنی روح کے تاریک، خاموش کونوں میں براہِ راست چمکتی ہوئی روشنی جیسی محسوس ہوئی۔ گزرتا ہوا ہر منٹ ایک ایسی طویل مدت جیسا محسوس ہو رہا تھا جس میں دلکش حیرت اور شدید پچھتاوا دونوں شامل تھے۔ وہ اس کے اتنا قریب تھا جتنا پہلے کبھی نہیں رہا تھا، پھر بھی اپنی ہی خاموشی کی کھودی ہوئی ایک گہری کھائی سے اس سے الگ تھا۔</p>
-                    <p>جب بالآخر تقریب ختم ہونے لگی، موسیقی دھیمی باتوں میں بدل گئی، اور خاندانوں نے جانے کے لیے اپنا سامان سمیٹنا شروع کر دیا، تو ہال آہستہ آہستہ خالی ہو گیا۔ مایا اپنے گھر والوں کے ساتھ ہجوم میں غائب ہو گئی، اپنے پیچھے ایک ایسا خالی پن چھوڑ گئی جو ہال سے بھی زیادہ ٹھنڈا اور بڑا محسوس ہو رہا تھا۔</p>
-                    <p>گھر کا سفر طویل اور خاموش تھا۔ ہارون گاڑی کی کھڑکی کے پاس بیٹھا، گزرتی ہوئی اسٹریٹ لائٹس کو دیکھ رہا تھا جو سیاہ شیشے پر زرد لکیریں بنا رہی تھیں۔ مادی دنیا اپنا معمول کا ردھم بحال کر رہی تھی، لیکن اس کی سوچوں کی خاموشی کے اندر، ہارون مکمل طور پر بدل چکا تھا۔ وہ خاموش لڑکا جو مانتا تھا کہ سخت محنت اور منطق کسی بھی نتیجے کو کنٹرول کر سکتی ہے، بالآخر ایک ایسے متغیر (variable) سے ملا تھا جسے وہ نہ تو حل کر سکتا تھا اور نہ ہی اس کے خلاف اپنا دفاع کر سکتا تھا۔ وہ اس کی یاد رات کے اندھیرے میں ساتھ لے گیا، یہ جانتے ہوئے کہ اس کی دنیا باضابطہ طور پر دو حصوں میں تقسیم ہو چکی تھی: <strong>وہ زندگی جس کا اس نے منصوبہ بنایا تھا، اور وہ لڑکی جس نے انجانے میں سب کچھ دوبارہ لکھ دیا تھا۔</strong></p>
-                    <p>جب ہارون پندرہ سال کی عمر کو پہنچا، تو اس کے بچپن کی خاموش سادگی مکمل طور پر ختم ہو چکی تھی۔ پندرہ سال ایک عجیب، عبوری دہلیز تھی—ایک ایسی عمر جہاں ایک لڑکا دنیا کو کھیل اور تعلیمی مقابلے کے معصوم نظریے سے نہیں، بلکہ بڑے ہونے کے ایک بوجھل اور خود آگاہانہ شعور کے ساتھ دیکھنا شروع کرتا ہے۔ اس کے ارد گرد کی دنیا اپنی معمول کی تیز رفتاری سے چلتی رہی، لیکن ہارون کے اندر ہر چیز سمٹ کر ایک خاموش سچائی پر آ چکی تھی۔ مایا اس کی یادوں کے پس منظر میں دھندلی نہیں ہوئی تھی؛ بلکہ اس نے اس کی روح کے بالکل مرکز میں اپنا ڈیرہ جما لیا تھا۔</p>
-                    <p>ایک قدرتی طور پر خاموش اور گہرے کم گو نوجوان ہونے کے ناطے، ہارون کے پاس اپنے اندر اٹھنے والے طوفان کو باہر نکالنے کا کوئی ذریعہ نہ تھا۔ وہ اپنے ہم جماعتوں کے ساتھ اپنے خیالات کا اظہار نہیں کر سکتا تھا، جو اپنی ہی شور مچاتی زندگیوں میں مصروف تھے، اور نہ ہی وہ اپنے گھر والوں کے سامنے اس کا نام لینے کی ہمت کر سکتا تھا۔ اس کی انا، جو ہمیشہ اس کی ڈھال رہی تھی، اس بات پر ضد کرتی تھی کہ یہ احساس مکمل طور پر راز رہے۔ لیکن رات کے آخری پہر ایک خاموش کمرے میں اتنے بڑے احساس کو دبا کر رکھنا ایک ایسا اکیلاپن پیدا کرتا ہے جسے برداشت کرنا مشکل ہوتا ہے۔</p>
-                    <p>کئی شاموں کو، جب گھر کے تمام لوگ سو جاتے اور باہر گلی میں سناٹا چھا جاتا، ہارون اپنی پڑھائی کی میز کا رخ کرتا۔ مطالعے کے ایک چھوٹے سے لیمپ کی ہلکی سنہری روشنی میں، وہ اپنی کتابیں ختم کرتا، اپنی کاپیاں ایک طرف ہٹاتا، اور اپنی الماری کے پاس لٹکے چھوٹے سے شیشے کے سامنے خاموشی سے کھڑا ہو جاتا۔ یہ ایک ایسی عادت تھی جو خود پسندی سے نہیں، بلکہ ایک خاموش اور تڑپاتی ہوئی تجسس سے پیدا ہوئی تھی۔</p>
-                    <p>وہ طویل، غیر منقطع منٹوں تک اپنے عکس کا جائزہ لیتا۔ شیشے میں، اسے ایک پندرہ سالہ لڑکا نظر آتا جو مکمل طور پر سایوں سے تعلق رکھتا ہوا معلوم ہوتا تھا۔ اس کی سانولی جلد پر ایک گہرا اور مدہم رنگ تھا جو شاعری اور تصاویر میں سراہے جانے والے روشن اور چمکدار چہروں سے بہت مختلف لگتا تھا۔ اس کی پیشانی کے اوپر سیاہ، گھنگھریالے اور بے قابو بالوں کا ایک گچھا تھا جو کسی کنگھی کی بات نہیں مانتا تھا، اور چاہے وہ انہیں سیدھا کرنے کی کتنی ہی کوشش کیوں نہ کرتا، وہ دوبارہ اپنی سرکش حالت میں واپس آ جاتے تھے۔ اس کے نقوش خاموش سوچ کی وجہ سے تیکھے تھے، لیکن اس کے اپنے سخت فیصلے کے مطابق، وہ بالکل عام سا لگتا تھا—ایک ایسا لڑکا جو اسکول کی گرد آلود راہداریوں اور تنہا مطالعے کی میزوں کے لیے ہی بنا تھا۔</p>
-                    <p>وہ اپنے ضدی گھنگھریالے بالوں میں اپنی انگلیاں پھیرتا، اپنی سیاہ آنکھوں میں گھورتا، اور اپنے سینے پر بے بسی اور کمی کی ایک ٹھنڈی لہر محسوس کرتا۔ پندرہ سال کی عمر میں احساسِ کمتری ایک تیز اور بے رحم ہتھیار ہوتا ہے۔ ہارون نہیں جانتا تھا کہ وہ شیشے میں نظر آنے والے لڑکے اور اپنے اندر موجود عظیم احساس کے درمیان فاصلے کو کیسے مٹائے۔</p>
-                    <p>جب بھی ہارون مایا کے بارے میں سوچتا، اس کا ذہن قدرتی طور پر اس کے احساسات کو بیان کرنے کے لیے تشبیہات تلاش کرتا، لیکن کلاسیکی شاعری ہمیشہ ادھوری لگتی۔ صدیوں سے شعراء نے انسانی خوبصورتی کو رات کے آسمان میں چمکتے ہوئے چودھویں کے چاند سے تشبیہ دی تھی۔ انہوں نے اس کی چمک، اس کے نوری حسن اور تاریک ترین رات کو چیرنے والی صلاحیت پر بے شمار اشعار لکھے۔ لیکن جب بھی ہارون کو شادی کے ہال کی مایا یاد آتی، تو اسے یہ موازنہ ناقص لگتا۔</p>
-                    <p>چاند، اپنی تمام تر آسمانی عظمت کے باوجود، مکمل نہیں تھا۔ اگر کوئی شخص رات کے آسمان کو غور سے دیکھتا، یا چاند کی سطح کا مطالعہ کرتا، تو اسے سیاہ دھبے—گہرے سائے اور واضح داغ اس کی زرد سطح پر بکھرے ہوئے نظر آتے۔ چاند خوبصورت تھا، ہاں، لیکن اس پر وقت کے اثرات اور پرانے نشانات تھے۔ وہ ایک ناقص روشنی تھی۔</p>
-                    <p>مایا، ہارون کی نظر میں، بالکل مختلف تھی۔ وہ ایک ایسے چاند کی طرح تھی جو تمام داغ دھبوں سے پاک ہو—ایک ایسی خالص، روشن اور بے داغ روشنی جو کسی بھی تعریف سے بالاتر تھی۔ اس کی موجودگی میں ایک بغیر کسی کوشش کی شفافیت اور ایک ایسا ٹھہراؤ تھا جو اپنے ارد گرد کی ہر چیز کو روشن کر دیتا تھا، بغیر کسی سائے یا خامی کے۔ وہ اس کے تصور میں ایک ایسی انچھوئی شے کی طرح قائم تھی، جو اس عام اور گرد آلود دنیا سے بہت بلند تھی جس میں وہ روزانہ رہتا تھا۔</p>
-                    <p>یہ تضاد اسے مسلسل بے چین رکھتا تھا۔ وہ سانولے رنگ اور بے قابو گھنگھریالے بالوں والا ایک لڑکا تھا جو زندگی کے خاموش پس منظر میں رہتا تھا، جبکہ وہ ایک روشن اور بے داغ روشنی تھی۔ ان دونوں تصویروں کے درمیان فاصلہ بہت وسیع اور خوفناک محسوس ہوتا تھا۔</p>
-                    <p>وہ اپنی کھڑکی کے پاس بیٹھ جاتا، اپنے محلے کی خاموش چھتوں پر چمکتے ہوئے اصل چاند کو گھورتا، اور اپنے ذہن کو خطرناک اور غیر یقینی راستوں پر بھٹکنے دیتا۔ اتنے مختلف کنارے رکھنے والے دو لوگ کبھی ایک ساتھ کیسے مل سکتے ہیں؟ ایک ایسی لڑکی جو بے داغ روشنی کی طرح چمکتی ہو، وہ کبھی اس لڑکے پر ایک نظر کیوں ڈالے گی جو مکمل طور پر سائے میں رہتا ہے؟ منطق، وہ ذریعہ جس پر ہارون نو سال کی عمر سے ہر مسئلے کو حل کرنے کے لیے بھروسہ کرتا آیا تھا، یہاں اسے کوئی تسلی نہ دے سکی۔ سانولے پن اور چاندنی کو برابر کرنے والی کوئی مساوات موجود نہیں تھی۔</p>
-                    <p>اپنے راز سننے کے لیے کوئی انسانی کان نہ ہونے، اور ٹھنڈی منطق میں کوئی تسلی نہ ملنے پر، ہارون نے اپنے پورے دل کا رخ خدا کی طرف موڑ دیا۔ مایا اس کا ایک ایسا راز بن گئی جو صرف اس کی روح اور اللہ کے درمیان تھا۔ جہاں انسانی گفتگو ناکام ہو گئی، وہاں دعا اس کی پناہ گاہ بن گئی۔</p>
-                    <p>پندرہ سال کی عمر میں، جب اس کی عمر کے دوسرے لڑکے رات کو گہری نیند سوتے تھے، ہارون اکثر صبحِ صادق سے پہلے کی خاموش گھڑیوں میں اٹھ جاتا تھا۔ وہ ٹھنڈے، خاموش غسل خانه میں وضو کرتا، اور محسوس کرتا کہ ٹھنڈا پانی اس کے حواس کو بیدار کر رہا ہے اور اس کے سینے کی بے چینی کو سکون دے رہا ہے۔ اپنے تاریک کمرے میں واپس آکر، وہ ٹھنڈے فرش پر اپنا جائے نماز بچھاتا، اور قبلہ رخ ہو جاتا۔</p>
-                    <p>جب ہارون اس جائے نماز پر کھڑا ہوتا، تو دنیا کا بوجھل وزن اتر جاتا۔ اس کی سانولی جلد، اس کے بے قابو بال، اور اس کی خاموشی کی بے عزتی یا کمی کا احساس پس منظر میں غائب ہو جاتا۔ اپنے خالق کے سامنے، وہ نہ تو کمتر تھا اور نہ ہی برتر—وہ صرف ایک بندہ تھا جو کائنات کے مالک کے سامنے اپنے دل کا حال بیان کر رہا تھا۔</p>
-                    <p>جب وہ اپنی فرض نمازیں مکمل کرتا اور اپنے ہاتھوں کو اپنے گھٹنوں پر رکھتا، تو وہ آہستہ آہستہ اپنی ہتھیلیوں کو آسمان کی طرف اٹھاتا۔ انہی خاموش اور مقدس لمحات میں مایا کے لیے اس کی محبت کو اپنا حقیقی گھر ملتا۔ وہ اس کی دعاؤں کی فہرست میں سب سے اوپر تھی، لمحہ بہ لمحہ، سانس بہ سانس۔ اس کی ہر ایک التجا اس کے نام سے معطر تھی۔</p>
-                    <blockquote>
-                        <p>”اے اللہ،“ وہ اپنے کمرے کے تاریک سناٹے میں آہستہ سے سرگوشی کرتا، اس کی آواز خود اس کے لیے بھی مشکل سے قابلِ سماعت ہوتی، ”تو نے چاند اور تارے بنائے۔ تو نے اس کی آنکھوں میں روشنی رکھی، اور تو میرے سینے کی خاموش تڑپ کو جانتا ہے۔ اگر یہ تیری رضا ہے، تو اسے میری تقدیر میں لکھ دے۔ اس کی حفاظت فرما، اسے ہمیشہ روشن رکھ، اور مجھے اتنی ہمت دے کہ میں ایک دن اس کے ساتھ کھڑے ہونے کے قابل بن سکوں۔“</p>
-                    </blockquote>
-                    <p>اس کی دعائیں خود غرضانہ مطالبات نہیں تھیں، بلکہ اس کے دل کے گہرے کونوں سے نکلنے والی عاجزانہ اور بے قرار التجایں تھیں۔ وہ ہر لمحہ اس کے لیے مانگتا، اپنی نازک امید کو مکمل طور پر اس ذات کے ہاتھوں میں سونپ دیتا جو دلوں کو پھیرتی ہے اور تقدیروں کو کنٹرول کرتی ہے۔</p>
-                    <p>پھر بھی، جیسے ہی وہ اپنے ہاتھ نیچے لاتا اور انہیں اپنے چہرے پر پھیرتا، ایک خاموش سوال تاریک ہوا میں کانپتا ہوا ابھرتا: <span class="question">”کیا وہ کبھی میری ہو سکے گی؟“</span> اس کے پاس کوئی جواب نہیں تھا، لیکن رات کی ان دیرپا دعاؤں میں، ہارون کو اس غیر یقینی صورتحال کو ایک اور دن برداشت کرنے کی طاقت مل جاتی۔</p>
-                    <p>وقت اپنی باقاعدہ اور بے حس رفتار سے گزرتا رہا، جسے کیلنڈر کی تاریخوں سے نہیں بلکہ خاموش جائے نمازوں، مطالعے کے چراغ تلے گزاری گئی راتوں اور ایک خاموش دل کی اندرونی خود کلامی سے ناپا جاتا تھا۔ ہارون کے اپنے کزن کی شادی میں مایا کو پہلی بار دیکھنے کے بعد کئی ماہ بیت چکے تھے، لیکن اس ایک شام کی یاد اس کے ذہن پر خوفناک حد تک نقش تھی۔ پھر، ایک اور مشترکہ کزن کی شادی کا دعوت نامہ آیا۔ ہارون کے لیے، جو اپنی کم گو طبیعت کی وجہ سے خاندانی تقاریب سے بچتا تھا، اس تقریب میں ایک ہی، دل دھڑکانے والا سوال تھا: <span class="highlight">کیا وہ وہاں ہوگی؟</span></p>
-                    <p>جب وہ شام بالآخر آ پہنچی اور ہارون نے شادی کے ہال کی دہلیز پر قدم رکھا، تو مانوس حسی ہنگاموں نے اس کا استقبال کیا—گیندے کے پھولوں اور عرقِ گلاب کی تیز مہک، کرسٹل کے بڑے فانوسوں کی گرم روشنیاں، اور ایک دوسرے پر گرتی ہوئی خاندانی آوازوں کا شور۔ اس نے اپنی پرانی عادت کے مطابق خود کو کمرے کے تاریک کونے کی طرف موڑ لیا، اپنی آستینیں درست کیں اور ہاتھ جیبوں میں ڈبو لیے۔ لیکن جیسے ہی اس کی نگاہیں ہجوم پر سے گزریں، اس کا دل پسلیوں کے پیچھے ایک دم سے زور سے دھڑکا۔ رشتے داروں کی گفتگو کے درمیان مایا کھڑی تھی۔</p>
-                    <p>یہ اس کی زندگی میں صرف دوسرا موقع تھا جب وہ اسے بالمشافہ دیکھ رہا تھا، لیکن اس کا اثر فوری اور بے حد شدید تھا۔ وہ پہلی بار کی طرح ہی بے حد خوبصورت لگ رہی تھی—وہی بغیر کسی کوشش کے چمکتی ہوئی پاکیزگی جو اسے بغیر کسی داغ یا سائے کے چاند کی یاد دلاتی تھی۔ تمام تر روایتی زرق برق لباسوں اور اونچے قہقہوں سے بھرا پورا ہال ایک مدہم اور بے رنگ پس منظر میں تبدیل ہو گیا۔ ہارون ایک سجائے ہوئے ستون کے پاس سایوں میں کھڑا رہا، اور اس کا ذہن اپنے کمرے کی ان لمبی، تنہا راتوں اور آدھی رات کے بعد بہائے گئے خاموش آنسوؤں اور دعاؤں کی طرف لوٹ گیا۔ اس کے سینے میں ایک گہرا اور پاکیزہ احساس بیدار ہوا: <span class="highlight">اللہ اپنے بندوں کو کبھی مایوس نہیں کرتا۔</span> اس کے ساتھ ایک ہی چھت تلے کھڑے ہونا اور اسی ہوا میں سانس لینا ہی اسے رب کی ایک خاموش رحمت محسوس ہو رہا تھا۔</p>
-                    <p>جیسے جیسے رات ڈھلتی گئی اور شادی کی رسمیں اپنے اختتام کو پہنچیں، مہمانوں نے اپنے شال سنبھالے، الوداعی جملے کہے اور باہر کے دروازے کی طرف بڑھنے لگے۔ ہارون دروازے کے کونے میں ہی رہا، دل ہی دل میں گھر کی خاموش واپسی کے لیے خود کو تیار کرتے ہوئے، اور صرف دور سے اسے ایک بار پھر دیکھ لینے پر ہی مطمئن تھا۔ اس کی توقع تھی کہ یہ رات بھی ہمیشہ کی طرح خاموش مشاہدے پر ختم ہوگی۔ لیکن جیسے ہی ہجوم چھٹنے لگا، اس کی دو کزنز—جو مایا کی بھی رشتہ دار تھیں—تیز اور باقاعدہ قدم اٹھاتی ہوئی اس کی طرف آئیں۔</p>
-                    <p>وہ بزرگوں کے گروہوں کے پاس سے گزریں اور ہارون کے بالکل سامنے آ کر رک گئیں، ان کی آنکھوں میں ایک خاموش جلدی تھی۔ ”ہارون،“ ان میں سے ایک نے دھیمی آواز میں سرگوشی کی، تاکہ قریب موجود رشتے داروں کی توجہ نہ جائے، ”ابھی ہمارے ساتھ چلو۔ کوئی تم سے بات کرنا چاہتا ہے۔“</p>
-                    <p>ہارون کے سینے میں اچانک ایک ٹھنڈی لہر دوڑ گئی۔ ایک کم گو اور شرمیلی روح غیر متوقع ملاقاتوں کے لیے تیار نہیں ہوتی، اور شاندار شادی ہال کے ایک نجی کونے میں لائے جانے کے خیال سے ہی اس کا بلڈ پریشر بڑھ گیا۔ ”کون؟ کہاں؟“ اس نے بمشکل سرگوشی میں پوچھا۔ انہوں نے کوئی وضاحت نہ کی، بس اسے ہال کی تیز روشنیوں اور شور سے دور ایک خاموش راہداری کی طرف پیچھے آنے کا اشارہ کیا۔</p>
-                    <p>اس ٹائلوں والی راہداری میں ہارون کا ہر قدم غیر معمولی طور پر بوجھل محسوس ہو رہا تھا، جیسے وہ گہرے پانی میں چل رہا ہو۔ اس کے ہاتھ برف کی طرح ٹھنڈے ہو گئے، اور کانوں میں دل کی دھڑکنیں سائرن کی طرح بجنے لگیں جبکہ اس کا ذہن خوفناک اندیشوں سے بھر گیا۔ اسے کیوں بلایا جا رہا ہے؟ کیا کسی نے اسے ہال میں مایا کی طرف دیکھتے ہوئے دیکھ لیا تھا؟ کیا اس کا چھپا ہوا راز ظاہر ہو چکا تھا؟ اس کی سانسیں اکھڑنے لگیں جب اس کی کزنز راہداری کے آخر میں ایک لکڑی کے دروازے کے پاس پہنچیں، اسے تھوڑا سا کھولا، اور اسے اکیلے اندر جانے کا اشارہ کیا۔</p>
-                    <p>ہارون نے دہلیز پر قدم رکھا، اس کے جوتوں کی قالین پر کوئی آواز نہ ہوئی، اور بوجھل دروازہ اس کے پیچھے آہستہ سے بند ہو گیا—جس نے شادی ہال کے دور کے شور کو فوراً مکمل سناٹے میں بدل دیا۔ وہ کمرہ چھوٹا اور پرسکون تھا، جو لیمپ کی سنہری اور نرم روشنی سے روشن تھا۔ اس کمرے کے وسط میں مایا کھڑی تھی، جو آہستہ سے اس کی طرف مڑ رہی تھی۔</p>
-                    <p>اس چھوٹے سے کمرے میں اس کے وجود کی موجودگی کے اچانک صدمے نے ہارون کے دل کی دھڑکن تقریباً روک ہی دی۔ وہ دروازے کے فریم کے پاس سکتہ کے عالم میں کھڑا رہا، اس کا ذہن بالکل خالی ہو گیا، اور اس کی کم گوئی نے اس کے ہونٹوں کو جکڑ لیا۔ وہ ایک ایسا لڑکا تھا جس کی بنیاد منطق، پڑھائی کے اصولوں اور رات کی خاموش دعاؤں پر تھی، وہ اس لڑکی کے سامنے بالمشافہ کھڑے ہونے کی حقیقت کے لیے بالکل تیار نہیں تھا جو اس کی ہر سوچ پر چھائی ہوئی تھی۔ اس کی نگاہیں قالین پر جم گئیں، وہ اس لمحے کی شدت کا سامنا کرنے سے بالکل قاصر تھا۔</p>
-                    <p>لیکن مایا کے انداز میں کوئی ہچکچاہٹ نہ تھی۔ اس نے اس لمحے کو الجھن کا شکار نہ ہونے دیا، اور نہ ہی اس خاموشی کو اپنے اوپر مسلط ہونے دیا۔ اس نے سیدھا ہارون کی طرف دیکھا، اس کا چہرہ پرسکون، نرم اور مکمل طور پر سچا تھا۔</p>
-                    <blockquote>
-                        <p>”میں تمہیں پسند کرتی ہوں!“ اس نے دھیمے سے کہا۔</p>
-                    </blockquote>
-                    <p>یہ الفاظ اس خاموش کمرے میں ایک صاف اور پرسکون رات کو اچانک کڑکنے والی بجلی کی طرح گرے۔ ہارون کا سانس حلق میں اٹک گیا، اور دنیا کا مرکز جیسے اپنی جگہ سے ہٹ گیا۔ <span class="highlight">میں تمہیں پسند کرتی ہوں۔</span> تین سادہ اور واضح الفاظ، جو مکمل سچائی کے ساتھ کہے گئے تھے، ان کے درمیان کی خاموشی میں گونج رہے تھے۔</p>
-                    <p>ہارون بالکل بے حس و حرکت کھڑا رہا، اس کی سیاہ آنکھیں حیرت سے کھلی تھیں اور اس کے گھنگھریالے بال اس کی پیشانی پر سائے افگن تھے۔ اس کا ذہن ان الفاظ کو سمجھنے کی جدوجہد کر رہا تھا۔ ایک خوفناک لمحے کے لیے، اسے لگا کہ شاید اس کی اپنی خاموش تڑپ کے بوجھ تلے اس کا ذہن مغلوب ہو چکا ہے۔ اسے یقین تھا کہ وہ خواب دیکھ رہا ہے—کہ وہ اب بھی دیر رات کی دعاؤں کے بعد اپنے بستر پر سو رہا ہے اور اپنے ذہن میں ایک ناممکن ڈراما بن رہا ہے۔ یہ حقیقت کیسے ہو سکتی تھی؟ چاند کی طرح بے داغ لڑکی اس خاموش کمرے میں کھڑی ایک سانولے اور شرمیلے لڑکے سے اپنے جذبات کا اظہار کیسے کر سکتی تھی؟</p>
-                    <p>اس اقرار کے بعد آنے والی خاموشی صدیوں جیسی طویل محسوس ہوئی۔ ہارون نے کچھ بولنے کی کوشش کی، تاکہ اپنے اندر کے طوفان کو الفاظ دے سکے، لیکن اس کا گلا بالکل خشک ہو چکا تھا۔ اس کی کم گوئی، جس نے سالوں سے اسے بیرونی دنیا سے بچایا تھا، اب اسے اپنی زندگی کے سب سے بڑے لمحے کو حاصل کرنے سے روک رہی تھی۔ وہ صرف اسے تکتا رہا، اس کے ہاتھ جیبوں کے اندر ہلکے سے کانپ رہے تھے اور اس کا دل سینے میں دھونکنی کی طرح دھڑک رہا تھا۔</p>
-                    <p>لیکن مایا اس کی خاموشی کو بغیر کسی وضاحت کے سمجھ گئی۔ اس نے کسی مکمل جواب کا مطالبہ نہیں کیا؛ وہ بس وہاں کھڑی رہی، اس کی نرم نگاہیں ہارون کی آنکھوں میں تھیں، اور اس کے ہونٹوں پر ایک ایسی مسکراہٹ تھی جیسے بادلوں کے پیچھے سے سورج نکل آیا ہو۔ اس کی آنکھوں میں ہارون کے لیے کوئی تنقید نہ تھی—صرف ایک خاموش اور گہری قبولیت تھی جس نے اس چھوٹے سے کمرے کو بے انتہا کشادہ بنا دیا۔</p>
-                    <p>اس مختصر سے لمحے میں، ہارون کے وہ تمام پرانے احساسِ کمتری—اس کی سانولی جلد، اس کے ضدی گھنگھریالے بال، اور اس کا گمنام وجود—ہوا میں تحلیل ہو گئے۔ ریاضی ناکام ہو چکی تھی، منطق بیکار ثابت ہوئی تھی، لیکن رات کے تاریک ترین پہر میں جائے نماز پر بہائی جانے والی سرگوشیاں سیدھی آسمانوں تک پہنچ چکی تھیں۔ اس کے سامنے کھڑے ہو کر، ہارون بالآخر سمجھ گیا کہ معجزے ہمیشہ شور کے ساتھ نہیں آتے؛ کبھی کبھی وہ تین خاموش الفاظ میں آتے ہیں جو انسان کی پوری کائنات کو بدل دیتے ہیں۔</p>
-                    <p>صدمے کا اپنا ایک عجیب اور فلج کر دینے والا بوجھ ہوتا ہے۔ جب ایک انسانی روح سالوں تک دور سے تڑپنے کی عادت ڈال لیتی ہے، تو جواب کی ناگہانی آمد اس کی تمام دفاعی دیواریں توڑ دیتی ہے۔ اس مدہم روشنی والے کمرے میں مایا کے ان تین الفاظ کی گونج کے ساتھ، ہارون کی آواز بالکل بند ہو گئی۔ اس نے جو سال اپنے اندھیروں میں گزارے تھے، انہوں نے بغاوت کر دی؛ وہ کوئی جملہ نہ بول سکا، کوئی سرگوشی نہ کر سکا، یہاں تک کہ سر بھی نہ ہلا سکا۔ اس کی نبض اس کے کانوں میں طوفانی ندی کی طرح شور مچا رہی تھی۔</p>
-                    <p>اپنے جذبات سے مغلوب ہو کر، ہارون نے وہی کیا جو اس کی خود حفاظتی کی عادت نے سکھایا تھا: وہ پیچھے ہٹ گیا۔ اس کا ہاتھ اندھادھند پیچھے پیتل کے ہینڈل کو تلاش کرتا رہا، اس نے بوجھل دروازہ دھکیلا، اور ٹھنڈی، خاموش راہداری میں نکل گیا۔ وہ اسے کوئی جواب دیے بغیر وہاں سے چلا گیا، اور مایا اس چھوٹے سے کمرے کی نرم روشنی میں اکیلی کھڑی رہ گئی۔</p>
-                    <p>واپسی کا سفر ایک دردناک دھند کی طرح تھا۔ گاڑی کی پچھلی نشست پر ساکت بیٹھے، باہر گزرتی ہوئی اسٹریٹ لائٹس کی زرد لکیروں کو شیشے پر سے گزرتے دیکھتے ہوئے، ہارون کے اندر خود ملامتی کا ایک تلخ طوفان اٹھ رہا تھا۔ وہ بولا کیوں نہیں؟ اس نے اپنے احساسات کو اس وقت خود پر کیوں حاوی ہونے دیا جب اس کی زندگی کی سب سے بڑی دعا قبول ہوئی تھی؟ اس نے کتنی ہی راتیں اللہ سے اسے مانگتے ہوئے گزاری تھیں، لیکن جب وہ اس کے سامنے اپنا دل لیے کھڑی تھی، تو وہ خوف کے مارے بھاگ نکلا۔ اسے یقین ہو گیا کہ اس نے ہر چیز برباد کر دی ہے—اس کی خاموشی کو اس کا انکار سمجھ لیا گیا ہے، اور وہ معجزہ اس کے کانپتے ہاتھوں سے ہمیشہ کے لیے پھسل گیا ہے۔</p>
-                    <p>رات گئے، باہر کی دنیا مکمل خاموشی میں ڈوب گئی۔ ہارون اپنے تاریک کمرے میں بستر کے کنارے بیٹھا، فرش کو تک رہا تھا، اس کا اسٹڈی لیمپ بند تھا۔ اس کی جائے نماز پاس ہی بچھائی ہوئی تھی، لیکن اس کا ذہن خیالات کو جمع کرنے کے لیے بہت منتشر تھا۔ دیوار کی گھڑی کی ہر ٹک ٹک ایک الزام کی طرح لگ رہی تھی جو اسے اس کی خاموشی کے ہاتھوں ضائع ہونے والے موقع کی یاد دلا رہی تھی۔</p>
-                    <p>پھر، اس کے اسمارٹ فون کی ہلکی سی تھرتھراہٹ نے اس سناٹے کو توڑا۔ نائٹ اسٹینڈ کے کونے میں ایک نرم روشنی چمکی۔</p>
-                    <p>ہارون نے ٹھنڈے اور ہچکچاتے ہوئے ہاتھ سے فون اٹھایا۔ لیکن جب اس نے اسکرین کو ان لاک کیا، تو اس کا سانس سینے میں اٹک گیا۔ سوشل میڈیا کا ایک نیا پیغام اسکرین کے سب سے اوپر تھا—ایک نیا میسج ریکوئسٹ۔ چھوٹی پروفائل آئیکن کے نیچے ایک ایسا نام تھا جس نے اس کے دل کو پسلیوں سے ٹکرا دیا: <span class="highlight">مایا</span>۔</p>
-                    <p>کانپتی ہوئی انگلیوں سے اس نے اسکرین پر ٹیپ کیا۔ وہ غصے میں دور نہیں ہوئی تھی، اور نہ ہی اس نے اس کے خاموش فرار کی وجہ سے ان کے درمیان کا دروازہ بند ہونے دیا تھا۔ اس نے ایک بار پھر پہل کی تھی، اور ایک سادہ و نرم پیغام کے ذریعے اس کی تنہائی کی دیوار کو توڑ دیا تھا جو اس کے پچھتاوے کو چیرتا ہوا نکل گیا۔ مایا اسے اس کی اپنی ذات سے بہتر سمجھتی تھی؛ اس نے اس کے صدمے کی خاموشی کو دیکھ لیا تھا اور اس کے پیچھے چھپے طوفان کو پہچان لیا تھا۔</p>
-                    <p>اپنے کمرے کے تاریک سناٹے میں اس کے الفاظ کو تکتے ہوئے، ہارون کی آنکھوں میں سکون اور راحت کے گرم آنسو آ گئے۔ خوف کے مارے بھاگ جانے والے لڑکے کو ایک دوسرا موقع مل گیا تھا—کسی شاندار شادی ہال میں نہیں، بلکہ تحریری الفاظ کی خاموش اور محفوظ پناہ گاہ میں، جہاں اس کی کم گوئی اب اسے یرغمال نہیں بنا سکتی تھی۔</p>
-                    <p>اس پہلی ڈیجیٹل گفتگو نے سالوں سے رکے ہوئے جذباتی بند کو توڑ دیا۔ تحریری پیغام کے ذریعے وہ تمام رکاوٹیں ختم ہو گئیں جنہوں نے ہارون کو بالمشافہ بات کرنے سے روکا تھا۔ وہ خاموش اور شرمیلا لڑکا جو اونچی آواز میں بولنے کے لیے جدوجہد کرتا تھا، رات کے تاخیر کے پہر چمکتی ہوئی نیلی اسکرینز میں اپنی آواز پا گیا۔ اس کے دل سے الفاظ بغیر کسی کوشش کے بہنے لگے، اور وہ تمام گہرائی، سچائی اور دانشمندی باہر نکل آئی جو اس نے دنیا سے چھپا کر رکھی تھی۔</p>
-                    <p>رات بعد رات، جب باقی محلہ ستاروں کی چادر تلے سوتا تھا، ہارون اور مایا بیدار رہتے، ایک ان دیکھے دھاگے سے جڑے ہوئے۔ وہ ہر موضوع پر باتیں کرتے—اپنے بچپن کی یادیں، اپنی پسندیدہ خاموش عادات، اپنے چھپے ہوئے خدشات اور اپنی روزمرہ کی زندگی کی چھوٹی چھوٹی تفصیلات۔ مایا ایک کھلی اور روشن گرمجوشی کے ساتھ بات کرتی جس نے ہارون کی جھجک کو نرم کر دیا، جبکہ ہارون اسے ایک پختہ اور گہری عقیدت فراہم کرتا جو اسے کہیں اور نہیں ملی تھی۔</p>
-                    <p>جلد ہی دونوں کو اندازہ ہو گیا کہ ان کا یہ تعلق محض ایک عارضی جذبہ نہیں تھا، بلکہ روح کا ایک گہرا رشتہ تھا۔ مایا اس سے ایک ایسی شدت کے ساتھ محبت کرتی تھی جس نے ہارون کے تمام پرانے احساسِ کمتری کو اڑا دیا—وہ اس کی خاموش روح، اس کے تیز ذہن، اس کی سانولی جلد، اور اس کے ضدی گھنگھریالے بالوں سے محبت کرتی تھی۔ اس کے لیے وہ سایوں میں کھڑا گمنام لڑکا نہیں تھا؛ وہ اس کی محفوظ پناہ گاہ اور اس کے دل کا انتخاب تھا۔ اور ہارون اپنے وجود کے ہر ذرے سے اس سے محبت کرتا تھا، ایک ایسی محبت جس کی جڑیں خدا کے سامنے سالوں کی خاموش دعاؤں میں پیوست تھیں۔</p>
-                    <p>ہفتے مہینوں میں بدلتے گئے، اور ان کی گفتگو قدرتی طور پر حال سے نکل کر آنے والے کل کے افق کی طرف بڑھنے لگی۔ اپنے دیر رات کے پیغامات کی خاموش پناہ گاہ میں، وہ ایک مشترکہ مستقبل کے معمار بن گئے۔ انہوں نے اس زندگی کے خوبصورت اور تفصیلی خواب بننے لگے جو وہ مل کر تعمیر کریں گے—ایک ایسا گھر جو امن، باہمی احترام اور ایک ایسے اٹوٹ رشتے سے بھرا ہو جسے کوئی بیرونی طاقت کبھی نہ توڑ سکے۔</p>
-                    <p>وہ ان دنوں کے بارے میں بات کرتے جب انہیں چمکتی ہوئی اسکرینوں یا شادی کے ہالوں کی خاموش نگاہوں کے پیچھے نہیں چھپنا پڑے گا۔ انہوں نے تصور کیا کہ وہ ایک دوسرے کے ساتھ کھڑے ہوں گے، اپنے خاندانوں کی تعاون کے ساتھ، ایک ایسی پناہ گاہ بناتے ہوئے جہاں اس کی خاموش طاقت اور اس کی روشن روشنی ایک دوسرے کو مکمل کرے گی۔ ہارون اپنے تعلیمی اور زندگی کے مقاصد کی منصوبہ بندی کرتا، اور دنیا کے سامنے عزت کے ساتھ اس کا ہاتھ مانگنے کے قابل بننے کے لیے انتھک محنت کرنے کا وعدہ کرتا۔</p>
-                    <p>ان لمحات میں، اس کی بے لوث محبت کی گرمجوشی میں لپٹا ہارون خود کو مکمل طور پر ناقابلِ تسخیر محسوس کرتا تھا۔ اس کی زندگی کی مساوات بالآخر سب سے شاندار طریقے سے حل ہو چکی تھی۔ وہ اب صرف اندھیرے میں اکیلا دعا مانگنے والا سانولا، کم گو لڑکا نہیں تھا؛ وہ اس لڑکی کا محبوب تھا جو بغیر کسی داغ کے چاند کی طرح چمکتی تھی۔ وہ اپنے مشترکہ وعدوں کو مضبوطی سے تھامے ہوئے تھے، اس بات سے بالکل بے خبر کہ دور افق پر خاموشی سے سیاہ بادل جمع ہو رہے ہیں—ایسے بادل جو جلد ہی ان کی ہر دعا، ہر وعدے اور ان کی محبت کے ہر دھاگے کا امتحان لینے والے تھے۔</p>
-                    <p class="no-indent">ڈیڑھ سال تک، وقت ایک پرسکون ندی کی بے داغ خوبصورتی کے ساتھ بہتا رہا۔ اٹھارہ مہینے سانجھی سوچوں، دیر رات گئے بھیجے گئے پیغامات اور ایک ایسی قربت کے مستقل تسلسل میں گزرے جو ہر گزرتے ہفتے کے ساتھ گہری ہوتی چلی گئی۔ جب ہارون اور مایا دونوں سولہ سال کے ہوئے، تو ان کا خاموش تعلق اپنی شروعات کی نازک غیر یقینی صورتحال سے بہت آگے نکل چکا تھا۔ وہ اب محض دو ایسے نوجوان نہیں تھے جو کسی غیر متوقع تعلق سے گزر رہے ہوں؛ بلکہ وہ اس شور زدہ اور ناقابلِ اعتبار دنیا میں ایک دوسرے کا سہارا بن چکے تھے۔</p>
-                    <p>سولہویں سالگرہ ہارون کی زندگی میں ایک نئی پختگی لے کر آئی۔ وہ سانولا، کم گو لڑکا جو کبھی شادی کے ہالوں کے کونوں میں چھپتا پھرتا تھا، مایا کی محبت میں زندگی کا ایک زبردست مقصد پا چکا تھا۔ وہ اس کی رازدار، اس کی روزمرہ کی تحریک اور اس کی تعلیمی توجہ کے پیچھے ایک مسلسل روشنی تھی۔ بدلے میں، ہارون نے مایا کو ایک ایسی کامل وفاداری پیش کی—ایک ایسا پختہ اور اٹوٹ وجود جو اس کے احساسات کا مقدس احترام کرتا تھا۔ امتحانات کے دورانیے، روزمرہ کے معمولات اور خاموش خاندانی تقاریب کے درمیان، ان کی یہ ڈیجیٹل پناہ گاہ کسی کی نظروں میں آئے بغیر محفوظ رہی، صرف دو لوگوں کے لیے بنائی گئی ایک رازدارانہ کائنات۔</p>
-                    <p>وہ ان کمسن روحوں کے اٹوٹ اعتماد کے ساتھ باتیں کرتے جو یہ مانتی تھیں کہ ان کی تقدیر مکمل طور پر ان کے اپنے ہاتھوں میں ہے۔ وہ اپنے مستقبل کی منصوبہ بندی نہایت باریک بینی سے کرتے—کہ ہارون اپنی تعلیم کیسے مکمل کرے گا، اپنا کیریئر کیسے بنائے گا، اور بالآخر عزت دارانہ ارادوں کے ساتھ اس کے گھر والوں کی دہلیز پر کیسے قدم رکھے گا۔ ہارون کے لیے آگے کا راستہ بالکل صاف نظر آتا تھا، جو خلوص، عقیدت اور ان بے شمار دعاؤں سے آراستہ تھا جو وہ اب بھی صبحِ صادق سے پہلے مانگتا تھا۔ اسے یقین تھا کہ مشکل ترین مرحلہ اب ان کے پیچھے رہ گیا ہے۔</p>
-                    <p class="no-indent">تاہم، انسانوں کے راز شاذ و نادر ہی کسی براہِ راست حملے سے ٹوٹتے ہیں؛ زیادہ تر وہ اندر سے، اعتماد کے ان ہی کھلے دروازوں سے بکھرتے ہیں جنہیں بے دھیانی میں کھلا چھوڑ دیا گیا ہو۔ ان کی اس نجی دنیا کی بنیاد ان کی مشترکہ کزنز کی مرہونِ منت تھی—وہی کزنز جو دوسری شادی میں ہارون کو اس خاموش راہداری کی طرف لے گئی تھیں۔ اٹھارہ مہینوں تک، وہ کزنز اس پل کی خاموش نگہبان بنی رہی تھیں، اور ہارون اور مایا کو جوڑنے والی خاموش محبت سے باخبر تھیں۔</p>
-                    <p>ایک جڑے ہوئے خاندانی نظام میں، راز رکھنا کمسن ذہنوں کے لیے ایک بوجھل ذمہ داری ہوتی ہے۔ جو بات ایک محفوظ راز کے طور پر شروع ہوئی تھی، وقت کے ساتھ آہستہ آہستہ اپنی قدسیت کھو بیٹھی۔ کسی خاموش کمرے میں نکلنے والا ایک بے دھیان لفظ، چمکتی ہوئی اسکرین پر کسی کی اچانک پڑنے والی نگاہ، یا فون کو ان لاک چھوڑ دینے کی ایک سادہ سی بھول—وجہ کچھ بھی ہو، اس سے کوئی فرق نہیں پڑتا تھا۔ وہ دیواریں جنہوں نے ڈیڑھ سال تک ہارون اور مایا کی پناہ گاہ کی حفاظت کی تھی، اچانک دھڑام سے گر پڑیں۔</p>
-                    <p>کزنز کے والدین کو سچائی کا علم ہو گیا۔ جو بات ہارون اور مایا کے لیے باہمی احترام، مستقبل کے ارادوں اور دعاؤں کے نتیجے میں ملنے والا ایک پاکیزہ رشتہ تھی، وہ بڑوں کی سخت اور روایتی نظروں میں ایک ناپسندیدہ اور خطرناک راز بن کر ابھری۔ یہ خبر زیادہ دیر تک اس ایک گھر تک محدود نہ رہ سکی۔ ان خاندانی نظاموں میں جہاں عزت اور روایتی توقعات ہر معاشرتی حد کا تعین کرتی ہیں، وہاں بدحواسی خوفناک رفتار سے پھیلتی ہے۔</p>
-                    <p class="no-indent">راز کا افشا ہونا ایک کے بعد ایک گرتی اینٹوں کی طرح تیز اور مکمل طور پر تباہ کن تھا۔ کزنز کے والدین نے، صدمے اور روایتی اقدار کے زیرِ اثر، فوراً مایا اور ہارون کے والدین سے رابطہ کیا۔ وہ نجی پناہ گاہ جسے دو سولہ سالہ نوجوانوں نے آدھی رات کی دعاؤں اور خاموش وعدوں سے تعمیر کیا تھا، اچانک خاندانی فیصلے کی سخت اور بے رحم روشنی میں کھینچ لائی گئی۔</p>
-                    <p>ہارون کے گھر کا ماحول راتوں رات خاموش معمولات سے دم گھٹنے والی کشیدگی میں بدل گیا۔ وہ خاموش اور باادب بیٹا جس نے کبھی اپنے والدین کو شکایت کا ایک بھی موقع نہیں دیا تھا، اچانک شک اور مایوسی کی نظر سے دیکھا جانے لگا۔ سنگین سوالات پوچھے گئے، سرد نگاہوں کا تبادلہ ہوا، اور وہ خاموش وقار جو ہارون نے سالوں سے قائم رکھا تھا، ایک ہی پل میں چھنتا ہوا محسوس ہوا۔ لیکن اپنے گھر کی یہ اذیت اس خوف کے سامنے کچھ بھی نہیں تھی جس نے مایا کے لیے اس کے دل کو جکڑ لیا تھا۔</p>
-                    <p>ہارون اپنے روایتی ماحول میں ایک جوان لڑکی پر عائد سخت توقعات سے خوب واقف تھا۔ وہ جانتا تھا کہ جہاں اسے سخت ڈانٹ ڈپٹ اور سرد رویے کا سامنا تھا، وہیں مایا کو اس سے کہیں زیادہ بوجھ اٹھانا پڑے گا—سخت تنہائی، آزادی کا چھن جانا، اور اس کی ذاتی دنیا کا مکمل بکھراؤ۔ غصے میں بھرے بڑوں کے سامنے اس کے اکیلے کھڑے ہونے اور اس طوفان کا سامنا کرنے کا خیال، جسے انہوں نے مل کر جنم دیا تھا، ہارون کے ضبط کو اپنے اوپر آنے والے کسی بھی نتیجے سے زیادہ توڑ رہا تھا۔</p>
-                    <p class="no-indent">سب سے شدید سزا غصہ، اونچی آوازیں یا سخت نصیحتیں نہیں تھیں—بلکہ وہ ناگہانی اور مکمل خاموشی تھی جو ان کے درمیان چھا گئی۔ فوراً ہی فون ضبط کر لیے گئے، ڈیجیٹل اکاؤنٹس بند کر دیے گئے، اور رابطے کے تمام ذرائع کو انتہائی مہارت کے ساتھ کاٹ دیا گیا۔ وہ چمکتی ہوئی اسکرین جو اٹھارہ مہینوں سے مایا کی روح میں ہارون کا جھروکا تھی، مکمل طور پر تاریک ہو گئی۔</p>
-                    <p>ہارون رات گئے اپنے کمرے میں زرد لیمپ تلے اپنی اسٹڈی ٹیبل پر بیٹھا، اپنے سینے پر ایک بوجھل دباؤ محسوس کر رہا تھا۔ ڈیڑھ سال سے وہ اس کے تحریری الفاظ کو سنبھالے ہوئے سوتا آیا تھا، اور اس کے ان نرم وعدوں سے تسلی پاتا تھا کہ وہ مل کر دنیا کا سامنا کریں گے۔ اب، وہ ایک سرد اور خاموش خلا میں قید تھا۔ اس کے پاس یہ جاننے کا کوئی ذریعہ نہیں تھا کہ آیا وہ ٹھیک ہے، اس سے کیا کہا جا رہا ہے، یا وہ بند دروازوں کے پیچھے اپنے کمرے میں اکیلی رو رہی ہے۔</p>
-                    <p>وہ اٹھا اور تاریک فرش کے وسط میں اپنا جائے نماز بچھا دیا، اس کے ہاتھ کانپ رہے تھے جب وہ ربِ کریم کے حضور کھڑا ہوا۔ وہ لڑکا جس نے پندرہ سال کی عمر میں ایک ناپائیدار خواب کی طرح اس کے لیے دعا مانگی تھی، اب سولہ سال کی عمر میں اس کے لیے رو رہا تھا جس کی پوری دنیا بکھر چکی تھی۔ جیسے ہی اس نے اپنی پیشانی زمین پر ٹِکائی، آنسو جائے نماز کے کپڑے میں جذب ہونے لگے۔ وہ معجزہ جو شادی کے ہال میں اتنی خاموشی سے آیا تھا، اب دنیا کی بے رحم حقیقت سے ٹکرا چکا تھا—اور ہارون ایک غیر یقینی اندھیرے میں گھورتا ہوا رہ گیا تھا، اور اللہ سے اس لڑکی کی حفاظت کی بھیک مانگ رہا تھا جو اس کے دل پر راج کرتی تھی۔</p>
-                    <p class="no-indent">راز فاش ہونے کا فوری اثر دونوں گھرانوں پر انتہائی سختی کے ساتھ پڑا۔ ہارون کے لیے، اس کا انجام خاندانی لاؤنج میں ایک خاموش اور بوجھل مقابلے کی صورت میں سامنے آیا۔ فون فوراً چھین لیے گئے—ایسے ضبط کیے گئے جیسے اس جسمانی آلے کو ہٹانے سے اٹھارہ مہینوں کی گہری جذباتی تاریخ فوراً مٹ جائے گی۔ لیکن چمکتی ہوئی اسکرین کے چھن جانے سے کہیں زیادہ بوجھل وہ الفاظ تھے جو ان کے بڑوں نے کہے تھے:</p>
-                    <blockquote>
-                        <p>”ایک دوسرے کو بھول جاؤ۔“</p>
-                    </blockquote>
-                    <p>بڑوں کے لیے، یہ خاندانی عزت کی حفاظت اور دو سولہ سالہ بچوں کو ان کی تعلیمی ذمہ داریوں کی طرف موڑنے کے لیے ایک منطقی اور ضروری قدم تھا۔ وہ محبت کو ایک عارضی بھٹکاو، ایک جذباتی غلطی قرار دیتے تھے جو رابطے کے ذرائع ختم ہوتے ہی مٹ جائے گی۔ ہارون اپنے والدین کے سامنے ہاتھ باندھے، سر جھکائے، نظم و ضبط کی خاموشی کے ساتھ اس فیصلے کو قبول کرتے ہوئے کھڑا رہا۔ اس نے کوئی بحث نہیں کی اور نہ ہی آواز اٹھائی، یہ جانتے ہوئے کہ الفاظ ان ذہنوں کے لیے صرف بغاوت محسوس ہوں گے جو اس رشتے کی پاکیزگی کو نہیں دیکھ سکتے تھے۔</p>
-                    <p>ان کے گھروں کو جدا کرنے والے فاصلے کے پار، مایا کو اپنی سخت قید کا سامنا تھا۔ فون سے محروم اور مسلسل نگرانی کے تحت، اس کی دنیا اس کے بیڈ روم کی چار دیواری تک سمٹ کر رہ گئی تھی۔ ایک واضح حکم ان دونوں کی زندگیوں میں گونج رہا تھا: ماضی کو مٹا دو، وعدوں کو مٹا دو، اور ایسے آگے بڑھ جاؤ جیسے دوسرا کبھی موجود ہی نہ تھا۔</p>
-                    <p class="no-indent">اس کے بعد مکمل تاریکی میں تین ماہ کی ایک بے رحم جلاوطنی کا دور شروع ہوا۔ نوے طویل دن ایک بھی پیغام، ایک بھی فون کال، یا ایک دوسرے کے چہرے کی ایک جھلک کے بغیر گزر گئے۔ ہارون کے لیے، جو اس کے تحریری خیالات کے ساتھ سونے اور اس کے صبح کے پیغامات کے ساتھ جاگنے کا عادی ہو چکا تھا، اس کے روزمرہ کے معمولات میں یہ ناگہانی خالی پن ایک رسستے ہوئے زخم کی طرح محسوس ہوتا تھا۔</p>
-                    <p>ہر صبح، ہارون تنہائی کی ایک ناقابلِ تسخیر دیوار میں لپٹا ہوا اسکول کی طرف جاتا۔ وہ اپنے سر کو جھکائے ہوئے ہجوم سے بھری سڑکوں سے گزرتا، اس کے سیاہ گھنگھریالے بال ہوا میں اڑتے، اور اس کے سانولے چہرے پر ایک خاموش اور بوجھل سنجیدگی ہوتی جو اسے سولہ سال سے کہیں زیادہ بڑا دکھاتی تھی۔ وہ ہجوم میں گزرتے ہر چہرے اور ہر گاڑی میں اس خاموش اور بے تاب امید کے ساتھ مایا کو تلاش کرتا کہ شاید تقدیر اسے دور سے ہی سہی، اس کی ایک سیکنڈ کی جھلک دکھا دے۔ لیکن دنیا نے ایسی کوئی راحت نہ دی۔ وہ ایک دوسرے سے مکمل طور پر جدا کر دیے گئے تھے۔</p>
-                    <p>انسانی رابطے کی عدم موجودگی میں، ہارون نے اس واحد پناہ گاہ کا رخ کیا جسے کوئی طاقت اس سے نہیں چھین سکتی تھی: اس کا ایمان۔ رات بعد رات، جب اس کا گھر تاریک آسمان تلے خاموش ہوتا، وہ اپنا جائے نماز بچھاتا۔ اس نے وہ تین مہینے مسلسل، زاری اور دعاؤں میں گزارے۔ اس نے ان کے خاندانوں کے خلاف کسی غصے یا تلخی کے ساتھ دعا نہیں کی؛ بلکہ اس نے مایا کی ہمت، اس کی صحت اور اس کے دل کے سکون کے لیے دعا کی۔ اس نے اللہ سے التجا کی کہ وہ اسے ان بند دروازوں کے پیچھے محفوظ رکھے اور اس محبت کی حفاظت کرے جو انہوں نے خاموشی سے بانٹی تھی۔ اس سے بے خبر، میلوں دور اپنے خاموش کمرے میں، مایا بھی انہی دعاؤں میں اپنے ہاتھ اٹھا رہی تھی، اور بارگاہِ الٰہی میں اس لڑکے کی حفاظت کی التجا کر رہی تھی جو اس کی روح کا مالک تھا۔</p>
-                    <p>تین مہینے ایک صدی کی طرح محسوس ہو سکتے ہیں جب وہ مکمل خاموشی میں گزریں۔ جیسے ہی اس جدائی کا بوجھ ایک مستقل اور بوجھل حقیقت بننے لگا، نا ممکن ممکن ہو گیا۔ مایا نے ایک راستہ نکال ہی لیا۔</p>
-                    <p>یہ نہ تو آسان تھا اور نہ ہی خطرے سے خالی۔ گھر کی سخت نگرانی کو چکمہ دیتے ہوئے، انتہائی ہمت کے ساتھ کسی پوشیدہ ذریعے سے عارضی رسائی حاصل کر کے، مایا اس خاموشی کو چیرتا ہوا ایک پیغام بھیجنے میں کامیاب ہو گئی۔ ایک عام سی شام کو، جب ہارون اپنے لیمپ کی زرد روشنی تلے اپنی اسٹڈی ٹیبل پر بیٹھا تھا، ایک مستعار لی گئی اسکرین پر ایک خفیہ نوٹیفکیشن چمکا۔</p>
-                    <p>جب ہارون نے اس کا نام دیکھا، تو اس کا سانس رک گیا۔ اس کا سینہ حیرت، ہیبت اور بے انتہا سکون کے ایک شدید احساس سے بھر گیا۔ اس کے ہاتھ اتنی شدت سے کانپ رہے تھے کہ وہ بمشکل اس آلے کو تھام پا رہا تھا۔ تین مہینوں کی خاموشی اور یہ دردناک خوف کہ شاید اسے بھولنے پر مجبور کر دیا گیا ہو، اس کے الفاظ پڑھتے ہی ایک ہی پل میں غائب ہو گیا۔ وہ نہیں بھولی تھی۔ اس کی محبت میں کوئی لغزش نہیں آئی تھی؛ اگر کچھ ہوا تھا تو وہ یہ کہ تنہائی کے ان تین مہینوں نے جوانی کے عارضی شور کو جلا کر راکھ کر دیا تھا اور پیچھے ہیرے کی طرح مضبوط عقیدت چھوڑ دی تھی۔</p>
-                    <p class="no-indent">تاہم، دوبارہ رابطہ قائم کرنا اتنا آسان نہیں تھا۔ ماضی کی وہ بے فکر اور آرام دہ دیر رات کی گفتگو ختم ہو چکی تھی، اور اس کی جگہ ایک ایسی کشیدہ اور حساس حقیقت نے لے لی تھی جہاں ایک چھوٹی سی غلطی بھی مکمل تباہی لا سکتی تھی۔ ہر لفظ تول کر بولنا پڑتا تھا، ہر پیغام انتہائی احتیاط کے ساتھ بھیجا جاتا تھا، اور ہر رابطہ افشا ہونے کے مسلسل خوف کے سائے میں ہوتا تھا۔</p>
-                    <p>وہ مختصر اور ہنگامی پیغامات کے ذریعے بات کرتے، اپنے رشتے کو دھاگے در دھاگے دوبارہ جوڑتے ہوئے۔ یہ تھکا دینے والا، خوفناک اور مشکلات سے بھرا تھا، لیکن ان میں سے کسی کو اس کی پروا نہ تھی۔ بکھری ہوئی زمین پر کھڑے، سخت حد بندیوں میں گھِرے، ہارون اور مایا کو یہ اندازہ ہو گیا کہ ان کی محبت اب صرف ایک خوبصورت خواب نہیں رہی—بلکہ یہ صبر اور خاموش مزاحمت کے ذریعے لڑی جانے والی ایک جنگ بن چکی ہے۔</p>
-                    <p>اس رات گئے جب ہارون اپنے بستر پر لیٹا رات کی خاموش ہوا کو سن رہا تھا، تو وہ جانتا تھا کہ آگے کا راستہ خطرات سے بھرا ہو گا۔ تین مہینوں کی اس خاموشی نے یہ ثابت کر دیا تھا کہ فاصلے اور بڑوں کی پابندیاں اس رشتے کو نہیں توڑ سکتیں جو ان کی دعاؤں میں لکھا جا چکا تھا۔ وہ دوبارہ جڑ چکے تھے—نازک لیکن غیر متزلزل—دنیا کی طرف سے آنے والے کسی بھی نئے طوفان کا سامنا کرنے کے لیے تیار۔</p>
-                </div>
+    const interval = setInterval(updateTimer, 1000);
+    updateTimer();
+  </script>
 
-                <!-- CHAPTER 2 URDU -->
-                <div class="chapter-block hidden-chapter" data-chapter="2">
-                    <h2 class="chapter-title">کچھ وجوہات کی بنا پر، دوسرا باب تاخیر کا شکار ہے۔</h2>
-                  <p><p>
-                    <!-- ADD YOUR ADDITIONAL CHAPTER 2 URDU PARAGRAPHS HERE -->
-                    <p><em>دوسرا باب پہلے باب کی نسبت طویل ہوگا کیونکہ یہ دوسرے اور تیسرے باب کا مجموعہ ہوگا۔</em></p>
-                </div>
-            </section>
-
-        </article>
-    </main>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast-notification">Bookmark Saved!</div>
-
-    <footer>
-        &copy; 2026 The Untold Story of HM. Written by M.Haroon.
-    </footer>
-
-    <!-- Interactive Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const btnBoth = document.getElementById('btn-both');
-            const btnEnglish = document.getElementById('btn-english');
-            const btnUrdu = document.getElementById('btn-urdu');
-            
-            const btnChap1 = document.getElementById('btn-chap-1');
-            const btnChap2 = document.getElementById('btn-chap-2');
-
-            const englishSection = document.getElementById('english-content');
-            const urduSection = document.getElementById('urdu-content');
-            const sectionDivider = document.getElementById('section-divider');
-
-            const btnSaveBookmark = document.getElementById('btn-save-bookmark');
-            const btnResumeBookmark = document.getElementById('btn-resume-bookmark');
-            const toast = document.getElementById('toast');
-
-            let activeParagraph = null;
-
-            // 1. Language Switcher Logic
-            function setLanguage(mode) {
-                document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-                
-                if (mode === 'both') {
-                    btnBoth.classList.add('active');
-                    englishSection.classList.remove('hidden-section');
-                    urduSection.classList.remove('hidden-section');
-                    sectionDivider.classList.remove('hidden-section');
-                } else if (mode === 'english') {
-                    btnEnglish.classList.add('active');
-                    englishSection.classList.remove('hidden-section');
-                    urduSection.classList.add('hidden-section');
-                    sectionDivider.classList.add('hidden-section');
-                } else if (mode === 'urdu') {
-                    btnUrdu.classList.add('active');
-                    englishSection.classList.add('hidden-section');
-                    urduSection.classList.remove('hidden-section');
-                    sectionDivider.classList.add('hidden-section');
-                }
-            }
-
-            btnBoth.addEventListener('click', () => setLanguage('both'));
-            btnEnglish.addEventListener('click', () => setLanguage('english'));
-            btnUrdu.addEventListener('click', () => setLanguage('urdu'));
-
-            // 2. Chapter Switcher Logic
-            function setChapter(chapNum) {
-                document.querySelectorAll('.chap-btn').forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.chapter-block').forEach(block => block.classList.add('hidden-chapter'));
-
-                const targetBtn = document.querySelector(`.chap-btn[data-chapter="${chapNum}"]`);
-                if (targetBtn) targetBtn.classList.add('active');
-
-                const targetBlocks = document.querySelectorAll(`.chapter-block[data-chapter="${chapNum}"]`);
-                targetBlocks.forEach(block => block.classList.remove('hidden-chapter'));
-
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-
-            btnChap1.addEventListener('click', () => setChapter('1'));
-            btnChap2.addEventListener('click', () => setChapter('2'));
-
-            // 3. Paragraph Selection & Bookmark Logic
-            document.querySelectorAll('.story-content p').forEach((p, index) => {
-                p.dataset.paraIndex = index;
-                p.addEventListener('click', () => {
-                    document.querySelectorAll('.story-content p').forEach(el => el.classList.remove('bookmarked-para'));
-                    p.classList.add('bookmarked-para');
-                    activeParagraph = p;
-                    showToast('Paragraph selected! Click Bookmark to save.');
-                });
-            });
-
-            btnSaveBookmark.addEventListener('click', () => {
-                if (!activeParagraph) {
-                    showToast('Please click on a paragraph first!');
-                    return;
-                }
-                const pIndex = activeParagraph.dataset.paraIndex;
-                const activeChap = document.querySelector('.chap-btn.active')?.dataset.chapter || '1';
-                
-                localStorage.setItem('hm_story_bookmark_index', pIndex);
-                localStorage.setItem('hm_story_bookmark_chap', activeChap);
-                
-                checkSavedBookmark();
-                showToast(`Bookmark saved for Chapter ${activeChap}!`);
-            });
-
-            btnResumeBookmark.addEventListener('click', () => {
-                const savedIndex = localStorage.getItem('hm_story_bookmark_index');
-                const savedChap = localStorage.getItem('hm_story_bookmark_chap');
-
-                if (savedIndex !== null) {
-                    if (savedChap) setChapter(savedChap);
-                    
-                    const targetPara = document.querySelector(`[data-para-index="${savedIndex}"]`);
-                    if (targetPara) {
-                        document.querySelectorAll('.story-content p').forEach(el => el.classList.remove('bookmarked-para'));
-                        targetPara.classList.add('bookmarked-para');
-                        targetPara.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        showToast('Resumed to your saved bookmark!');
-                    }
-                }
-            });
-
-            function checkSavedBookmark() {
-                if (localStorage.getItem('hm_story_bookmark_index') !== null) {
-                    btnResumeBookmark.style.display = 'inline-flex';
-                }
-            }
-
-            function showToast(msg) {
-                toast.textContent = msg;
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 3000);
-            }
-
-            checkSavedBookmark();
-        });
-    </script>
 </body>
 </html>
